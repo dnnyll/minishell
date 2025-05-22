@@ -1,0 +1,76 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    minishell_project_structure.txt                    :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/22 13:24:34 by daniefe2          #+#    #+#              #
+#    Updated: 2025/05/22 13:24:36 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+minishell/
+├── Makefile
+│   # Build script: defines how to compile, clean, rebuild your shell
+│
+├── minishell.h
+│   # Global header: shared includes, macros, and function prototypes
+│
+# ─────────── CORE ───────────
+├── main.c
+│   # Program entry: infinite loop, reads input, processes, executes
+│
+# ─────────── INPUT ───────────
+├── input/
+│   ├── input.c
+│   │   # Uses readline to get input, manages prompt and history
+│   └── input.h
+│       # Declarations for input functions
+│
+# ─────────── LEXER ───────────
+├── lexer/
+│   ├── lexer.c
+│   │   # Tokenizes the input string into words, symbols, and operators
+│   └── lexer.h
+│       # Lexer function declarations and token types
+│
+# ─────────── PARSER ───────────
+├── parser/
+│   ├── parser.c
+│   │   # Builds a command list or AST from tokens for execution
+│   └── parser.h
+│       # Parser function declarations and structures
+│
+# ─────────── EXECUTOR ───────────
+├── executor/
+│   ├── executor.c
+│   │   # Executes built-ins or external commands with pipes/redirs
+│   └── executor.h
+│       # Execution function declarations
+│
+# ─────────── ENVIRONMENT ───────────
+├── env/
+│   ├── env.c
+│   │   # Handles getenv, setenv (export), unsetenv, and env list
+│   └── env.h
+│       # Environment handling declarations
+│
+# ─────────── SIGNALS ───────────
+├── signals/
+│   ├── signals.c
+│   │   # Manages SIGINT (Ctrl+C), SIGQUIT (Ctrl+\), etc.
+│   └── signals.h
+│       # Signal configuration functions
+│
+# ─────────── UTILS ───────────
+├── utils/
+│   ├── utils.c
+│   │   # Helper functions: strings, memory, error printing, etc.
+│   └── utils.h
+│       # Utility function declarations
+│
+# ─────────── SHARED STRUCTS ───────────
+└── includes/
+    └── structures.h
+        # Defines structs for tokens, command nodes, shell state, etc.

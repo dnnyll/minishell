@@ -1,0 +1,70 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    minishell_lexer_parser_tonkens.txt                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/22 16:11:32 by daniefe2          #+#    #+#              #
+#    Updated: 2025/05/22 16:13:38 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+Raw input string (from user)
+        ↓
+[ Lexer ] → splits input into tokens (linked list) + assigns types
+        ↓
+[ Parser ] → groups tokens into structures (commands, redirections, pipes)
+        ↓
+[ Executor ] → runs built-in or external command based on parsed structure
+
+
+
+
+User Input (readline)
+└──> "echo hello | grep h"
+
+╭──────────────╮
+│    LEXER     │
+╰──────────────╯
+    │
+    │ 1. Skip spaces
+    │ 2. Handle quotes
+    │ 3. Detect operators (|, >, <, etc.)
+    │ 4. Extract words (echo, hello, grep, etc.)
+    ▼
+[Tokens List: linked list of structs]
+    ┌─────────────────────────────────┐
+    │   value: "echo"   type: WORD    │
+    │   value: "hello"  type: WORD    │
+    │   value: "|"      type: PIPE    │
+    │   value: "grep"   type: WORD    │
+    │   value: "h"      type: WORD    │
+    └─────────────────────────────────┘
+
+╭──────────────╮
+│   PARSER     │
+╰──────────────╯
+    │
+    │ 1. Detect simple commands
+    │ 2. Build structures for redirections / pipes
+    │ 3. Prepare execution-ready command blocks
+    ▼
+[Command Table or AST]
+    ┌────────────────────────────┐
+    │ command: echo              │
+    │ args: ["echo", "hello"]    │
+    └────────────────────────────┘
+              │
+              ▼ pipe to ▼
+    ┌────────────────────────────┐
+    │ command: grep              │
+    │ args: ["grep", "h"]        │
+    └────────────────────────────┘
+
+╭────────────────╮
+│   EXECUTOR      │
+╰────────────────╯
+    │
+    ▼
+ Executes each command block (with forks, pipes, redirections)

@@ -1,0 +1,67 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    minishell_command_ref.txt                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/22 10:15:11 by daniefe2          #+#    #+#              #
+#    Updated: 2025/05/22 10:15:18 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# Minishell Parsing & Command Reference
+
+# Built-in commands
+pwd             # Print working directory
+cd              # Change directory
+echo            # Print text to stdout
+exit            # Exit the shell
+env             # Show environment variables
+export          # Set environment variable
+unset           # Unset environment variable
+
+# External commands (you don't implement, just execute them)
+ls              # List directory contents
+ls -l           # Long listing format
+ls -la          # List all (including hidden), long format
+touch           # Create empty file(s)
+cat             # Show file contents
+grep            # Search text using pattern
+wc              # Word, line, byte count
+mkdir           # Create directory
+rm              # Remove files or directories
+rmdir           # Remove empty directory
+
+# Redirections (parsing needed)
+>               # Redirect stdout (truncate)
+>>              # Redirect stdout (append)
+<               # Redirect stdin (from file)
+<<              # Here document (read input until a delimiter)
+
+# Pipes
+|               # Pipe output of one command into another
+
+# Separators / Logical operators
+;               # Separate commands (sequential)
+&&              # Run next command only if previous succeeds
+||              # Run next command only if previous fails
+
+# Quoting
+"double quotes" # Preserve spaces, allow variable expansion
+'single quotes' # Preserve everything literally
+
+# Variable expansion
+$VAR            # Expand variable value
+
+# Wildcards (globbing)
+*               # Match multiple files (handled by shell)
+
+# Escaping
+\               # Escape next character
+
+# Subshells (optional for bonus)
+(command)       # Run in subshell
+
+# Comments (ignore during parsing)
+# this is a comment

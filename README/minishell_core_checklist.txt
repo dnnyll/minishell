@@ -1,0 +1,65 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    minishell_core_checklist.txt                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/22 13:17:17 by daniefe2          #+#    #+#              #
+#    Updated: 2025/05/22 13:17:47 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MINISHELL                                   */
+/*                             CORE CHECKLIST                                 */
+/*                                                                            */
+/* 1. Input Handling                                                          */
+/*    - Display prompt ("minishell$ ")                                        */
+/*    - Read input using readline()                                           */
+/*    - Store non-empty input in history                                      */
+/*                                                                            */
+/* 2. Lexing & Parsing                                                        */
+/*    - Tokenize input (respecting quotes, escapes)                           */
+/*    - Recognize redirections: > >> < <<                                     */
+/*    - Handle pipes: |                                                       */
+/*    - Expand environment variables: $VAR                                    */
+/*    - Distinguish built-ins vs external commands                            */
+/*                                                                            */
+/* 3. Built-in Commands (no execve)                                           */
+/*    - echo, cd, pwd, export, unset, env, exit                               */
+/*                                                                            */
+/* 4. Execution                                                               */
+/*    - Create child processes with fork()                                    */
+/*    - Use execve() for external commands                                    */
+/*    - Locate executables using $PATH                                        */
+/*    - Handle exit status correctly ($?)                                     */
+/*                                                                            */
+/* 5. Redirections                                                            */
+/*    - Output redirection: >, >>                                             */
+/*    - Input redirection: <                                                  */
+/*    - Here-document: <<                                                     */
+/*    - Use dup2() to redirect file descriptors                               */
+/*                                                                            */
+/* 6. Pipes                                                                   */
+/*    - Connect multiple commands with |                                      */
+/*    - Manage pipe creation and closure properly                             */
+/*                                                                            */
+/* 7. Environment Variables                                                   */
+/*    - Store and manage shell environment (envp)                             */
+/*    - Support variable expansion and built-ins                              */
+/*                                                                            */
+/* 8. Signal Handling                                                         */
+/*    - Handle Ctrl+C (SIGINT)                                                */
+/*    - Ignore Ctrl+\ (SIGQUIT)                                               */
+/*    - Manage signals during heredocs                                        */
+/*                                                                            */
+/* 9. Error Handling                                                          */
+/*    - Report syntax, command, redirect, and permission errors               */
+/*                                                                            */
+/* 10. Memory Management                                                      */
+/*    - Free all allocated memory on exit                                     */
+/*    - Prevent leaks during command handling (valgrind clean)                */
+/*                                                                            */
+/* ************************************************************************** */
