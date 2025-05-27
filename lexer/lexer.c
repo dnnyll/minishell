@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/22 16:49:55 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/27 07:57:15 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,99 +20,97 @@ raw input_line (e.g. echo "hello" > out.txt)
 [5] Create a token (value + type)
 [6] Add token to linked list
 [7] Return linked list
-
-
-// ──────────────────────────────────────────────
-// LEXER WORKFLOW: FROM raw input TO token list
-// ──────────────────────────────────────────────
-
-INPUT: a raw input string, like:
-    echo "hello world" | grep hi > file.txt
-
-GOAL: break it into a linked list of tokens like:
-    [WORD:echo] → [WORD:hello world] → [PIPE:|] → [WORD:grep] → [WORD:hi] → [REDIR_OUT:>] → [WORD:file.txt]
-
-// ──────────────────────────────────────────────
-// [1] Skip Whitespace
-//    - Skip spaces or tabs between tokens.
-// ──────────────────────────────────────────────
-    while (isspace(line[i]))
-        i++;
-
-// ──────────────────────────────────────────────
-// [2] Handle Quoted Strings
-//    - If you find a quote (' or "), capture everything inside.
-//    - Support escaping (optional now, later you may need it).
-// ──────────────────────────────────────────────
-    if (line[i] == '\'' || line[i] == '"')
-        extract until matching quote → store as WORD
-
-// ──────────────────────────────────────────────
-// [3] Detect Operators
-//    - Recognize token types like:
-//        |, <, >, >>, <<
-// ──────────────────────────────────────────────
-    if (line[i] == '|')
-        type = T_PIPE;
-    else if (line[i] == '<')
-        if (line[i + 1] == '<') → T_HEREDOC
-        else → T_REDIR_IN;
-    else if (line[i] == '>')
-        if (line[i + 1] == '>') → T_REDIR_APPEND
-        else → T_REDIR_OUT
-
-    advance `i` accordingly (1 or 2 chars)
-
-// ──────────────────────────────────────────────
-// [4] Extract Unquoted Words
-//    - Any sequence of non-whitespace, non-operator, non-quote
-// ──────────────────────────────────────────────
-    start = i;
-    while (line[i] is not space, not operator, not quote)
-        i++;
-    str = substr(line, start, i - start)
-    type = T_WORD
-
-// ──────────────────────────────────────────────
-// [5] Create Token
-// ──────────────────────────────────────────────
-    token = token_new(str, type);
-    add to linked list
-
-// ──────────────────────────────────────────────
-// [6] Return Head of Linked List
-// ──────────────────────────────────────────────
-    return list;
-
 */
 
 #include "minishell.h"
 
-t_token	*lexer(char *input_line)
+int	ft_isspace(int c)
 {
-	while (input_line != '\0')
+	if ((c >= 7 && c <= 13) || (c == 32))
+		return (1);
+	return (0);
+}
+
+void	add_token(t_token **list, t_token *new_token)
+{
+	t_token	*current;
+
+/*
+┌────────────┐          ┌───────────────────────────┐
+│ t_token    │          │ t_token                   │
+│ *current   ├───────>  │ value: "echo"             │
+│            │          │ type: WORD                │
+│            │          │ next: pointer to next...  │
+└────────────┘          └───────────────────────────┘
+*/
+	if (!list || !new_token)
+		return;
+
+	if (*list == NULL)
 	{
-		while (input_line[i] == ' ' || (input_line[i] => 7 && input_line[i] <= 13));
+		*list = new_token;
+		return;
+	}
+	current = *list;
+	while (current->next)
+		current = current->next;
+	current->next = new_token;
+}
+
+void	free_token_list(t_token *token)
+{
+	t_token	*next;
+
+	while (token)
+	{
+		next = token->next;
+		free(token->value);
+		free(token);
+		token = next;
+	}
+}
+
+t_token	*lexer(const char *input)
+{
+	t_token	*list = NULL;
+	int		i = 0;
+
+	while (input[i])
+	{
+		if (ft_isspace(input[i]))
 		{
 			i++;
-			if (input_line[i] == '\'' || input_line[i] == '"')
-			//	extract and store the word
-			if (input_line[i] == '|')
-				type = TOKEN_PIPE;
-			else if (input_line[i] == '<')
-			{
-				if (input_line[i + 1] == '<')
-					type = TOKEN_HEREDOC;
-				else
-					type = TOKEN_REDIR_IN;
-			}
-			else if (input_line[i] == '>')
-			{
-				if (input_line[i + 1] == '<')
-					type = TOKEN_REDIR_APPEND;
-				else
-					type = TOKEN_REDIR_OUT;
-			}
+			continue;
 		}
+
+		// Only allow quote parsing if it's at the start of a token
+		if ((i == 0 || ft_isspace(input[i - 1]) || \
+			get_operator_type(&input[i - 1]) != TOKEN_ERROR)
+			&& (input[i] == '\'' || input[i] == '"'))
+		{
+			t_token_result res = extract_quoted(input, i);
+			if (res.new_index == -1) // Unterminated quote
+			{
+				free_token_list(list);
+				return (NULL);
+			}
+			if (res.token)
+				add_token(&list, res.token);
+			i = res.new_index;
+			continue;
+		}
+		if (get_operator_type(&input[i]) != TOKEN_ERROR)
+		{
+			t_token_result res = extract_operator(input, i);
+			if (res.token)
+				add_token(&list, res.token);
+			i = res.new_index;
+			continue;
+		}
+		t_token_result res = extract_word(input, i);
+		if (res.token)
+			add_token(&list, res.token);
+		i = res.new_index;
 	}
+	return (list);
 }

@@ -11,6 +11,9 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <string.h>
+# include "tokens.h"
+# include "libft.h"
+# include "lexer.h"
 
 /*
 
@@ -24,15 +27,14 @@
 # include "utils/utils.h"
 */
 
+
+void print_tokens(t_token *tokens);
+
+
+
 //	prompt default
 # define PROMPT "minishell$ "
 
 
-//	structure for tokens
-typedef struct s_token
-{
-	t_token_type    type;
-	struct s_token  *next;
-}	t_token;
 
 #endif

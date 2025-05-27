@@ -1,0 +1,131 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    basics_structures.txt                              :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/05/26 10:26:24 by daniefe2          #+#    #+#              #
+#    Updated: 2025/05/26 10:26:26 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+/*************************************************
+*                 STRUCTURE BASICS               *
+*************************************************/
+
+// Declaring a structure
+typedef struct s_node
+{
+    int             value;      // data
+    struct s_node  *next;       // pointer to next node
+} t_node;
+
+
+/*************************************************
+*        STRUCTURE VARIABLE vs POINTER           *
+*************************************************/
+
+t_node a;              // a is a structure variable
+t_node *b = &a;        // b is a pointer to a structure
+
+a.value = 42;          // use . (dot) with structure variable
+b->value = 99;         // use -> (arrow) with structure pointer
+(*b).value = 99;       // same as above, more verbose
+
+
+/*************************************************
+*        BUILDING A SIMPLE LINKED LIST           *
+*************************************************/
+
+// Create 3 nodes
+t_node n1, n2, n3;
+
+n1.value = 1;
+n2.value = 2;
+n3.value = 3;
+
+// Link them manually
+n1.next = &n2;
+n2.next = &n3;
+n3.next = NULL;
+
+/*
+List now looks like this:
+
+[n1] -> [n2] -> [n3] -> NULL
+ 1        2       3
+*/
+
+
+/*************************************************
+*          TRAVERSING A LINKED LIST              *
+*************************************************/
+
+t_node *current = &n1;
+
+while (current != NULL)
+{
+    printf("%d\n", current->value);
+    current = current->next;
+}
+
+
+/*************************************************
+*            ADDING TO THE END OF LIST           *
+*************************************************/
+
+void add_back(t_node **head, t_node *new_node)
+{
+    t_node *current;
+
+    if (*head == NULL)               // If list is empty
+    {
+        *head = new_node;
+        return;
+    }
+    current = *head;                 // Start at the head
+    while (current->next != NULL)    // Traverse to last node
+        current = current->next;
+    current->next = new_node;        // Append the new node
+    new_node->next = NULL;
+}
+
+
+/*************************************************
+*          DYNAMIC ALLOCATION EXAMPLE            *
+*************************************************/
+
+t_node *create_node(int val)
+{
+    t_node *node = malloc(sizeof(t_node));
+    if (!node)
+        return NULL;
+    node->value = val;
+    node->next = NULL;
+    return node;
+}
+
+
+/*************************************************
+*     TL;DR — Access Summary & Common Mistakes   *
+*************************************************/
+
+// Structure variable → use . (dot)
+t_node a;
+a.value = 10;
+
+// Structure pointer → use -> (arrow)
+t_node *b = &a;
+b->value = 20;         // same as (*b).value = 20;
+
+// Common mistake:
+b.value = 10;   // ❌ wrong! 'b' is a pointer, not a struct
+
+// Linked list node:
+typedef struct s_token
+{
+    char            *value;
+    int             type;
+    struct s_token  *next;
+} t_token;

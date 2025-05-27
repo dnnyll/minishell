@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/22 16:10:03 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/26 10:16:44 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ typedef struct s_token
 	char            *value;   // actual string, e.g., "ls", "|", ">"
 	t_token_type    type;     // type from the enum above
 	struct s_token  *next;    // pointer to the next token
-	t_token;
+}	t_token;
 
 #endif
