@@ -6,7 +6,7 @@
 #    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/22 10:15:11 by daniefe2          #+#    #+#              #
-#    Updated: 2025/05/22 10:15:18 by daniefe2         ###   ########.fr        #
+#    Updated: 2025/05/27 08:26:53 by daniefe2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,9 @@ rmdir           # Remove empty directory
 
 # Separators / Logical operators
 ;               # Separate commands (sequential)
+
+bonus:
+
 &&              # Run next command only if previous succeeds
 ||              # Run next command only if previous fails
 

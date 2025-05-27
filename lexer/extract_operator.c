@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:34:28 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:28:27 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:29:16 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	get_operator_length(t_token_type type)
 	return (1);
 }
 
-
 t_token_type	get_operator_type(const char *input)
 {
 	if (input[0] == '|' && input[1] != '|')
@@ -40,8 +39,23 @@ t_token_type	get_operator_type(const char *input)
 	return (TOKEN_ERROR);
 }
 
-
-
+t_token	*create_token(const char *value, t_token_type type)
+{
+	t_token *token;
+	
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = ft_strdup(value);
+	if (!token->value)
+	{
+		free(token);
+		return(NULL);
+	}
+	token->type = type;
+	token->next = NULL;
+	return (token);
+}
 /*
 	Calls get_operator_type() to identify the operator type at position i.
 	Calls get_operator_length() to know how many characters the operator has.
@@ -49,31 +63,30 @@ t_token_type	get_operator_type(const char *input)
 	Copies the operator characters (1 or 2) into the token's value.
 	Sets the token type and returns it along with the updated index (i + len).
 */
-	t_token_result	extract_operator(const char *input, int i)
+t_token_result	extract_operator(const char *input, int i)
 {
 	t_token_result	res;
-	t_token			*token;
 	t_token_type	type;
 	int				len;
+	char			op[3];
 
 	type = get_operator_type(&input[i]);
-	len = get_operator_length(type);
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return ((t_token_result){NULL, i});
-	token->value = malloc(len + 1);
-	if (!token->value)
+	if (type == TOKEN_ERROR)
 	{
-		free(token);
-		return ((t_token_result){NULL, i});
+		res.token = NULL;
+		res.new_index = i;
+		return (res);
 	}
-	token->value[0] = input[i];
+	len = get_operator_length(type);
+	op[0] = input[i];
+	op[1] = '\0';
+	op[2] = '\0';
 	if (len == 2)
-		token->value[1] = input[i + 1];
-	token->value[len] = '\0';
-	token->type = type;
-	token->next = NULL;
-	res.token = token;
-	res.new_index = i + len;
+		op[1] = input[i + 1];
+	res.token = create_token(op, type);
+	if (res.token)
+		res.new_index = i + len;
+	else
+		res.new_index = i;
 	return (res);
 }
