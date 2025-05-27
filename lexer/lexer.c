@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:57:15 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/27 08:13:44 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_isspace(int c)
 void	add_token(t_token **list, t_token *new_token)
 {
 	t_token	*current;
-
 /*
 ┌────────────┐          ┌───────────────────────────┐
 │ t_token    │          │ t_token                   │
@@ -44,12 +43,11 @@ void	add_token(t_token **list, t_token *new_token)
 └────────────┘          └───────────────────────────┘
 */
 	if (!list || !new_token)
-		return;
-
+		return ;
 	if (*list == NULL)
 	{
 		*list = new_token;
-		return;
+		return ;
 	}
 	current = *list;
 	while (current->next)
@@ -72,9 +70,11 @@ void	free_token_list(t_token *token)
 
 t_token	*lexer(const char *input)
 {
-	t_token	*list = NULL;
-	int		i = 0;
+	t_token	*list;
+	int		i;
 
+	list = NULL;
+	i = 0;
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
@@ -82,7 +82,6 @@ t_token	*lexer(const char *input)
 			i++;
 			continue;
 		}
-
 		// Only allow quote parsing if it's at the start of a token
 		if ((i == 0 || ft_isspace(input[i - 1]) || \
 			get_operator_type(&input[i - 1]) != TOKEN_ERROR)

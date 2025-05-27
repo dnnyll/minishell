@@ -6,12 +6,24 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:05:02 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/27 10:40:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	free_tokens(t_token *tokens)
+{
+	t_token *temp;
+
+	while (tokens)
+	{
+		temp = tokens->next;
+		free (tokens->value);
+		free (tokens);
+		tokens = temp;
+	}
+}
 
 void print_tokens(t_token *tokens)
 {
@@ -22,13 +34,12 @@ void print_tokens(t_token *tokens)
 	}
 }
 
-
 int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
 	char	*input_line;
-	
+
 	while (1)
 	{
 		
@@ -36,7 +47,7 @@ int	main(int argc, char **argv)
 		if (input_line == NULL)					//	trigers when ctrl + D is used
 		{
 			printf("exit\n");
-			exit(1);
+			break ;
 		}
 		if (input_line[0] == '\0')				// trigers when enter is pressed on a empty line
 		{
@@ -45,6 +56,10 @@ int	main(int argc, char **argv)
 		}
 		add_history(input_line);				//	adds action to history
 		t_token *tokens = lexer(input_line);	//	separates words into tokens
-		print_tokens(tokens);
+		print_tokens(tokens);					//	prints tokens types
+		free_tokens(tokens);					//	frees token list
+		free(input_line);						//	frees input line
 	}
+	clear_history();							//	frees history list
+	rl_clear_history();							//	cleans up internal readline history structures
 }

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:44:06 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/27 12:26:05 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 # define LEXER_H
 
 # include "minishell.h"
-//	returns: a t_token *token that was extracted (e.g., a word, operator, or quoted string)
-typedef struct s_word_result
-{
-	t_token *token;
-	int		new_index;
-}	t_word_result;
-//	returns: an int new_index to read from in the input string (after the token)
+
 typedef struct s_token_result
 {
 	t_token	*token;
@@ -40,6 +34,7 @@ t_token_result	extract_quoted(const char *input, int i);
 //	extract_operator
 int				get_operator_length(t_token_type type);
 t_token_type get_operator_type(const char *input);
+t_token	*create_token(const char *value, t_token_type type);
 t_token_result	extract_operator(const char *input, int i);
 
 //	lexer
