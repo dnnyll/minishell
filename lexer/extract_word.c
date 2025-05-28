@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_word.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:32:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:27:52 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:22:35 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	is_operator_char(char c)
 {
+	// printf("is_operator_char\n");
 	return (c == '|' || c == '<' || c == '>');
 }
 
 int	get_word_length(const char *input)
 {
+	// printf("get_operator_type\n");
 	int	len;
 	
 	len = 0;
@@ -26,34 +28,28 @@ int	get_word_length(const char *input)
 		len++;
 	return (len);
 }
-/*
-	Gets word length using get_word_length.
-	Allocates a t_token.
-	Allocates memory for the token's value (len + 1 for null-terminator).
-	Copies the word into the token using ft_strlcpy.
-	Sets the token type to TOKEN_WORD.
-	Sets the new_index to i + len (to continue scanning after this word).
-*/
+
 t_token_result	extract_word(const char *input, int i)
 {
-	t_token_result	res;
+	// printf("extract_word\n");
+	t_token_result	result;
 	int				len;
 
 	len = get_word_length(input + i);
-	res.token = malloc(sizeof(t_token));
-	if (!res.token)
+	result.token = malloc(sizeof(t_token));
+	if (!result.token)
 		return ((t_token_result){NULL, i});
-	res.token->value = malloc(len + 1);
-	if (!res.token->value)
+	result.token->value = malloc(len + 1);
+	if (!result.token->value)
 	{
-		free(res.token);
+		free(result.token);
 		return ((t_token_result){NULL, i});
 	}
-	ft_strlcpy(res.token->value, input + i, len + 1);
-	res.token->type = TOKEN_WORD;
-	res.token->next = NULL;
-	res.new_index = i + len;
-	return (res);
+	ft_strlcpy(result.token->value, input + i, len + 1);
+	result.token->type = TOKEN_WORD;
+	result.token->next = NULL;
+	result.new_index = i + len;
+	return (result);
 }
 
 
