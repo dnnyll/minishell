@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/28 14:27:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:18:10 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ int	ft_isspace(int c)
 		return (1);
 	return (0);
 }
+int is_operator_start(const char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}
 
 char	update_quote_state(char c, char quote_state)
 {
@@ -28,60 +32,41 @@ char	update_quote_state(char c, char quote_state)
 	return (quote_state);			// no change
 }
 
+t_token_result extract_token(const char *input, int start)
+{
+	if (input[start] == '\'' || input[start] == '"')
+		return extract_quoted(input, start);
+
+	if (is_operator_start(input[start]))
+		return extract_operator(input, start);
+
+	return extract_word(input, start);
+}
+
 t_token	*lexer(const char *input)
 {
 	// printf("lexer\n");
 	t_token	*list;
 	int		i;
-	char	quote_state;
+
 
 	list = NULL;
 	i = 0;
-	quote_state = '\0';
 	while (input[i])
 	{
-		if (quote_state == '\0')
-		{
-			if (ft_isspace(input[i]))
-			{
-				i++;
-				continue ;
-			}
-			// Only allow quote parsing if it's at the start of a token
-			if ((input[i] == '\'' || input[i] == '"') &&
-				(i == 0 || ft_isspace(input[i - 1]) ||
-				get_operator_type(&input[i - 1]) != TOKEN_ERROR))
-			{
-				t_token_result result = extract_quoted(input, i);
-				if (result.new_index == -1) // Unterminated quote
-				{
-					// fprintf(stderr, "minishell: syntax error: unterminated quote\n");
-					free_token_list(list);
-					return (NULL);
-				}
-				if (result.token)
-					add_token(&list, result.token);
-				i = result.new_index;
-				continue ;
-			}
-			if (get_operator_type(&input[i]) != TOKEN_ERROR)
-			{
-				t_token_result result = extract_operator(input, i);
-				if (result.token)
-					add_token(&list, result.token);
-				i = result.new_index;
-				continue ;
-			}
-			t_token_result result = extract_word(input, i);
-			if (result.token)
-				add_token(&list, result.token);
-			i = result.new_index;
-		}
-		else
-		{
-			quote_state = update_quote_state(input[i], quote_state);
+		while (input[i] && ft_isspace(input[i]))
 			i++;
+		if (input[i] == '\0')
+			break ;
+		t_token_result	result = extract_token(input, i);
+		if (result.new_index == -1)
+		{
+			free_token_list(list);
+			return (NULL);
 		}
+		if (result.token)
+			add_token(&list, result.token);
+		i = result.new_index;
 	}
 	return (list);
 }

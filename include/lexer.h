@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/28 14:09:02 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:12:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_token_result	extract_operator(const char *input, int i);
 
 //	lexer
 int				ft_isspace(int c);
-char	update_quote_state(char c, char quote_state);
+char			update_quote_state(char c, char quote_state);
+t_token_result extract_token(const char *input, int start);
+int is_operator_start(const char c);
 t_token			*lexer(const char *input);
 
 #endif
