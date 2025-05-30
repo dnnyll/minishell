@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_commands.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 16:11:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/05/30 11:37:11 by mrosset          ###   ########.fr       */
+/*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
+/*   Updated: 2025/05/30 11:41:35 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//is_command
-//is_redir
+//child_signal
+//parent_signal
 
-int	is_command()
-{}
-
-int	is_redirection()
+void	handle_sigint()
 {}
