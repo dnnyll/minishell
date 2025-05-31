@@ -3,70 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/29 15:18:10 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:35:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//	Purpose: Checks if a character is a whitespace (tabs, spaces, etc.).
 int	ft_isspace(int c)
 {
-	if ((c >= 7 && c <= 13) || (c == 32))
+	if ((c >= 7 && c <= 13) || (c == 32))	// Matches tabs, newlines, space
 		return (1);
 	return (0);
 }
-int is_operator_start(const char c)
+
+//	Purpose: Checks if the character is a quote (' or ").
+int	is_quote(char c)
 {
-	return (c == '|' || c == '<' || c == '>');
+	return (c == '\'' || c == '"');
 }
 
-char	update_quote_state(char c, char quote_state)
+//	Purpose: Checks if the character is a shell operator (|, <, >, $).
+int	is_operator_start(char c)
 {
-	if ((c == '\'' || c == '"') && quote_state == '\0')
-		return (c);				// opening quote
-	if (c == quote_state)
-		return ('\0');			// closing quote
-	return (quote_state);			// no change
+	return (c == '|' || c == '<' || c == '>' || c == '$');	// $ sign might not need to be here!
 }
 
-t_token_result extract_token(const char *input, int start)
+//	Purpose: Decides how to extract the token based on the current character.
+t_token_result	extract_token(const char *input, int i)
 {
-	if (input[start] == '\'' || input[start] == '"')
-		return extract_quoted(input, start);
-
-	if (is_operator_start(input[start]))
-		return extract_operator(input, start);
-
-	return extract_word(input, start);
+	if (is_quote(input[i]))						// Quoted string → special extract
+		return (extract_quoted(input, i));
+	else if (is_operator_start(input[i]))		// Shell operator → handled separately
+		return (extract_operator(input, i));
+	else										// Regular word
+		return (extract_word(input, i));
 }
 
+//	Purpose: Main lexer function: loops through the input and builds a list of tokens.
 t_token	*lexer(const char *input)
 {
-	// printf("lexer\n");
-	t_token	*list;
-	int		i;
+	t_token	*list = NULL;
+	int		i = 0;
 
-
-	list = NULL;
-	i = 0;
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
-			i++;
+			i++;											// Skip all whitespace
+
 		if (input[i] == '\0')
-			break ;
-		t_token_result	result = extract_token(input, i);
-		if (result.new_index == -1)
+			break ;											// End of input
+
+		t_token_result result = extract_token(input, i);	// Extract next token
+
+		if (result.new_index == -1)							// Syntax error occurred (e.g., unmatched quote)
 		{
 			free_token_list(list);
-			return (NULL);
+			return (NULL);									// Abort and clean up
 		}
+
 		if (result.token)
-			add_token(&list, result.token);
-		i = result.new_index;
+			add_token(&list, result.token);					// Add token to the list
+
+		i = result.new_index;								// Move index past the token
 	}
-	return (list);
+	return (list);											// Return full list of tokens
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/29 15:12:41 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:47:05 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_token_result
 	t_token	*token;
 	int		new_index;
 }	t_token_result;
+
 
 //	extract_word
 int				is_operator_char(char c);
@@ -37,10 +38,10 @@ t_token_type	get_operator_type(const char *input);
 t_token_result	extract_operator(const char *input, int i);
 
 //	lexer
-int				ft_isspace(int c);
-char			update_quote_state(char c, char quote_state);
-t_token_result extract_token(const char *input, int start);
-int is_operator_start(const char c);
-t_token			*lexer(const char *input);
+int	ft_isspace(int c);
+int	is_quote(char c);
+int	is_operator_start(char c);
+t_token_result	extract_token(const char *input, int i);
+t_token	*lexer(const char *input);
 
 #endif

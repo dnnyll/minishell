@@ -224,3 +224,56 @@ handle operators  and metacharacters
 | Combination ops  | <<, >> must be parsed together           |
 | Escaped ones     | \| → literal pipe                       |
 +------------------+------------------------------------------+
+
+
+Environment single and double quote behaviour
+
+altera@ALTERA:~/42_home/minishell$ echo $USER
+altera
+altera@ALTERA:~/42_home/minishell$ echo "$USER"
+altera
+altera@ALTERA:~/42_home/minishell$ echo "hello $USER"
+hello altera
+altera@ALTERA:~/42_home/minishell$ echo "hello '$USER'"
+hello 'altera'
+altera@ALTERA:~/42_home/minishell$ echo 'hello "$USER"'
+hello "$USER"
+altera@ALTERA:~/42_home/minishell$ echo "$USER"
+altera
+altera@ALTERA:~/42_home/minishell$ echo '$USER'
+$USER
+altera@ALTERA:~/42_home/minishell$ echo hello "  '$USER' "
+hello   'altera'
+altera@ALTERA:~/42_home/minishell$
+
+# ╔════════════════════════════════════════════════════════════════════╗
+# ║                   QUOTE HANDLING CASES IN MINISHELL                ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 1: Unquoted variable expands                                  ║
+# ║   echo $USER                                                       ║
+# ║   → expands to: echo altera                                        ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 2: Variable in double quotes expands                          ║
+# ║   echo "$USER"                                                     ║
+# ║   → expands to: echo altera                                        ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 3: Text and variable in double quotes                         ║
+# ║   echo "hello $USER"                                               ║
+# ║   → expands to: echo hello altera                                  ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 4: Quoted variable inside double quotes(literal single quotes)║
+# ║   echo "hello '$USER'"                                             ║
+# ║   → expands to: echo hello 'altera'                                ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 5: Double quotes inside single quotes (no expansion)          ║
+# ║   echo 'hello "$USER"'                                             ║
+# ║   → stays literal: echo hello "$USER"                              ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 6: Pure single quotes (no expansion)                          ║
+# ║   echo '$USER'                                                     ║
+# ║   → stays literal: echo $USER                                      ║
+# ╠════════════════════════════════════════════════════════════════════╣
+# ║ Case 7: Mixed: plain text + quoted var                             ║
+# ║   echo hello "  '$USER' "                                          ║
+# ║   → expands to: echo hello   'altera'                              ║
+# ╚════════════════════════════════════════════════════════════════════╝

@@ -29,6 +29,7 @@
 
 
 void print_tokens(t_token *tokens);
+void	free_tokens(t_token *tokens);
 
 
 
