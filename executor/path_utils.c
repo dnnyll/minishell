@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_commands.c                                   :+:      :+:    :+:   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 16:11:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/03 13:46:23 by mrosset          ###   ########.fr       */
+/*   Created: 2025/06/03 13:50:49 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/03 14:36:07 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_command(t_cmd *cmd)
+char	*find_path_variable(char **envp)
 {
-	return (cmd && cmd->type == CMD);
-}
+	int	i;
 
-int	is_redirection(t_cmd *cmd)
-{
-	return (cmd && (cmd->type == REDIR_IN || cmd->type == REDIR_OUT
-			|| cmd->type == APPEND || cmd->type == HEREDOC));
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
+	}
+	return (NULL);
 }
+char	*get_path()
+{}
 
-int	is_pipe(t_cmd *cmd)
-{
-	return (cmd && cmd->type == PIPE);
-}
+/*
+**envp is an array containing  all the environment variables.
+**find_path_variable : this function itarate through envp. If a string
+	begining with "PATH="
+*/
