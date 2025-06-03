@@ -6,12 +6,11 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:11:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/01 15:40:43 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:46:23 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	is_command(t_cmd *cmd)
 {
