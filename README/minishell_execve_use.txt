@@ -1,0 +1,62 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    minishell_execve_use.txt                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/04 09:41:26 by daniefe2          #+#    #+#              #
+#    Updated: 2025/06/04 09:41:29 by daniefe2         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SUMMARY: execve in a Minishell Context
+--------------------------------------
+
+WHAT IS execve?
+- A system call that replaces the current process image with a new program.
+- Prototype: int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+WHY IS IT USED IN A MINISHELL?
+- It is the core function that runs external commands (like "ls", "cat", etc.).
+- After parsing user input and forking a child process, execve is called in the child to execute the command.
+
+TYPICAL FLOW IN A MINISHELL:
+1. Read user input (e.g., "ls -la").
+2. Parse into:
+   - Pathname (e.g., "/bin/ls")
+   - Arguments: argv[] = {"ls", "-la", NULL}
+   - Environment: envp[] inherited from parent or modified
+3. Call fork():
+   - In the child process:
+       - Call execve(pathname, argv, envp)
+       - If execve fails, print error and exit
+   - In the parent process:
+       - Wait for the child to finish (e.g., using wait())
+
+EXAMPLE BEHAVIOR:
+if (fork() == 0) {
+    execve(path, argv, envp);
+    perror("execve failed");
+    exit(EXIT_FAILURE);
+} else {
+    wait(&status);
+}
+
+ERROR HANDLING (errno values if execve fails):
+- EACCES: Permission denied
+- ENOENT: File not found
+- E2BIG: Arguments/env too big
+- ENOMEM: Not enough memory
+- EINVAL: Invalid argument
+
+RESOLVING PATHNAME:
+- If user typed "ls":
+   - Check PATH environment variable (e.g., "/bin:/usr/bin")
+   - Search each directory for "ls"
+   - Build full path (e.g., "/bin/ls") and try execve on it
+
+IMPORTANT:
+- execve ONLY returns on error.
+- On success, it replaces the current process — code after execve is not run.
+- Always fork before execve in a shell to keep the shell process alive.
