@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 14:55:13 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/05 15:08:37 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	setup_child_signals(void)
 }
 
 /*
+**rl : readline
 **rl_on_new_line() :
 **rl_replace_line() :
 **rl_redisplay() :
