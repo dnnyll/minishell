@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:47:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:34:08 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_token_result
 	t_token	*token;
 	int		new_index;
 }	t_token_result;
-
 
 //	extract_word
 int				is_operator_char(char c);

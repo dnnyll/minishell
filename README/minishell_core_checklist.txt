@@ -3,12 +3,112 @@
 #                                                         :::      ::::::::    #
 #    minishell_core_checklist.txt                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#    By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/22 13:17:17 by daniefe2          #+#    #+#              #
-#    Updated: 2025/05/22 13:17:47 by daniefe2         ###   ########.fr        #
+#    Updated: 2025/06/03 15:12:50 by daniefe2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+
++------------------------------------------------------------------------------------------------------------------+
+|                                          MINISHELL MANDATORY FLOW                                               |
++------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                  |
+|  User Input                                                                                                      |
+|     │                                                                                                            |
+|     ▼                                                                                                            |
+|  readline(prompt)                                                                                                |
+|     - Reads line from user                                                                                       |
+|     - Handles arrow history, line editing (builtin from readline)                                               |
+|     - Must handle Ctrl+C (SIGINT) gracefully (reset line, no ^C shown)                                           |
+|     - Must handle Ctrl+D (EOF): exit shell if empty                                                              |
+|     ▼                                                                                                            |
+|  ┌──────────────────────────────────────────┐                                                                    |
+|  │                   LEXER                  │                                                                    |
+|  └──────────────────────────────────────────┘                                                                    |
+|     - Splits line into tokens:                                                                                        |
+|        - Respects spaces as delimiters                                                                              |
+|        - Respects quoted substrings as atomic tokens (single and double quotes)                                    |
+|     - Handles quote parsing:                                                                                        |
+|        - Detect unclosed quotes (syntax error)                                                                      |
+|        - Preserve content inside quotes properly (e.g., `"a b"` = one token)                                       |
+|     - Handles escaping (`\`)                                                                                        |
+|        - \ outside quotes: escapes next character                                                                 |
+|        - \ inside double quotes: only escapes $, ", `\`                                                            |
+|        - \ inside single quotes: has no effect (literal)                                                          |
+|     - Recognizes and tokenizes operators:                                                                          |
+|        - `|` (pipe)                                                                                                |
+|        - `<`, `>`                                                                                                  |
+|        - `<<`, `>>`                                                                                                |
+|     - Classifies tokens:                                                                                           |
+|        - WORD, PIPE, REDIR_IN, REDIR_OUT, APPEND, HEREDOC                                                          |
+|     - Removes quote marks (but preserves inner content)                                                            |
+|     - Marks variables (`$VAR`, `$?`) for expansion later                                                           |
+|     - Detects heredoc delimiters (e.g., `<< LIMIT`)                                                                |
+|     - Sends cleaned, tokenized list to parser                                                                      |
+|                                                                                                                  |
+|     ▼                                                                                                            |
+|  ┌──────────────────────────────────────────┐                                                                    |
+|  │                  PARSER                 │                                                                    |
+|  └──────────────────────────────────────────┘                                                                    |
+|     - Groups tokens into command tables (simple commands & pipelines)                                            |
+|     - Detects syntax errors:                                                                                      |
+|        - Pipe at beginning/end                                                                                     |
+|        - Two pipes in a row                                                                                       |
+|        - Redirection without following word (e.g., `>`, `>>`, `<<`, `<`)                                          |
+|     - Builds structure like:                                                                                      |
+|        - cmd[0] = {cmd: "echo", args: ["hello", "world"], redirs: []}                                             |
+|        - cmd[1] = {cmd: "cat", args: [], redirs: [< infile]}                                                      |
+|     - Passes command list to expander                                                                             |
+|                                                                                                                  |
+|     ▼                                                                                                            |
+|  ┌──────────────────────────────────────────┐                                                                    |
+|  │                 EXPANDER                │                                                                    |
+|  └──────────────────────────────────────────┘                                                                    |
+|     - Replaces variables:                                                                                         |
+|        - `$VAR`, `${VAR}`                                                                                         |
+|        - `$?` with last exit status                                                                               |
+|        - `$0`, `$1`, etc. not required (positional params not needed)                                             |
+|     - Applies expansion rules:                                                                                    |
+|        - In double quotes: `$VAR` expands                                                                         |
+|        - In single quotes: `$VAR` is literal                                                                      |
+|     - Joins words where needed (e.g., `echo "a"$B` becomes one argument)                                          |
+|     - Expands heredoc delimiters (optional: if not quoted)                                                       |
+|     - Removes or modifies tokens post-expansion                                                                   |
+|     - Final output: array of clean command tables                                                                 |
+|                                                                                                                  |
+|     ▼                                                                                                            |
+|  ┌──────────────────────────────────────────┐                                                                    |
+|  │                 EXECUTOR                │                                                                    |
+|  └──────────────────────────────────────────┘                                                                    |
+|     - Handles command execution:                                                                                  |
+|        - Sets up pipes if needed                                                                                 |
+|        - Forks child process for each command                                                                    |
+|        - Applies redirections (dup2, open)                                                                        |
+|        - Handles builtins without fork if single command (e.g., `cd`, `exit`)                                     |
+|        - Waits for children                                                                                       |
+|     - Supports these **mandatory builtins**:                                                                      |
+|        - `echo -n`                                                                                                |
+|        - `cd [dir]`                                                                                               |
+|        - `pwd`                                                                                                     |
+|        - `export VAR=val`                                                                                         |
+|        - `unset VAR`                                                                                              |
+|        - `env`                                                                                                     |
+|        - `exit [code]`                                                                                            |
+|     - Sets $? global variable with last exit status                                                               |
+|                                                                                                                  |
+|     ▼                                                                                                            |
+|  ┌──────────────────────────────────────────┐                                                                    |
+|  │                 CLEANUP                 │                                                                    |
+|  └──────────────────────────────────────────┘                                                                    |
+|     - Frees all malloc’d memory                                                                                   |
+|     - Closes all file descriptors                                                                                 |
+|     - Resets signal handlers if modified                                                                          |
+|     - Prepares for next command line                                                                              |
+|                                                                                                                  |
++------------------------------------------------------------------------------------------------------------------+
+
 
 /* ************************************************************************** */
 /*                                                                            */

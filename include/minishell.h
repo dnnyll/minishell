@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/06/05 10:58:16 by daniefe2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -14,6 +26,7 @@
 # include "tokens.h"
 # include "libft.h"
 # include "lexer.h"
+# include "parser.h"
 
 /*
 
