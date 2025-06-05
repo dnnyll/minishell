@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 10:19:49 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/05 10:19:51 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -12,7 +24,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include "tokens.h"
-# include "libft.h"
+# include "../lib/Libft/libft.h"
 # include "lexer.h"
 # include "executor.h"
 
