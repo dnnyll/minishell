@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 11:36:13 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:00:05 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	parent_process(int prev_pipe_read, int *fd)
 	return (-1);
 }
 
-void	execute_pipeline(t_cmd *cdm_list, char **env_vars)
+void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 {
 	t_cmd	*cmd;
 	int		fd[2];
