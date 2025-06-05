@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:26:50 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/01 14:12:41 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:56:45 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	edit_pipe_fd(int infile, int outfile, int prev_pipe_read, int *fd)
 {
 	if (infile != 0)
 	{
-		dupe2(infile, 0);
+		dup2(infile, 0);
 		close(infile);
 	}
 	else if (prev_pipe_read != -1)

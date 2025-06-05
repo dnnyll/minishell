@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 11:36:13 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/05 11:58:15 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
 	char	*path;
 
 	edit_pipe_fd(cmd->infile, cmd->outfile, prev_pipe_read, fd);
-	path = get_path(cm->args[0], env_vars);
+	path = get_path(cmd->args[0], env_vars);
 	if (!path)
 	{
 		write(2, "minishell: command not found: ", 30);
@@ -44,7 +44,7 @@ int	parent_process(int prev_pipe_read, int *fd)
 	return (-1);
 }
 
-void	execute_pipeline(t_cmd *cdm_list, char **env_vars)
+void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 {
 	t_cmd	*cmd;
 	int		fd[2];
