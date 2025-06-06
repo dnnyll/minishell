@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/05 10:58:16 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/06 09:35:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include "tokens.h"
 # include "libft.h"
 # include "lexer.h"
-# include "parser.h"
 
 /*
 
