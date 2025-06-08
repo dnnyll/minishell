@@ -5,58 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 10:46:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/05 14:47:04 by daniefe2         ###   ########.fr       */
+/*   Created: 2025/06/06 10:33:26 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/06/06 13:47:17 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_nodes(t_token	*head)
+// Create and return a new command node
+static	t_command *create_new_command_node(void)
 {
-	t_token	*temp = head;	//“Give me the address of the first node in your token list, and I’ll walk through the list using the next pointers.”
-	
-	int	count_nodes = 0;
-	while (temp && temp->type != TOKEN_PIPE)
-	{
-		if (temp->type == TOKEN_WORD)
-			count_nodes++;
-		else if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT)
-			temp = temp->next;
-	}
-	return (count_nodes);
-}
+	t_command *command;
 
-char	**alloc_argv(char **argv, int size)
-{
-	argv = malloc(sizeof(char *) * (size + 1));
-	if (!argv)
+	command = malloc(sizeof(t_command));
+	if (!command)
 		return (NULL);
-	return (argv);
-}
-void	**argument_fill(char **argv, t_token *head) 
-{
-	t_token *temp = head;
-	int		i = 0;
-	while (temp && temp->type != TOKEN_PIPE)
-	{
-		if (temp->type == TOKEN_WORD)
-		{
-			argv[i] = ft_strdup(temp->value);	//	we allocate a copy of a string
-			i++;
-		}
-		else if (temp->type == TOKEN_REDIR_IN || temp->type == TOKEN_REDIR_OUT)
-		{
-			temp = temp->next;
-		}
-	}
-	argv[i] == NULL;
+	command->argv = NULL;
+	command->redir_in = NULL;
+	command->redir_out = NULL;
+	command->next = NULL;
+	return (command);
 }
 
-// void	argument_collector(t_token result, char **argv)
-// {
-	// t_token *temp = ?
-	// int	size = count_nodes(t_token	result);
-// 	alloc_argv(argv, size);
-// 	argument_fill(argv, t_token result)
-// }
+// Parse a full list of tokens into a linked list of commands
+
+t_command	*parse_tokens(t_token *token_list)
+{
+	t_command	*command_list = NULL;
+	t_command	*last_command = NULL;
+	t_token *current = token_list;
+
+	while (current)
+	{
+		// Create a new command node
+		t_command	*command = create_new_command_node();
+		if (!command)
+			return (NULL);
+		// Parse arguments (e.g. command name + args) from this segment
+		command->argv = argument_collect(current);
+		// Detect redirections and attach to cmd->redir_in / cmd->redir_out
+		detect_redirections(current, command);
+		// Append to the command list
+		if (!command_list)
+			command_list = command;
+		else
+			last_command->next = command;
+		last_command = command;
+		// Move current to the next command segment after a PIPE
+		while (current && current->type != PIPE)
+			current = current->next;
+		if (current && current->type == PIPE)
+			current = current->next;
+	}
+	return (command_list);
+}

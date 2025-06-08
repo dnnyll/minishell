@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/05 10:58:16 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/08 14:44:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,17 @@
 # include "utils/utils.h"
 */
 
+typedef	struct s_data
+{
+	
+}t_data;
 
 void print_tokens(t_token *tokens);
-void	free_tokens(t_token *tokens);
+void	print_commands(t_command *cmd);
+void print_redirections(t_redirect *redir, const char *label);
+const char *token_type_str(t_token_type type);
+const char *quote_type_str(t_quote_type quote);
+
 
 
 

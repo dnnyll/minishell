@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:57:58 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:24:11 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:22:54 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_token_result	extract_quoted(const char *input, int i)
 	if (!token_value)
 		return ((t_token_result){NULL, i});
 
-	token = create_token(token_value, TOKEN_WORD);	// Create token object
+	token = create_token(token_value, WORD);	// Create token object
 	free (token_value);								// Free temporary buffer after use
 
 	if (!token)

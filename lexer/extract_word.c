@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:32:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:37:40 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:22:45 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token_result	extract_word(const char *input, int i)
 	// Copy the word from input into token->value
 	ft_strlcpy(result.token->value, input + i, len + 1);
 	// Set token fields
-	result.token->type = TOKEN_WORD;
+	result.token->type = WORD;
 	result.token->quote = NO_QUOTE;					// It's a plain word, not quoted
 	result.token->next = NULL;
 	// Update index to the position after the word
