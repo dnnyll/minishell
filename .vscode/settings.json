@@ -3,6 +3,7 @@
 		"minishell.h": "c",
 		"type_traits": "c",
 		"compare": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"parser.h": "c"
 	}
 }

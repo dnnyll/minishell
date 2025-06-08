@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/05 10:34:08 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:25:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define LEXER_H
 
 # include "minishell.h"
+
+// typedef	struct s_data
+// {
+// 	t_token	*token_head;
+// 	t_command *cmd_head;
+// }	t_data;
 
 typedef struct s_token_result
 {
@@ -41,6 +47,6 @@ int	ft_isspace(int c);
 int	is_quote(char c);
 int	is_operator_start(char c);
 t_token_result	extract_token(const char *input, int i);
-t_token	*lexer(const char *input);
+void	*lexer(t_data *data, const char *input);
 
 #endif

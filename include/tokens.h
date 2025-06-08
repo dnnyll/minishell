@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/08 14:21:47 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:01:39 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ typedef struct s_token
 
 // data:
 
-typedef struct s_data
-{
-	t_token		tokens;
-}				t_data;
+// typedef struct s_data
+// {
+// 	t_token		tokens;
+// }				t_data;
 
 //	tokens
 void	add_token(t_token **list, t_token *new_token);

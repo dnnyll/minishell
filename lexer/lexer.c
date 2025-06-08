@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:35:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:08:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ t_token_result	extract_token(const char *input, int i)
 }
 
 //	Purpose: Main lexer function: loops through the input and builds a list of tokens.
-t_token	*lexer(const char *input)
+void	*lexer(t_data *data, const char *input)
 {
-	t_token	*list = NULL;
+	data->token_head = NULL;
 	int		i = 0;
 
 	while (input[i])
@@ -61,15 +61,14 @@ t_token	*lexer(const char *input)
 
 		if (result.new_index == -1)							// Syntax error occurred (e.g., unmatched quote)
 		{
-			free_token_list(list);
+			free_token_list(data->token_head);
 			return (NULL);									// Abort and clean up
 		}
 
 		if (result.token)
-			add_token(&list, result.token);					// Add token to the list
+			add_token(&data->token_head, result.token);		// Add token to the list
 
 		i = result.new_index;								// Move index past the token
 	}
-	return (list);											// Return full list of tokens
+	return (NULL);
 }
-

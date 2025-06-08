@@ -6,12 +6,13 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/06 13:41:55 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/08 15:44:17 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// Frees a linked list of redirection structs
 static void	free_redirects(t_redirect *redir)
 {
 	t_redirect *next;
@@ -20,15 +21,15 @@ static void	free_redirects(t_redirect *redir)
 	{
 		next = redir->next;
 		free(redir->file);
-		redir->file = NULL;
 		free(redir);
 		redir = next;
 	}
 }
 
-
-static void	free_tokens(t_token *token)
+// Frees all tokens from data->token_head
+void	free_tokens(t_data *data)
 {
+	t_token	*token = data->token_head;
 	t_token	*next;
 
 	while (token)
@@ -38,10 +39,13 @@ static void	free_tokens(t_token *token)
 		free(token);
 		token = next;
 	}
+	data->token_head = NULL; // Clear reference in data
 }
-// Free a linked list of command structs and all their dynamic fields
-static void	free_commands(t_command *cmd)
+
+// Frees all commands from data->cmd_head
+void	free_commands(t_data *data)
 {
+	t_command *cmd = data->command_head;
 	t_command *next;
 	int i;
 
@@ -49,27 +53,21 @@ static void	free_commands(t_command *cmd)
 	{
 		next = cmd->next;
 
-		// Free each string in argv array if it exists
-		i = 0;
-		while (cmd->argv && cmd->argv[i])
+		if (cmd->argv)
 		{
-			free(cmd->argv[i]); // Assumes each string was ft_strdup'ed
-			i++;
+			i = 0;
+			while (cmd->argv[i])
+				free(cmd->argv[i++]);
+			free(cmd->argv);
 		}
-		free(cmd->argv); // Free the argv array itself
 
-		// Free input redirections list
 		free_redirects(cmd->redir_in);
-
-		// Free output redirections list
 		free_redirects(cmd->redir_out);
 
-		// Free the command struct
 		free(cmd);
-
-		// Move to next command in the pipeline
 		cmd = next;
 	}
+	data->command_head = NULL; // Clear reference in data
 }
 
 
@@ -100,6 +98,7 @@ int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+	t_data	data = init_data();	
 	char	*input_line;
 
 	while (1)
@@ -116,12 +115,13 @@ int	main(int argc, char **argv)
 			continue;
 		}
 		add_history(input_line);				//	adds action to history
-		t_token *tokens = lexer(input_line);	//	separates words into tokens
-		t_command *cmds = parse_tokens(tokens);
-		print_commands(cmds);
-		free_commands(cmds);
-		print_tokens(tokens);					//	prints tokens types
-		free_tokens(tokens);					//	frees token list
+		t_token *tokens = lexer(&data, input_line);
+	//	separates words into tokens
+		parse_tokens(tokens);
+		print_commands(&data);
+		// free_commands(&data);
+		print_tokens(&data);					//	prints tokens types
+		free_tokens(&data);					//	frees token list
 		free(input_line);						//	frees input line
 	}
 	clear_history();							//	frees history list
