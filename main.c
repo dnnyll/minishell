@@ -6,11 +6,49 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 10:40:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/31 10:27:51 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+static const char *token_type_str(t_token_type type)
+{
+	if (type == TOKEN_WORD) return "WORD";
+	if (type == TOKEN_PIPE) return "PIPE";
+	if (type == TOKEN_REDIR_IN) return "REDIR_IN";
+	if (type == TOKEN_REDIR_OUT) return "REDIR_OUT";
+	if (type == TOKEN_HEREDOC) return "HEREDOC";
+	if (type == TOKEN_APPEND) return "APPEND";
+	if (type == TOKEN_EOF) return "EOF";
+	if (type == TOKEN_ERROR) return "ERROR";
+	if (type == TOKEN_ENV) return "ENV";
+	return "UNKNOWN";
+}
+
+static const char *quote_type_str(t_quote_type quote)
+{
+	if (quote == NO_QUOTE) return "None";
+	if (quote == SINGLE_QUOTE) return "Single";
+	if (quote == DOUBLE_QUOTE) return "Double";
+	return "Unknown";
+}
+
+void print_tokens(t_token *tokens)
+{
+	printf("\n--- Token List ---\n");
+	while (tokens)
+	{
+		printf("Value: %-20s | Type: %-10s | Quote: %s\n",
+			tokens->value,
+			token_type_str(tokens->type),
+			quote_type_str(tokens->quote));
+		tokens = tokens->next;
+	}
+	printf("-------------------\n\n");
+}
+
 
 void	free_tokens(t_token *tokens)
 {
@@ -25,15 +63,6 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-void print_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		printf("Token: %-15s | Type: %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
-	}
-}
-
 int	main(int argc, char **argv)
 {
 	(void)argc;
@@ -42,7 +71,6 @@ int	main(int argc, char **argv)
 
 	while (1)
 	{
-		
 		input_line = readline(PROMPT);			//	displays prompt
 		if (input_line == NULL)					//	trigers when ctrl + D is used
 		{

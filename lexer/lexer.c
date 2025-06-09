@@ -6,110 +6,70 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 08:13:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:35:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-raw input_line (e.g. echo "hello" > out.txt)
-    ↓
-[1] Skip whitespace
-[2] Detect quotes and extract grouped words
-[3] Detect operators (|, <, >, <<, >>)
-[4] Extract normal words (echo, out.txt, etc.)
-[5] Create a token (value + type)
-[6] Add token to linked list
-[7] Return linked list
-*/
-
 #include "minishell.h"
 
+//	Purpose: Checks if a character is a whitespace (tabs, spaces, etc.).
 int	ft_isspace(int c)
 {
-	if ((c >= 7 && c <= 13) || (c == 32))
+	if ((c >= 7 && c <= 13) || (c == 32))	// Matches tabs, newlines, space
 		return (1);
 	return (0);
 }
 
-void	add_token(t_token **list, t_token *new_token)
+//	Purpose: Checks if the character is a quote (' or ").
+int	is_quote(char c)
 {
-	t_token	*current;
-/*
-┌────────────┐          ┌───────────────────────────┐
-│ t_token    │          │ t_token                   │
-│ *current   ├───────>  │ value: "echo"             │
-│            │          │ type: WORD                │
-│            │          │ next: pointer to next...  │
-└────────────┘          └───────────────────────────┘
-*/
-	if (!list || !new_token)
-		return ;
-	if (*list == NULL)
-	{
-		*list = new_token;
-		return ;
-	}
-	current = *list;
-	while (current->next)
-		current = current->next;
-	current->next = new_token;
+	return (c == '\'' || c == '"');
 }
 
-void	free_token_list(t_token *token)
+//	Purpose: Checks if the character is a shell operator (|, <, >, $).
+int	is_operator_start(char c)
 {
-	t_token	*next;
-
-	while (token)
-	{
-		next = token->next;
-		free(token->value);
-		free(token);
-		token = next;
-	}
+	return (c == '|' || c == '<' || c == '>' || c == '$');	// $ sign might not need to be here!
 }
 
+//	Purpose: Decides how to extract the token based on the current character.
+t_token_result	extract_token(const char *input, int i)
+{
+	if (is_quote(input[i]))						// Quoted string → special extract
+		return (extract_quoted(input, i));
+	else if (is_operator_start(input[i]))		// Shell operator → handled separately
+		return (extract_operator(input, i));
+	else										// Regular word
+		return (extract_word(input, i));
+}
+
+//	Purpose: Main lexer function: loops through the input and builds a list of tokens.
 t_token	*lexer(const char *input)
 {
-	t_token	*list;
-	int		i;
+	t_token	*list = NULL;
+	int		i = 0;
 
-	list = NULL;
-	i = 0;
 	while (input[i])
 	{
-		if (ft_isspace(input[i]))
+		while (input[i] && ft_isspace(input[i]))
+			i++;											// Skip all whitespace
+
+		if (input[i] == '\0')
+			break ;											// End of input
+
+		t_token_result result = extract_token(input, i);	// Extract next token
+
+		if (result.new_index == -1)							// Syntax error occurred (e.g., unmatched quote)
 		{
-			i++;
-			continue;
+			free_token_list(list);
+			return (NULL);									// Abort and clean up
 		}
-		// Only allow quote parsing if it's at the start of a token
-		if ((i == 0 || ft_isspace(input[i - 1]) || \
-			get_operator_type(&input[i - 1]) != TOKEN_ERROR)
-			&& (input[i] == '\'' || input[i] == '"'))
-		{
-			t_token_result res = extract_quoted(input, i);
-			if (res.new_index == -1) // Unterminated quote
-			{
-				free_token_list(list);
-				return (NULL);
-			}
-			if (res.token)
-				add_token(&list, res.token);
-			i = res.new_index;
-			continue;
-		}
-		if (get_operator_type(&input[i]) != TOKEN_ERROR)
-		{
-			t_token_result res = extract_operator(input, i);
-			if (res.token)
-				add_token(&list, res.token);
-			i = res.new_index;
-			continue;
-		}
-		t_token_result res = extract_word(input, i);
-		if (res.token)
-			add_token(&list, res.token);
-		i = res.new_index;
+
+		if (result.token)
+			add_token(&list, result.token);					// Add token to the list
+
+		i = result.new_index;								// Move index past the token
 	}
-	return (list);
+	return (list);											// Return full list of tokens
 }
+

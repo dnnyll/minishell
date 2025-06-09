@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
+#    By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/26 13:59:43 by daniefe2          #+#    #+#              #
-#    Updated: 2025/05/27 07:44:59 by daniefe2         ###   ########.fr        #
+#    Updated: 2025/05/28 11:42:20 by daniefe2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBFT_A		:= $(LIBFT_DIR)/libft.a
 
 # === Rules ===
 
-all: $(LIBFT_A) $(NAME)
+all:	$(LIBFT_A) $(NAME)
 
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -39,10 +39,13 @@ clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -f $(OBJS)
 
-fclean: clean
+fclean:	clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
 re: fclean all
+
+leaks:	all
+	valgrind --leak-check=full --show-leak-kinds=definite --track-origins=yes --track-fds=yes ./minishell
 
 .PHONY: all clean fclean re

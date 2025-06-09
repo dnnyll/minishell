@@ -6,19 +6,23 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:32:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/27 07:27:52 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:37:40 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//	Purpose: Checks if the character is a shell operator (|, <, or >).
 int	is_operator_char(char c)
 {
+	// printf("is_operator_char\n");
 	return (c == '|' || c == '<' || c == '>');
 }
 
+//	Purpose: Calculates the length of a word until whitespace or an operator.
 int	get_word_length(const char *input)
 {
+	// Keep counting until we hit space or operator
 	int	len;
 	
 	len = 0;
@@ -26,35 +30,36 @@ int	get_word_length(const char *input)
 		len++;
 	return (len);
 }
-/*
-	Gets word length using get_word_length.
-	Allocates a t_token.
-	Allocates memory for the token's value (len + 1 for null-terminator).
-	Copies the word into the token using ft_strlcpy.
-	Sets the token type to TOKEN_WORD.
-	Sets the new_index to i + len (to continue scanning after this word).
-*/
+
+//	Purpose: Extracts a plain word (not quoted, not an operator) from the input.
 t_token_result	extract_word(const char *input, int i)
 {
-	t_token_result	res;
+	t_token_result	result;
 	int				len;
 
-	len = get_word_length(input + i);
-	res.token = malloc(sizeof(t_token));
-	if (!res.token)
+	len = get_word_length(input + i);				// Get word length starting from i
+	// Allocate memory for the token
+	result.token = malloc(sizeof(t_token));
+	if (!result.token)
 		return ((t_token_result){NULL, i});
-	res.token->value = malloc(len + 1);
-	if (!res.token->value)
+	// Allocate memory for the token's string value
+	result.token->value = malloc(len + 1);
+	if (!result.token->value)
 	{
-		free(res.token);
+		free(result.token);
 		return ((t_token_result){NULL, i});
 	}
-	ft_strlcpy(res.token->value, input + i, len + 1);
-	res.token->type = TOKEN_WORD;
-	res.token->next = NULL;
-	res.new_index = i + len;
-	return (res);
+	// Copy the word from input into token->value
+	ft_strlcpy(result.token->value, input + i, len + 1);
+	// Set token fields
+	result.token->type = TOKEN_WORD;
+	result.token->quote = NO_QUOTE;					// It's a plain word, not quoted
+	result.token->next = NULL;
+	// Update index to the position after the word
+	result.new_index = i + len;
+	return (result);
 }
+
 
 
 
