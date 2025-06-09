@@ -6,6 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:26:50 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/05 12:48:56 by mrosset          ###   ########.fr       */
 /*   Updated: 2025/06/05 11:56:45 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -16,7 +17,6 @@ int	ft_pipe(t_cmd *cmd, int *fd)
 {
 	fd[0] = -1;
 	fd[1] = -1;
-
 	if (cmd && cmd->next && cmd->next->type == PIPE)
 	{
 		if (pipe(fd) == -1)

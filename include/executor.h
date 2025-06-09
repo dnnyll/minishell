@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 11:52:44 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/05 12:49:56 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef enum e_type
 
 typedef struct s_cmd
 {
-	char			**args; // tab for cmds
-	char			*path; // path to executor
+	char			**args;
+	char			*path;
 	char			*value;
 	int				infile;
 	int				outfile;
