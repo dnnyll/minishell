@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/08 15:01:39 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 10:49:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ typedef enum e_quote_type
 
 typedef enum e_token_type
 {
-	WORD,					// general word or command name
+	WORD,					// general word or command name (before parsing)
 	CMD,					//	comands: echo, ls, etc
-	PIPE,					// |
-	REDIR_IN,				// <
-	REDIR_OUT,				// >
-	HEREDOC,				// <<
-	APPEND,					// >>
+	PIPE,					// The pipe character '|'
+	REDIR_IN,				// Input redirection: '<'
+	REDIR_OUT,				// Output redirection: '>'
+	APPEND,					// Append output: '>>'
+	HEREDOC,				// Heredoc input: '<<'
 	T_EOF,					// end of input (optional)
 	ERROR,					// for syntax errors or invalid tokens
 	ENV
@@ -37,13 +37,13 @@ typedef enum e_token_type
 //	contains information after lexer has been applied
 //	we will use this for the parsing part
 
-typedef struct s_token
-{
-	char			*value;		// actual string, e.g., "ls", "|", ">"
-	t_token_type	type; 		// type from the enum above
-	struct s_token	*next;		// pointer to the next token
-	t_quote_type	quote;
+typedef struct s_token {
+	char			*value;			// Actual text (e.g., "echo", "|", "file")
+	t_token_type	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
+	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
+	struct s_token	*next;			// Pointer to the next token node
 }	t_token;
+
 
 // data:
 

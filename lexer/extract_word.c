@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:32:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/06 11:22:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:28:32 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,22 @@ int	get_word_length(const char *input)
 }
 
 //	Purpose: Extracts a plain word (not quoted, not an operator) from the input.
-t_token_result	extract_word(const char *input, int i)
+t_lexer_result	extract_word(const char *input, int i)
 {
-	t_token_result	result;
+	t_lexer_result	result;
 	int				len;
 
 	len = get_word_length(input + i);				// Get word length starting from i
 	// Allocate memory for the token
 	result.token = malloc(sizeof(t_token));
 	if (!result.token)
-		return ((t_token_result){NULL, i});
+		return ((t_lexer_result){NULL, i});
 	// Allocate memory for the token's string value
 	result.token->value = malloc(len + 1);
 	if (!result.token->value)
 	{
 		free(result.token);
-		return ((t_token_result){NULL, i});
+		return ((t_lexer_result){NULL, i});
 	}
 	// Copy the word from input into token->value
 	ft_strlcpy(result.token->value, input + i, len + 1);
@@ -56,7 +56,7 @@ t_token_result	extract_word(const char *input, int i)
 	result.token->quote = NO_QUOTE;					// It's a plain word, not quoted
 	result.token->next = NULL;
 	// Update index to the position after the word
-	result.new_index = i + len;
+	result.index = i + len;
 	return (result);
 }
 

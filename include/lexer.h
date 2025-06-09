@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:07:18 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/08 15:25:13 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:37:43 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,39 @@
 
 # include "minishell.h"
 
-// typedef	struct s_data
-// {
-// 	t_token	*token_head;
-// 	t_command *cmd_head;
-// }	t_data;
-
-typedef struct s_token_result
+/*
+	helper struct that temporarily holds the result of a token extraction
+	to help the lexer keep track of where it is and what it just parsed.
+	
+	saves the extracted input strings directly to t_tokens struc in tokens.h
+	saves the index end position of every string.
+*/
+typedef struct s_lexer_result
 {
-	t_token	*token;
-	int		new_index;
-}	t_token_result;
+	t_token	*token;		//	the string is stored in tokens.h's structure
+	int		index;		//	the index position of the input string's end
+}	t_lexer_result;
 
-//	extract_word
+//	extract_word.c
 int				is_operator_char(char c);
 int				get_word_length(const char *input);
-t_token_result	extract_word(const char *input, int i);
+t_lexer_result	extract_word(const char *input, int i);
 
-//	extract_quoted
+//	extract_quoted.c
 int				get_quoted_length(const char *input, char quote_char);
 char			*extract_quoted_value(const char *input, int len);
-t_token_result	extract_quoted(const char *input, int i);
+t_lexer_result	extract_quoted(const char *input, int i);
 
-//	extract_operator
+//	extract_operator.c
 int				get_operator_length(t_token_type type);
 t_token_type	get_operator_type(const char *input);
-t_token_result	extract_operator(const char *input, int i);
+t_lexer_result	extract_operator(const char *input, int i);
 
-//	lexer
+//	lexer.c
 int	ft_isspace(int c);
 int	is_quote(char c);
 int	is_operator_start(char c);
-t_token_result	extract_token(const char *input, int i);
+t_lexer_result	extract_token(const char *input, int i);
 void	*lexer(t_data *data, const char *input);
 
 #endif
