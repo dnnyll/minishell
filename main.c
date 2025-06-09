@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 10:27:51 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:35:34 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 
 	while (1)
 	{
+		setup_parent_signals();					// shell signal handling
 		input_line = readline(PROMPT);			//	displays prompt
 		if (input_line == NULL)					//	trigers when ctrl + D is used
 		{
