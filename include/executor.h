@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 12:49:56 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/09 10:48:51 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,10 @@ char	*find_path_variable(char **envp);
 char	*try_paths(char **paths, char *cmd_name);
 char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
+
+//signals
+void	handle_sigint(int sig);
+void	setup_parent_signals(void);
+void	setup_child_signals(void);
 
 #endif

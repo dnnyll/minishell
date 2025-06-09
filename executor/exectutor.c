@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/09 10:00:49 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/09 10:52:17 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
 	char	*path;
 
 	edit_pipe_fd(cmd->infile, cmd->outfile, prev_pipe_read, fd);
+	setup_child_signals();
 	path = get_path(cmd->args[0], env_vars);
 	if (!path)
 	{
@@ -71,8 +72,9 @@ void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 
 /*
 ** child_process : prepare the redirection in/out and replace the actual
-	process with the command to execute, else display an error. And search
-	the complete path of the cmd to execute.vIf the cmd is NULL (or not found),
+	process with the command to execute, else display an error. Default
+	behaviors are restored for SIGINY and SIGQUIT signals. And search
+	the complete path of the cmd to execute. If the cmd is NULL (or not found),
 	display an error message on the error output and quit with the standard
 	code 127 (mean command not found). Stock the path in cmd to use it.
 ** parent_process : is called just after fork() to close old unsused fd.
