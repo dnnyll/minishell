@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:33:26 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/06 13:47:17 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 13:48:20 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,35 @@ static	t_command *create_new_command_node(void)
 
 // Parse a full list of tokens into a linked list of commands
 
-t_command	*parse_tokens(t_token *token_list)
+t_command *parse_tokens(t_token *token_list)
 {
-	t_command	*command_list = NULL;
-	t_command	*last_command = NULL;
+	t_command *command_list = NULL;
+	t_command *last_command = NULL;
 	t_token *current = token_list;
 
 	while (current)
 	{
-		// Create a new command node
-		t_command	*command = create_new_command_node();
-		if (!command)
+		t_command *cmd = create_new_command_node();
+		if (!cmd)
 			return (NULL);
-		// Parse arguments (e.g. command name + args) from this segment
-		command->argv = argument_collect(current);
-		// Detect redirections and attach to cmd->redir_in / cmd->redir_out
-		detect_redirections(current, command);
-		// Append to the command list
-		if (!command_list)
-			command_list = command;
+
+		cmd->argv = argument_collect(&current);
+		current = detect_redirections(current, cmd);
+
+		if (cmd->argv && cmd->argv[0]) // only keep valid commands
+		{
+			if (!command_list)
+				command_list = cmd;
+			else
+				last_command->next = cmd;
+			last_command = cmd;
+		}
 		else
-			last_command->next = command;
-		last_command = command;
-		// Move current to the next command segment after a PIPE
-		while (current && current->type != PIPE)
-			current = current->next;
+			free_command(cmd); // free unused command
+
 		if (current && current->type == PIPE)
 			current = current->next;
 	}
 	return (command_list);
 }
+

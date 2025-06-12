@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/08 15:41:49 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:58:16 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 t_data	init_data(void);
 
 //	printers.c
-void print_redirections(t_redirect *redir, const char *label);
+// void print_redirections(t_redirect *redir, const char *label);
 void print_commands(t_data *data);
 void print_tokens(t_data *data);
 

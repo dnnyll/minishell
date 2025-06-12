@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 10:49:41 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:36:56 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,6 @@ typedef struct s_token {
 	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
 	struct s_token	*next;			// Pointer to the next token node
 }	t_token;
-
-
-// data:
-
-// typedef struct s_data
-// {
-// 	t_token		tokens;
-// }				t_data;
 
 //	tokens
 void	add_token(t_token **list, t_token *new_token);

@@ -1,3 +1,104 @@
+=====================================================
+   General Parsing Logic
+=====================================================
+
+While there are tokens:
+    If this is the first token or after a pipe:
+        create new t_cmd
+        link it to the previous one (if any)
+
+    For each token type:
+        - WORD: add to argv
+        - REDIR_IN: set infile from next token
+        - REDIR_OUT: set outfile from next token, append = 0
+        - APPEND: set outfile from next token, append = 1
+        - HEREDOC: set heredoc_delim from next token
+        - PIPE: end current command (prepare to create a new one next loop)
+
+    Move to next token
+
+
+---------------------------------------- // ----------------------------------------
+
+
+⚠️ What to Watch Out For
+Missing argument after redirection (< with nothing after it).
+
+Pipe at the end of the input (echo hi | → syntax error).
+
+Two redirections without a WORD in between.
+
+Quoting is usually already handled by the lexer,
+so you shouldn’t need to track it again here unless you're expanding variables.
+
+____________________________________________________________________________________
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          MINISHELL PARSING CHECKLIST                         │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 1. COMMAND SEGMENTATION                                                      │
+│   • Split the token list using PIPE ('|') tokens.                            │
+│   • For each segment (between pipes), create a new `t_cmd` structure.        │
+│   • Store these in a linked list or array (e.g., `t_data->cmd_list`).        │
+│                                                                              │
+│ 2. ARGUMENT VECTOR (argv)                                                    │
+│   • For each `t_cmd`, collect all `WORD` tokens not part of redirections.    │
+│   • These tokens form the `char **argv` array:                               │
+│       - argv[0] = command name (e.g., "echo")                                │
+│       - argv[1..n] = arguments (e.g., "hello", "world")                      │
+│   • Must be NULL-terminated for execve compatibility.                        │
+│                                                                              │
+│ 3. REDIRECTION HANDLING                                                      │
+│   • Detect and process these token pairs:                                    │
+│       - '<'  (REDIR_IN)   → set `cmd->infile`                                │
+│       - '>'  (REDIR_OUT)  → set `cmd->outfile` (append = 0)                  │
+│       - '>>' (APPEND)     → set `cmd->outfile` (append = 1)                  │
+│       - '<<' (HEREDOC)    → set `cmd->heredoc_delim`                         │
+│   • Validate that each redirection is followed by a `WORD`.                  │
+│   • Do not include these WORDs in argv.                                      │
+│                                                                              │
+│ 4. SYNTAX VALIDATION                                                         │
+│   • Detect common syntax errors:                                             │
+│       - Pipe at start or end (e.g., `| ls`, `ls |`)                          │
+│       - Consecutive pipes (e.g., `ls || grep`)                               │
+│       - Redirection with no following argument (e.g., `cat <`)               │
+│       - Missing command between pipes or redirs                              │
+│   • If any error is found, stop parsing and print an error message.          │
+│                                                                              │
+│ 5. COMMAND LINKAGE                                                           │
+│   • All `t_cmd` nodes should be chained (linked list or array).              │
+│   • Link them in order of appearance.                                        │
+│   • Needed for later execution (e.g., setting up pipes).                     │
+│                                                                              │
+│ 6. PIPE COUNT (OPTIONAL)                                                     │
+│   • Count the number of PIPE tokens during parsing.                          │
+│   • Useful for setting up pipes between commands later.                      │
+│                                                                              │
+│ 7. QUOTE CONTEXT (FROM LEXER)                                                │
+│   • Each token carries a `t_quote_type`.                                     │
+│   • Parsing doesn’t need to act on this, but expansion may use it.           │
+│                                                                              │
+│ 8. ENV VARIABLE TAGGING (OPTIONAL)                                           │
+│   • If lexer marks `$VAR` as ENV token, parser can keep that info.           │
+│   • Expansion happens after parsing.                                         │
+│                                                                              │
+│ 9. BUILTIN COMMAND DETECTION (OPTIONAL)                                      │
+│   • If `argv[0]` is a builtin (e.g., "cd", "echo"), mark it as such.         │
+│   • Store a `bool is_builtin` flag in `t_cmd`.                               │
+│                                                                              │
+│ 10. DEFAULT FD SETUP (FOR LATER EXECUTION)                                   │
+│   • Initialize:                                                              │
+│       - `cmd->fd_in = STDIN_FILENO`                                          │
+│       - `cmd->fd_out = STDOUT_FILENO`                                        │
+│   • These may later be changed by redirections or pipe setup.                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+____________________________________________________________________________________
+
+
+
+
 
 
 
