@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 14:43:36 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:18:09 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,37 @@ typedef struct s_command
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
 }	t_command;
 
+/*
+	information concerning: command
+	
+	Purpose: stores the arguments that will be passed to execve().
+
+	For: echo hello
+
+	argv = ["echo", "hello", NULL]
+
+	Without this, you cannot run the command.
+	The execve() system call literally receives argv as input.
+
+	That's why you collect tokens from `segment_start` to the PIPE position.
+	Everything before the pipe belongs to this command.
+*/
 
 //	parse_commands
 void	parse_commands(t_data *data, t_token *tokens);
+t_command	*new_command(void);
+void	add_command_to_data(t_command **head, t_command *new_command);
+void	parse_commands(t_data *data, t_token *tokens);
+
+//	parser_fill_commands
+void free_commands(t_data *data);
+int	count_arguments(t_token *start, t_token *end);
+char **allocate_command_argv(int argc);
+void	fill_argv(t_command *command, t_token *start, t_token *end);
+void fill_command_segment(t_command *command, t_token *start, t_token *end);
+
+//	parser_redirect_handling
+int		is_redirection(int type);
+void	handle_redirections(t_command *command, t_token *start, t_token *end);
 
 #endif

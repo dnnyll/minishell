@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 11:29:01 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:23:04 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ void	*lexer(t_data *data, const char *input)
 	{
 		while (input[i] && ft_isspace(input[i]))
 			i++;											// Skip all whitespace
-
 		if (input[i] == '\0')
 			break ;											// End of input
-
 		t_lexer_result result = extract_token(input, i);	// Extract next token
-
 		if (result.index == -1)							// Syntax error occurred (e.g., unmatched quote)
 		{
 			free_token_list(data->token_head);
@@ -70,5 +67,5 @@ void	*lexer(t_data *data, const char *input)
 
 		i = result.index;								// Move index past the token
 	}
-	return (NULL);
+	return (data->token_head);
 }

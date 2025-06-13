@@ -6,25 +6,25 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 12:32:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:51:10 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Frees a linked list of redirection structs
-static void	free_redirects(t_redirect *redir)
-{
-	t_redirect *next;
+// static void	free_redirects(t_redirect *redir)
+// {
+// 	t_redirect *next;
 
-	while (redir)
-	{
-		next = redir->next;
-		free(redir->file);
-		free(redir);
-		redir = next;
-	}
-}
+// 	while (redir)
+// 	{
+// 		next = redir->next;
+// 		free(redir->file);
+// 		free(redir);
+// 		redir = next;
+// 	}
+// }
 
 // Frees all tokens from data->token_head
 void	free_tokens(t_data *data)
@@ -43,34 +43,32 @@ void	free_tokens(t_data *data)
 }
 
 // Frees all commands from data->cmd_head
-void	free_commands(t_data *data)
-{
-	t_command *cmd = data->command_head;
-	t_command *next;
-	int i;
+// void	free_commands(t_data *data)
+// {
+// 	t_command *cmd = data->command_head;
+// 	t_command *next;
+// 	int i;
 
-	while (cmd)
-	{
-		next = cmd->next;
+// 	while (cmd)
+// 	{
+// 		next = cmd->next;
 
-		if (cmd->argv)
-		{
-			i = 0;
-			while (cmd->argv[i])
-				free(cmd->argv[i++]);
-			free(cmd->argv);
-		}
+// 		if (cmd->argv)
+// 		{
+// 			i = 0;
+// 			while (cmd->argv[i])
+// 				free(cmd->argv[i++]);
+// 			free(cmd->argv);
+// 		}
 
-		free_redirects(cmd->redir_in);
-		free_redirects(cmd->redir_out);
+// 		free_redirects(cmd->redir_in);
+// 		free_redirects(cmd->redir_out);
 
-		free(cmd);
-		cmd = next;
-	}
-	data->command_head = NULL; // Clear reference in data
-}
-
-
+// 		free(cmd);
+// 		cmd = next;
+// 	}
+// 	data->command_head = NULL; // Clear reference in data
+// }
 
 const char *token_type_str(t_token_type type)
 {
@@ -116,12 +114,34 @@ int	main(int argc, char **argv)
 		}
 		add_history(input_line);				//	adds action to history
 		t_token *tokens = lexer(&data, input_line);
+
+		
+
+		// simple check to verify lexer output
+		if (!tokens)
+			printf("Lexer returned NULL tokens\n");
+		else
+		{
+			printf("Lexer returned tokens:\n");
+			t_token *tmp = tokens;
+			while (tmp)
+			{
+				printf("Value: %-20s | Type: %d | Quote: %d\n", tmp->value, tmp->type, tmp->quote);
+				tmp = tmp->next;
+			}
+		}
+
+
+		
 	//	separates words into tokens
-		parse_tokens(tokens);
-		print_commands(&data);
+		parse_commands(&data, tokens);
+		debug_parser_output(&data);
+		// print_commands(data.command_head);
+		// print_commands(&data);
 		// free_commands(&data);
-		print_tokens(&data);					//	prints tokens types
-		free_tokens(&data);					//	frees token list
+		// print_tokens(&data);					//	prints tokens types
+		free_tokens(&data);						//	frees token list
+		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line
 	}
 	clear_history();							//	frees history list
