@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:22:27 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 14:54:43 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:08:51 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ typedef struct s_command t_command;
 
 typedef	struct	s_data
 {
-	t_token		*token_head;	// lexer output (head of list of tokens)
-	t_command	*command_head;	// parser output (head of list of commands)
+	t_token		*token_head;		// lexer output (head of list of tokens)
+	t_command	*command_head;		// parser output (head of list of commands)
+	int			pipe_count;			// new
+	int			command_count;		// new
 }	t_data;
 
 #endif

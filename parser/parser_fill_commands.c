@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 11:08:41 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 15:17:22 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:21:58 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,9 @@ void	fill_command_segment(t_command *command, t_token *start, t_token *end)
 	int	argc;
 	
 	argc = count_arguments(start, end);
-	printf("1\n");
 	command->argv = allocate_command_argv(argc);
-	printf("2\n");
 	if (!command->argv)
-		return;									// handle malloc failure
+		return(perror("Error: malloc command->argv @ fill_command_segment"));	// needs handle malloc failure
 	fill_argv(command, start, end);
-	printf("3\n");
 	handle_redirections(command, start, end);
-	printf("4\n");
 }

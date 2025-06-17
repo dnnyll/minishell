@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 14:51:10 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:15:48 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,13 @@ int	main(int argc, char **argv)
 		
 	//	separates words into tokens
 		parse_commands(&data, tokens);
+		handle_pipes(&data, tokens, NULL);
 		debug_parser_output(&data);
 		// print_commands(data.command_head);
 		// print_commands(&data);
 		// free_commands(&data);
 		// print_tokens(&data);					//	prints tokens types
+		printf("pipe count = %d\n", data.pipe_count);
 		free_tokens(&data);						//	frees token list
 		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:30:10 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 15:03:13 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:13:16 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ void print_commands(t_command *cmd)
     int i;
     int cmd_num = 1;
 
-    printf("____________Parsed Commands____________\n");
+    printf("\n\033[1;34m____________ Parsed Commands ____________\033[0m\n");
 
     while (cmd)
     {
-        printf("---- Command %d ----\n", cmd_num);
+        printf("\n\033[1;32m---- Command %d ----\033[0m\n", cmd_num);
 
         // Print argv
         printf("argv:\n");
@@ -138,7 +138,7 @@ void print_commands(t_command *cmd)
             i = 0;
             while (cmd->argv[i])
             {
-                printf("  argv[%d]: %s\n", i, cmd->argv[i]);
+                printf("  argv[%d]: \"%s\"\n", i, cmd->argv[i]);
                 i++;
             }
         }
@@ -146,24 +146,30 @@ void print_commands(t_command *cmd)
             printf("  (null)\n");
 
         // Print redirections
-        printf("infile: %s\n", cmd->infile ? cmd->infile : "(none)");
-        printf("outfile: %s\n", cmd->outfile ? cmd->outfile : "(none)");
-        printf("append: %d\n", cmd->append);
+        printf("infile:        %s\n", cmd->infile ? cmd->infile : "(none)");
+        printf("outfile:       %s\n", cmd->outfile ? cmd->outfile : "(none)");
+        printf("append:        %s\n", cmd->append ? "true" : "false");
         printf("heredoc_delim: %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "(none)");
 
-        // Print file descriptors
-        printf("fd_in: %d\n", cmd->fd_in);
-        printf("fd_out: %d\n", cmd->fd_out);
+        // Print file descriptors (highlight if not default)
+        printf("fd_in:         %d %s\n", cmd->fd_in,
+            (cmd->fd_in != STDIN_FILENO) ? "(!= STDIN)" : "");
+        printf("fd_out:        %d %s\n", cmd->fd_out,
+            (cmd->fd_out != STDOUT_FILENO) ? "(!= STDOUT)" : "");
 
         // Print builtin flag
-        printf("is_builtin: %d\n", cmd->is_builtin);
+        printf("is_builtin:    %s\n", cmd->is_builtin ? "yes" : "no");
 
-        // Next command
+        // Pipe connection visualization
+        if (cmd->next)
+            printf("     |\n     V (pipe)\n");
+
         cmd = cmd->next;
         cmd_num++;
     }
 
-    printf("=======================================\n");
+    printf("\n\033[1;34m=========================================\033[0m\n\n");
 }
+
 
 

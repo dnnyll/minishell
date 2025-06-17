@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 15:18:09 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:16:51 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ void fill_command_segment(t_command *command, t_token *start, t_token *end);
 //	parser_redirect_handling
 int		is_redirection(int type);
 void	handle_redirections(t_command *command, t_token *start, t_token *end);
+
+//	parser_pipes_handling
+void	handle_pipes(t_data *data, t_token *start, t_token *end);
 
 #endif
