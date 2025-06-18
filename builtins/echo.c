@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:15 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 11:44:24 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/18 12:50:14 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ int	echo_builtin(char **args)
 	following args with spaces, only adds a "\n" if no args are found.
 	Iterates thougt the args starting from argv[1], as long as if founds
 	valid -n flags, it disables line break printing with newline == true.
+	Else it prints a '\n'.
 */
