@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:19:49 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 11:15:17 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/18 13:54:22 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <string.h>
-# include <stdbool.h>
 # include "tokens.h"
 # include "../lib/Libft/libft.h"
 # include "lexer.h"
