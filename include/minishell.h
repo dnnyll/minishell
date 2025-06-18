@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:19:49 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/05 10:19:51 by mrosset          ###   ########.fr       */
-=======
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/06/18 13:56:09 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/06/13 14:44:25 by daniefe2         ###   ########.fr       */
->>>>>>> feature-daniefe2-parser
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +27,13 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <string.h>
+# include <stdbool.h>
 # include "data.h"
 # include "tokens.h"
 # include "../lib/Libft/libft.h"
 # include "lexer.h"
-<<<<<<< HEAD
 # include "executor.h"
-=======
 # include "parser.h"
->>>>>>> feature-daniefe2-parser
 
 /*
 
