@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 18:15:48 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:53:03 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,10 @@ int	main(int argc, char **argv)
 		add_history(input_line);				//	adds action to history
 		t_token *tokens = lexer(&data, input_line);
 
-		
+		//	parsing
+		//	executing
+		// Update exit_status from the result of this execution
+		//	- data->exit_status = get_exit_status();	this is necessary for the function expand_variable
 
 		// simple check to verify lexer output
 		if (!tokens)

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 11:25:11 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 17:56:16 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:45:30 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	is_redirection(int type)
 	before calling execve().
 	it loops from start to end tokens, only handling redirections.
 */
+
 void	handle_redirections(t_command *command, t_token *start, t_token *end)
 {
 	printf("handle_redirections\n");
