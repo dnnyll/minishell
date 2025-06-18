@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:35:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:23:04 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_operator_start(char c)
 }
 
 //	Purpose: Decides how to extract the token based on the current character.
-t_token_result	extract_token(const char *input, int i)
+t_lexer_result	extract_token(const char *input, int i)
 {
 	if (is_quote(input[i]))						// Quoted string → special extract
 		return (extract_quoted(input, i));
@@ -44,32 +44,28 @@ t_token_result	extract_token(const char *input, int i)
 }
 
 //	Purpose: Main lexer function: loops through the input and builds a list of tokens.
-t_token	*lexer(const char *input)
+void	*lexer(t_data *data, const char *input)
 {
-	t_token	*list = NULL;
+	data->token_head = NULL;
 	int		i = 0;
 
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
 			i++;											// Skip all whitespace
-
 		if (input[i] == '\0')
 			break ;											// End of input
-
-		t_token_result result = extract_token(input, i);	// Extract next token
-
-		if (result.new_index == -1)							// Syntax error occurred (e.g., unmatched quote)
+		t_lexer_result result = extract_token(input, i);	// Extract next token
+		if (result.index == -1)							// Syntax error occurred (e.g., unmatched quote)
 		{
-			free_token_list(list);
+			free_token_list(data->token_head);
 			return (NULL);									// Abort and clean up
 		}
 
 		if (result.token)
-			add_token(&list, result.token);					// Add token to the list
+			add_token(&data->token_head, result.token);		// Add token to the list
 
-		i = result.new_index;								// Move index past the token
+		i = result.index;								// Move index past the token
 	}
-	return (list);											// Return full list of tokens
+	return (data->token_head);
 }
-

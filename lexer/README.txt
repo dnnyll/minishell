@@ -1,3 +1,154 @@
+=====================================================
+   Diagram: Token Creation Flow with t_token_result
+=====================================================
+
+Concerns: structure in lexer.h:
+
+/*
+	helper struct that temporarily holds the result of a token extraction
+	to help the lexer keep track of where it is and what it just parsed.
+	
+	saves the extracted input strings directly to t_tokens struc in tokens.h
+	saves the index end position of every string.
+*/
+
+
+typedef struct s_lexer_result
+{
+	t_token	*token;		//	the string is stored in tokens.h's structure
+	int		index;		//	the index position of the input string's end
+}	t_lexer_result;
+
+
+Example:
+
+[Input string]:  "echo hello > file"
+
+           [extract_word()]
+             ┌────────────┐
+ index = 0 → │ echo       │
+             └────────────┘
+     returns:
+     t_token_result
+     {
+         token: [t_token* ("echo")],
+         index: 4
+     }
+
+          [extract_word()]
+             ┌────────────┐
+ index = 5 → │ hello      │
+             └────────────┘
+     returns:
+     t_token_result
+     {
+         token: [t_token* ("hello")],
+         index: 10
+     }
+
+      [extract_operator()]
+             ┌────────────┐
+ index = 11 →│ >          │
+             └────────────┘
+     returns:
+     t_token_result
+     {
+         token: [t_token* (REDIR_OUT)],
+         index: 12
+     }
+
+
+---------------------------------------- // ----------------------------------------
+
+
+Example FULL of lexer flow:
+
++-------------------------------+
+|           main()              |
++-------------------------------+
+|                               |
+| input_line = readline();      |
+| lexer(&data, input_line);     |
++-------------------------------+
+                |
+                v
++-------------------------------+
+|           lexer()             |
++-------------------------------+
+| index = 0;                    |
+| while (input_line[index])     |
+| {                             |
+|   result = extract_word(...); |       <-- returns t_lexer_result
+|   token  = result.token;      |       <-- comes from inside result
+|   index  = result.index;      |       <-- also from inside result
+|   append_token(&data, token); |       <-- add token to linked list
+| }                             |
++-------------------------------+
+                |
+                v
++-------------------------------+
+|        extract_word()         |
++-------------------------------+
+| Scans input_line[index]       |
+| Allocates new t_token         |
+|   -> value = strdup(...)      |
+|   -> type  = WORD             |
+|   -> quote = NO_QUOTE         |
+|   -> next  = NULL             |
+| Returns:                      |
+|   t_lexer_result              |
+|   {                           |
+|     .token = [t_token*],      | <-- the new token
+|     .index = new_index        | <-- where lexer should continue
+|   }                           |
++-------------------------------+
+
+After extract_word() returns:
+               |
+               v
++-------------------------------+
+|      result: t_lexer_result   |
++-------------------------------+
+| .token  ---> +-------------+  |
+|              |  t_token    |  |
+|              +-------------+  |
+|              | value: "ls" |  |
+|              | type : WORD |  |
+|              | quote: NONE |  |
+|              | next : NULL |--+  <-- linked later in list
+|              +-------------+  |
+|                               |
+| .index = 2 (next char pos)    |
++-------------------------------+
+
+Then used in lexer():
+               |
+               v
++-------------------------------+
+|       append_token()          |
++-------------------------------+
+| If data.token_head == NULL:   |
+|   data.token_head = token;    |
+| Else:                         |
+|   Traverse to last .next      |
+|   and append new token        |
++-------------------------------+
+
+Final result in memory:
++------------+     +-------------+     +-------------+
+|  "echo"    | --> |  "hello"    | --> |     "|"     |
++------------+     +-------------+     +-------------+
+     ^
+     |
+data.token_head
+
+____________________________________________________________________________________
+
+
+=====================================================
+   Flow of lexer.c
+=====================================================
+
 input_line (raw string)
       ↓
 [skip whitespace]
@@ -53,6 +204,8 @@ input_line (raw string)
 7. [Return linked list of tokens]
    - Return the head of the token list to the parser.
    - Ensure cleanup in case of lexer error (free list).
+
+_____________________________________________________________________________________
 
 
 What is the lexer supposed to handle:

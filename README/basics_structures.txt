@@ -6,7 +6,7 @@
 #    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/26 10:26:24 by daniefe2          #+#    #+#              #
-#    Updated: 2025/05/26 10:26:26 by daniefe2         ###   ########.fr        #
+#    Updated: 2025/06/05 14:34:29 by daniefe2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,6 @@ void add_back(t_node **head, t_node *new_node)
     current->next = new_node;        // Append the new node
     new_node->next = NULL;
 }
-
 
 /*************************************************
 *          DYNAMIC ALLOCATION EXAMPLE            *
