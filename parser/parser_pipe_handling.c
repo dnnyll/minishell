@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 15:20:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 18:18:31 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:08:48 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ Summary of `t_command` linked list structure after parsing pipes:
 
 */
 
-//	WTF?
+//	WTF? standby, it's perhaps too early to do pipes yet - i am not aware of everything I need in order to get this done
 
 void	handle_pipes(t_data *data, t_token *start, t_token *end)
 {

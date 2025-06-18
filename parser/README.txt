@@ -1,3 +1,164 @@
+█████████████████████████████████████████████████████████████████████████████
+█                               PARSING CHECKLIST                           █
+█                "What the Parser Must Do Before Execution"                 █
+█████████████████████████████████████████████████████████████████████████████
+
+1. LEXING (Tokenization)
+   - Split the raw input string into lexical tokens.
+   - Delimiters: white space (outside quotes), redirection operators, pipes.
+   - Each token must be either:
+     - A word (command or argument)
+     - A redirection operator (`>`, `>>`, `<`, `<<`)
+     - A pipe (`|`)
+   - Whitespaces between tokens are separators unless inside quotes.
+   - Must maintain the original order of tokens for context-sensitive parsing.
+   - Edge case: consecutive operators like `>>>`, `<<>>` must trigger syntax errors.
+
+2. QUOTING RULES
+   - SINGLE QUOTES `'...'`
+     - Everything between quotes is literal.
+     - No variable expansion, no backslash interpretation.
+     - Must preserve all characters inside.
+   - DOUBLE QUOTES `"..."`:
+     - Preserve white space inside.
+     - Allow variable expansion inside.
+     - Escape characters (`\$`, `\"`, `\\`, `\n`) are recognized.
+     - No escape for most other characters.
+   - Unclosed quotes must raise a syntax error.
+   - Quotes **must not** be passed to `execve()` (they’re used to modify parsing, not part of args).
+
+3. VARIABLE EXPANSION ($)
+   - Detect variables starting with `$` outside single quotes.
+   - Recognize:
+     - `$VAR` → from the environment or internal export list.
+     - `$?` → exit status of the last executed command.
+     - `$0`, `$1`, `$_`, etc., are not required in 42 but worth understanding.
+     - `$$` → current PID (not required but bonus).
+   - Inside double quotes: expand.
+   - Inside single quotes: **no** expansion.
+   - Variables with invalid names (e.g., `$!`) expand to nothing.
+   - Must support variable expansion in heredocs unless quoted:
+     - `<<EOF` → expand
+     - `<<'EOF'` → don’t expand
+   - Variable expansion must occur *after* tokenization and quoting resolution, before building args.
+
+4. ESCAPING
+   - `\` escapes the next character (context-sensitive).
+     - Outside quotes: escapes any character (`\|`, `\$`, `\n`, etc.).
+     - Inside double quotes: only escapes `"`, `$`, `\`, and newline.
+     - Inside single quotes: no effect; backslashes are literal.
+   - Must remove escape characters during token construction, unless escaped themselves (e.g., `\\`).
+   - Escaping in the final arguments must reflect what bash would interpret (no extra backslashes).
+
+5. SYNTAX VALIDATION
+   - Unclosed quotes → syntax error.
+   - Unexpected tokens:
+     - `|` at start or end → error.
+     - Consecutive `||`, `|||`, or `><` → error.
+     - Redirections without a following word token.
+     - Heredoc with no delimiter → error.
+   - Cannot execute if syntax errors are detected.
+   - Must print Bash-like error messages: `minishell: syntax error near unexpected token '|'`.
+
+6. REDIRECTION HANDLING
+   - Detect redirection operators and associate them with the correct command.
+   - Parse the filename (or delimiter for heredoc) **after** redirection operator.
+   - Only one input `<` and one output `>` or `>>` allowed per command (overwriting previous ones).
+   - Special handling:
+     - `>>` → open in append mode.
+     - `<<` → heredoc:
+       - Read from stdin until delimiter line is found.
+       - If delimiter is unquoted → perform variable expansion.
+       - If delimiter is quoted → treat content literally.
+     - Redirection targets must not be operators or empty.
+   - Save the resolved filenames/delimiters in your command struct.
+
+7. COMMAND STRUCTURE CONSTRUCTION
+   - Group tokens between pipes into separate `t_command` structures.
+   - For each command:
+     - First token is typically the command name.
+     - Following tokens: arguments, redirections.
+   - Redirections are attached to the command, not treated as arguments.
+   - Create a doubly- or singly-linked list (or array) of commands in pipeline order.
+   - Each command node should contain:
+     - `char *cmd_name`
+     - `char **argv`
+     - `int is_builtin`
+     - `int infile_fd`, `int outfile_fd`
+     - `int heredoc_flag`
+     - And any other execution context
+
+8. PIPELINE MANAGEMENT
+   - Detect pipe characters and correctly split input into pipeline segments.
+   - Order matters:
+     - `cmd1 | cmd2 | cmd3` → cmd1 stdout goes to cmd2 stdin, cmd2 stdout goes to cmd3 stdin.
+   - The number of pipes = number of commands - 1.
+   - Each command in pipeline must be parsed independently but connected logically.
+   - Must ensure that heredoc or redirections only affect the command they belong to.
+
+9. ENVIRONMENT MANAGEMENT
+   - When parsing `export VAR=value`, split into key/value and update internal environment.
+   - When parsing `unset VAR`, remove key from internal env.
+   - Support `env` to print the internal environment.
+   - Variable expansion (`$VAR`) pulls from this structure.
+   - Must manage memory:
+     - No duplicates in env.
+     - Use linked list or hash table depending on preference.
+   - When calling `execve()`, prepare the `char **envp` array from the internal env.
+
+10. BUILTIN DETECTION
+    - Compare command name to list of built-ins:
+      - `echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`
+    - Mark command as `is_builtin = 1` or via enum (BUILTIN_CD, etc.).
+    - Builtins like `cd`, `exit`, `export`, `unset` should be executed in parent context.
+    - Builtins like `echo`, `pwd`, `env` can be executed in forked child (e.g., in pipelines).
+    - Avoid `execve()` for built-ins; call internal functions instead.
+    - If you use a function pointer table, match and assign it during parsing.
+
+11. ERROR HANDLING
+    - Syntax errors: unmatched quotes, invalid tokens.
+    - Semantic errors: redirection to nothing, bad variable name.
+    - Runtime preparation errors:
+      - File permissions for redirections
+      - Nonexistent commands (`minishell: command not found`)
+    - Must set correct `$?` values:
+      - 0 = success
+      - 1 = general error
+      - 127 = command not found
+      - 126 = permission denied / cannot execute
+
+12. MEMORY ALLOCATION
+    - Every malloc'd piece of data (tokens, command structs, args, env list) must be trackable.
+    - Build a centralized cleanup system:
+      - On parsing failure, free all partial structures.
+    - Free heredoc buffers, temp files if used.
+    - At end of parsing, return a fully valid `t_command *` list/tree to the executor.
+
+13. BONUS CONSIDERATIONS (Optional but Advanced)
+    - Parentheses for subshells: `(...)` → run in child shell environment.
+    - Logical operators:
+      - `cmd1 && cmd2` → cmd2 only runs if cmd1 succeeds.
+      - `cmd1 || cmd2` → cmd2 only runs if cmd1 fails.
+      - These modify execution flow, not just parsing.
+    - Wildcard expansion (globbing):
+      - Detect `*`, `?`, `[...]` in args.
+      - Expand them to matching filenames via `opendir/readdir` or `glob.h` (if allowed).
+    - Command substitution:
+      - Backticks: `` `cmd` `` or `$()` → run `cmd` and capture output into the calling command.
+      - Not required but complex and educational.
+    - Quoting + wildcard edge cases: `"*.c"` should not expand.
+
+█████████████████████████████████████████████████████████████████████████████
+
+
+
+
+
+
+
+
+
+
 =====================================================
    General Parsing Logic
 =====================================================

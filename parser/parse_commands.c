@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 11:05:15 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/18 09:55:12 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,8 @@ void	parse_commands(t_data *data, t_token *tokens)
 	printf("0\n");
 	while (current)
 	{
-		printf("1\n");
 		if (current->type == PIPE)
 		{
-			printf("2\n");
 			// Cut the segment here
 			current->type = T_EOF;  // Optional: mark the pipe visually
 			// Parse the segment [segment_start ... current (exclusive)]
