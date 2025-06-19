@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/18 10:53:03 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:25:22 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,35 +70,18 @@ void	free_tokens(t_data *data)
 // 	data->command_head = NULL; // Clear reference in data
 // }
 
-const char *token_type_str(t_token_type type)
-{
-	if (type == WORD) return "WORD";
-	if (type == PIPE) return "PIPE";
-	if (type == REDIR_IN) return "REDIR_IN";
-	if (type == REDIR_OUT) return "REDIR_OUT";
-	if (type == HEREDOC) return "HEREDOC";
-	if (type == APPEND) return "APPEND";
-	if (type == T_EOF) return "EOF";
-	if (type == ERROR) return "ERROR";
-	if (type == ENV) return "ENV";
-	return ("UNKNOWN");
-}
 
-const char *quote_type_str(t_quote_type quote)
-{
-	if (quote == NO_QUOTE) return "None";
-	if (quote == SINGLE_QUOTE) return "Single";
-	if (quote == DOUBLE_QUOTE) return "Double";
-	return ("Unknown");
-}
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	t_data	data = init_data();	
+	t_data	data = init_data();
+	data.environment = copy_environment(envp);
+	debug_environment_printer(&data);
 	char	*input_line;
-
+	
+	get_env_value(&data, "HOME");
 	while (1)
 	{
 		input_line = readline(PROMPT);			//	displays prompt
@@ -138,17 +121,19 @@ int	main(int argc, char **argv)
 		
 	//	separates words into tokens
 		parse_commands(&data, tokens);
-		handle_pipes(&data, tokens, NULL);
+		// handle_pipes(&data, tokens, NULL);
 		debug_parser_output(&data);
 		// print_commands(data.command_head);
 		// print_commands(&data);
 		// free_commands(&data);
 		// print_tokens(&data);					//	prints tokens types
 		printf("pipe count = %d\n", data.pipe_count);
+		free_char_array(data.environment);
 		free_tokens(&data);						//	frees token list
 		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line
 	}
+	
 	clear_history();							//	frees history list
 	rl_clear_history();							//	cleans up internal readline history structures
 }

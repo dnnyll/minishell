@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 18:16:51 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:00:43 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	add_command_to_data(t_command **head, t_command *new_command);
 void	parse_commands(t_data *data, t_token *tokens);
 
 //	parser_fill_commands
-void free_commands(t_data *data);
-int	count_arguments(t_token *start, t_token *end);
-char **allocate_command_argv(int argc);
+void	free_commands(t_data *data);
+int		count_arguments(t_token *start, t_token *end);
+char	**allocate_command_argv(int argc);
 void	fill_argv(t_command *command, t_token *start, t_token *end);
-void fill_command_segment(t_command *command, t_token *start, t_token *end);
+void	fill_command_segment(t_command *command, t_token *start, t_token *end);
 
 //	parser_redirect_handling
 int		is_redirection(int type);

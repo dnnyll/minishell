@@ -12,6 +12,8 @@
 		"functional": "c",
 		"tuple": "c",
 		"utility": "c",
-		"span": "c"
+		"span": "c",
+		"string": "c",
+		"typeinfo": "c"
 	}
 }
