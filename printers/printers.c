@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:30:10 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 17:13:16 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:06:28 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,27 +105,14 @@ void    print_tokens(t_data *data)
 	printf("-------------------\n\n");
 }
 
-void debug_parser_output(t_data *data)
-{
-    printf("===== DEBUG PARSER OUTPUT =====\n");
 
-    // Print token list (optional, if you have a token printer)
-    printf("\n____________Tokens____________\n");
-    print_tokens(data);
-
-    // Print commands
-    printf("\n____________Parsed Commands____________\n");
-    print_commands(data->command_head);
-
-    printf("===============================\n");
-}
 
 void print_commands(t_command *cmd)
 {
     int i;
     int cmd_num = 1;
 
-    printf("\n\033[1;34m____________ Parsed Commands ____________\033[0m\n");
+    // printf("\n\033[1;34m____________ Parsed Commands ____________\033[0m\n");
 
     while (cmd)
     {
@@ -168,8 +155,41 @@ void print_commands(t_command *cmd)
         cmd_num++;
     }
 
-    printf("\n\033[1;34m=========================================\033[0m\n\n");
+    // printf("\n\033[1;34m=========================================\033[0m\n\n");
 }
 
+void    debug_environment_printer(t_data *data)
+{
+    int i;
 
+    i = 0;
+    printf("===== DEBUG ENVIRONMENT COPY =====\n");
+    if (data->environment[i])
+    {
+        while (data->environment[i])
+        {
+            printf("%s\n", data->environment[i++]);
+        }
+    }
+    else
+        printf("Error: data->environment = NULL\n");
+    printf("===============================\n");
 
+}
+
+//  this is the main debug function that calls all the other printers
+
+void debug_parser_output(t_data *data)
+{
+    printf("===== DEBUG PARSER OUTPUT =====\n");
+
+    // Print token list (optional, if you have a token printer)
+    printf("\n____________Tokens____________\n");
+    print_tokens(data);
+
+    // Print commands
+    printf("\n____________Parsed Commands____________\n");
+    print_commands(data->command_head);
+
+    printf("===============================\n");
+}

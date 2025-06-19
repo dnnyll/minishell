@@ -6,20 +6,34 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:21:51 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/05/31 11:29:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:27:17 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-┌────────────┐          ┌───────────────────────────┐
-│ t_token    │          │ t_token                   │
-│ *current   ├───────>  │ value: "echo"             │
-│            │          │ type: WORD                │
-│            │          │ next: pointer to next...  │
-└────────────┘          └───────────────────────────┘
-*/
+const char *token_type_str(t_token_type type)
+{
+	if (type == CMD) return "COMMAND";
+	if (type == WORD) return "WORD";
+	if (type == PIPE) return "PIPE";
+	if (type == REDIR_IN) return "REDIR_IN";
+	if (type == REDIR_OUT) return "REDIR_OUT";
+	if (type == HEREDOC) return "HEREDOC";
+	if (type == APPEND) return "APPEND";
+	if (type == T_EOF) return "EOF";
+	if (type == ERROR) return "ERROR";
+	if (type == ENV) return "ENV";
+	return ("UNKNOWN");
+}
+
+const char *quote_type_str(t_quote_type quote)
+{
+	if (quote == NO_QUOTE) return "None";
+	if (quote == SINGLE_QUOTE) return "Single";
+	if (quote == DOUBLE_QUOTE) return "Double";
+	return ("Unknown");
+}
 
 //	Purpose: Adds a new token to the end of the token list.
 void	add_token(t_token **list, t_token *new_token)
