@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/19 11:00:43 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:56:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,14 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end);
 
 //	parser_pipes_handling
 void	handle_pipes(t_data *data, t_token *start, t_token *end);
+
+//	parser_variable_handling
+void	handle_variable(t_token *tokens);
+
+//	parser_syntax
+t_token	*get_last_token(t_token *head);
+int		verify_pipes(t_token *tokens);
+int		verify_redirections(t_token *tokens);
+int		validate_syntax(t_token *tokens);
 
 #endif

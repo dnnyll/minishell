@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/06/20 12:23:44 by daniefe2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> feature-daniefe2-parser
 #include "minishell.h"
 
 // Frees a linked list of redirection structs
@@ -66,10 +81,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	t_data	data = init_data();
 	data.environment = copy_environment(envp);
-	debug_environment_printer(&data);
+	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	char	*input_line;
 	
-	get_env_value(&data, "HOME");
+	// get_env_value(&data, "HOME");				//	test to search and print $HOME
 	while (1)
 	{
 		setup_parent_signals();					// shell signal handling
@@ -85,10 +100,16 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		add_history(input_line);				//	adds action to history
+
+		//	lexing % tokenizing
 		t_token *tokens = lexer(&data, input_line);
 
 		//	parsing
-		//	executing
+		handle_variable(tokens);
+		validate_syntax(tokens);
+
+		//	executing.
+		
 		// Update exit_status from the result of this execution
 		//	- data->exit_status = get_exit_status();	this is necessary for the function expand_variable
 

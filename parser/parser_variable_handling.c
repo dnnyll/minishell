@@ -277,3 +277,48 @@
 // 	}
 // }
 
+#include "minishell.h"
+
+
+/*
+	information concerning: handle_variable
+
+	purpose: scans the token list and marks tokens that require variable expansion.
+
+	for: commands containing environment variables, e.g. echo "$HOME" $USER
+
+	it detects the presence of the dollar sign '$' outside of single quotes to flag tokens 
+	for later expansion of environment variables like $VAR, $? (last exit status), etc.
+
+	- tokens inside single quotes are excluded (no expansion).
+	- tokens inside double quotes or unquoted tokens with '$' are flagged.
+	- invalid variable names or isolated '$' may be handled later.
+
+	this step is crucial to ensure that variable expansion is applied only where valid,
+	after tokenization and quote processing, but before building the argument array.
+
+	without this, the shell would not replace variables with their values before execution.
+*/
+
+void	handle_variable(t_token *tokens)
+{
+	t_token	*current = tokens;
+	while (current)
+	{
+		if (current->type == WORD && ft_strchr(current->value, '$'))
+		{
+			if (current->quote != SINGLE_QUOTE)
+				current->expandable = 1;
+			else
+				current->expandable = 0;
+		}
+		else
+			current->expandable = 0;
+		printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
+			current->value,
+			token_type_str(current->type),
+			quote_type_str(current->quote),
+			current->expandable ? "Yes" : "No");
+		current = current->next;
+	}
+}
