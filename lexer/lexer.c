@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/13 11:23:04 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:57:15 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_quote(char c)
 //	Purpose: Checks if the character is a shell operator (|, <, >, $).
 int	is_operator_start(char c)
 {
-	return (c == '|' || c == '<' || c == '>' || c == '$');	// $ sign might not need to be here!
+	return (c == '|' || c == '<' || c == '>');	// $ sign might not need to be here!
 }
 
 //	Purpose: Decides how to extract the token based on the current character.
@@ -56,7 +56,7 @@ void	*lexer(t_data *data, const char *input)
 		if (input[i] == '\0')
 			break ;											// End of input
 		t_lexer_result result = extract_token(input, i);	// Extract next token
-		if (result.index == -1)							// Syntax error occurred (e.g., unmatched quote)
+		if (result.index == -1)								// Syntax error occurred (e.g., unmatched quote)
 		{
 			free_token_list(data->token_head);
 			return (NULL);									// Abort and clean up
@@ -65,7 +65,7 @@ void	*lexer(t_data *data, const char *input)
 		if (result.token)
 			add_token(&data->token_head, result.token);		// Add token to the list
 
-		i = result.index;								// Move index past the token
+		i = result.index;									// Move index past the token
 	}
 	return (data->token_head);
 }
