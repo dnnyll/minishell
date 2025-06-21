@@ -1,39 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 14:50:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 20:17:50 by mrosset          ###   ########.fr       */
+/*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/21 20:05:59 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**remove_env_entry(char **environment, const char *name)
+void	free_tab(char **tab, int limit)
 {
 	int	i;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i] && (limit == -1 || i < limit))
+		free(tab[i++]);
+	free(tab);
 }
 
-int	unset_buitlin(char **args, t_data *data)
+int	is_valid_identifier(const char *str)
 {
 	int	i;
 
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
 	i = 1;
-	while (args[i])
+	while (str[i] && str[i] != '=')
 	{
-		if (!is_valid_identifier(args[i]))
-			printf("unset: '%s': not a valid identifier\n", args[i]);
-		else
-			data->environment = remove_env_entry(data->environment, args[i]);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
-
-/*
-**remove_env_entry:
-**unset_builtin:
-*/
