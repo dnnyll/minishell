@@ -6,24 +6,21 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:23 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 15:26:46 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/21 18:33:23 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_builtin(t_data *data)
+int	env_builtin(t_env *env)
 {
-	while (data)
+	while (env)
 	{
-		if (data->value)
+		if (env->value)
 		{
-			write(1, data->key, ft_strlen(data->key));
-			write(1, "=", 1);
-			write(1, data->value, ft_strlen(data->value));
-			write(1, "\n", 1);
+			printf("%s=%s\n", env->key, env->value);
 		}
-		data = data->next;
+		env = env->next;
 	}
 	return (0);
 }

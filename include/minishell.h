@@ -13,6 +13,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <stdbool.h>
+# include <stddef.h>
 # include "data.h"
 # include "tokens.h"
 # include "../lib/Libft/libft.h"

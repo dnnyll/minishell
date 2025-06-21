@@ -6,22 +6,22 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/19 17:00:24 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/21 18:55:26 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-typedef enum e_type
-{
-	CMD,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	APPEND,
-	HEREDOC
-}	t_type;
+//typedef enum e_type
+//{
+//	CMD,
+//	PIPE,
+//	REDIR_IN,
+//	REDIR_OUT,
+//	APPEND,
+//	HEREDOC
+//}	t_type;
 
 typedef struct s_cmd
 {
@@ -30,10 +30,21 @@ typedef struct s_cmd
 	char			*value;
 	int				infile;
 	int				outfile;
-	t_type			type;
+	t_token_type	type;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
+	//t_type			type;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+//key : the name of the variable
+//value : valu of the variable
+//ptr to the next variable
 
 //pipe utils
 int		ft_pipe(t_cmd *cmd, int *fd);
@@ -47,7 +58,7 @@ void	execute_pipeline(t_cmd *cdm_list, char **env_vars);
 
 //commands utils
 int		is_command(t_cmd *cmd);
-int		is_redirection(t_cmd *cmd);
+int		is_redir(t_cmd *cmd);
 int		is_pipe(t_cmd *cmd);
 
 // path utils
