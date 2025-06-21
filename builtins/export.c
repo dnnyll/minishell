@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 18:56:11 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:05:48 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ int	no_args_export(t_data *data)
 	return (0);
 }
 
-static int	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-		return (0);
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 char	**append_env_entry(char **environment, char *new_var)
 {
 	int		i;
@@ -67,11 +51,14 @@ char	**append_env_entry(char **environment, char *new_var)
 	{
 		new_env[i] = ft_strdup(environment[i]);
 		if (!new_env[i])
-			return (NULL);
+			return (free_tab(new_env, i), environment);
 		i++;
 	}
-	new_env[i++] = ft_strdup(new_var);
-	new_env[i] = NULL;
+	new_env[i] = ft_strdup(new_var);
+	if (!new_env[i])
+		return (free_tab(new_env, i), environment);
+	new_env[i + 1] = NULL;
+	free_tab(environment, -1);
 	return (new_env);
 }
 

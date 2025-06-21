@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 18:55:26 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:06:19 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,12 @@ void	setup_parent_signals(void);
 void	setup_child_signals(void);
 
 //builtins
-
+void	free_tab(char **tab, int limit);
+int		is_valid_identifier(const char *str);
+int		cd_builtin(char **args, char **envp);
+int		echo_builtin(char **args);
+int		env_builtin(t_env *env);
+int		exit_builtin(char **args, t_data *data);
+int		no_args_export(t_data *data);
+int		export_builtin(char **args, t_data *data);
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   echo_and_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 14:50:15 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 12:50:14 by mrosset          ###   ########.fr       */
+/*   Created: 2025/06/21 19:23:07 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/21 19:23:10 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,19 @@ int	echo_builtin(char **args)
 	return (0);
 }
 
+int	env_builtin(t_env *env)
+{
+	while (env)
+	{
+		if (env->value)
+		{
+			printf("%s=%s\n", env->key, env->value);
+		}
+		env = env->next;
+	}
+	return (0);
+}
+
 /*
 **bool: is easier to read with true of false
 **is_n_flag: check if the string start with a '-' and a 'n' and if the
@@ -61,4 +74,10 @@ int	echo_builtin(char **args)
 	Iterates thougt the args starting from argv[1], as long as if founds
 	valid -n flags, it disables line break printing with newline == true.
 	Else it prints a '\n'.
+**env: displays all env variables as NAME=VALUE pairs.
+**env_buitlin: Displays all available env variables in the t_data struct, in
+	the KEY=VALUE format. Iterate through the linked list data, for each
+	element if the variable has a value, it is display with the format
+	key=value\n. Use write to display to standard output and always return 0
+	to indicate sucess.
 */
