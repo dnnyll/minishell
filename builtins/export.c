@@ -117,8 +117,13 @@ int	export_builtin(char **args, t_data *data)
 **%.*s: print a string(%s) with a len given(.*) with name_len, this is only
 	for the name before the '='.
 **=\"%s\" : print a '=' and then the value between the ""
-**is_valid_identifier:
-**append_env_entry:
-**add_or_update_env:
-**export_builtin:
+**append_env_entry: Duplicates the current env array and appends a new variable.
+	Frees the old array and returns the updated one. If memory allocation fails,
+	returns the original env.
+**add_or_update_env: Checks if the variable already exists int ht env. If found,
+	replaces it with the new value. If not, appends the new variable using
+	append_env_entry.
+**export_builtin: Handles the export builtins with args. For each valid
+	identifier, adds or updates the variable in the env. Prints an error message
+	if the identifier is invalid.
 */

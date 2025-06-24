@@ -39,3 +39,7 @@ int	is_valid_identifier(const char *str)
 	}
 	return (1);
 }
+
+/*
+**is_valid_identifier:
+*/
