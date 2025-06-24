@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 11:25:11 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/18 14:03:27 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:28:10 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_redirection(int type)
 
 void	handle_redirections(t_command *command, t_token *start, t_token *end)
 {
-	printf("handle_redirections\n");
+	// printf("handle_redirections\n");
 	t_token *current = start;
 	
 	while (current && current != end)

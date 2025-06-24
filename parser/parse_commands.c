@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/20 11:19:16 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:27:18 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@
 
 t_command	*new_command(void)
 {
-	printf("new_command\n");
+	// printf("new_command\n");
 	t_command	*command;
 
 	command = malloc(sizeof(t_command));
@@ -106,7 +106,7 @@ t_command	*new_command(void)
 */
 void	add_command_to_data(t_command **head, t_command *new_command)
 {
-	printf("add_command_to_data\n");
+	// printf("add_command_to_data\n");
 	// If the command list is empty, set the new command as the head of the list
 	if (!*head)
 	{
@@ -123,7 +123,7 @@ void	add_command_to_data(t_command **head, t_command *new_command)
 
 void	parse_commands(t_data *data, t_token *tokens)
 {
-	printf("parse_commands\n");
+	// printf("parse_commands\n");
 	t_token	*current = tokens;
 	t_token	*segment_start = current;
 	while (current)

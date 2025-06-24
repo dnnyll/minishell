@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:32:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 11:28:32 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:50:42 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	get_word_length(const char *input)
 //	Purpose: Extracts a plain word (not quoted, not an operator) from the input.
 t_lexer_result	extract_word(const char *input, int i)
 {
+	// printf()
 	t_lexer_result	result;
 	int				len;
 

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/20 15:07:20 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:42:11 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum e_token_type
 //	contains information after lexer has been applied
 //	we will use this for the parsing part
 
-typedef struct s_token {
+typedef struct s_token 
+{
 	char			*value;			// Actual text (e.g., "echo", "|", "file")
 	t_token_type	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
 	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)

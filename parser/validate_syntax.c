@@ -64,25 +64,27 @@ t_token *get_last_token(t_token *head)
 // we have got a problem with pipe verification and also we havent set a previous type in our structure, need to look into it
 int	verify_pipes(t_token *tokens)
 {
+	printf("verify_pipes\n");
 	t_token	*current = tokens;
-	t_token	*previous = NULL;
 
-	while (current)
+	if (!current)
+		return (1); // empty input is technically valid
+	// 1. Check first token
+	if (current->type == PIPE)
+		return (printf("ERROR: pipe at beginning\n"), 1);
+	while (current && current->next)
 	{
-		if (current->type == PIPE)
-		{
-			if (!previous || !current->next)
-				return (printf("Error: syntax error '|' @ validate_syntax\n"), 0);
-			if (previous->type == PIPE || is_redirection(previous->type))
-				return (printf("Error: syntax error '|' @ validate_syntax\n"), 0);
-			if (current->next->type == PIPE || is_redirection(current->next->type))
-				return (printf("Error: syntax error '||' @ validade_syntax\n"), 0);
-		}
-		previous = current;
+		// 2. Check for double pipes (e.g., | |)
+		if (current->type == PIPE && current->next->type == PIPE)
+			return (printf("ERROR: two pipes in a row\n"), 1);
 		current = current->next;
 	}
-	return (1);
+	// 3. After the loop, current is the last token
+	if (current->type == PIPE)
+		return (printf("ERROR: pipe at the end\n"), 1);
+	return (0); // Success: pipe usage is valid
 }
+
 
 int	verify_redirections(t_token *tokens)
 {

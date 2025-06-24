@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 11:08:41 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/17 16:21:58 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:27:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_commands(t_data *data)
 
 int	count_arguments(t_token *start, t_token *end)
 {
-	printf("count_arguments\n");
+	// printf("count_arguments\n");
 	t_token *current = start;
 	int	count_arguments;
 
@@ -66,7 +66,7 @@ int	count_arguments(t_token *start, t_token *end)
 
 char	**allocate_command_argv(int argc)
 {
-	printf("allocate_command_argv\n");
+	// printf("allocate_command_argv\n");
 	char **argv;
 
 	argv = malloc(sizeof(char*) * (argc + 1));
@@ -81,7 +81,7 @@ char	**allocate_command_argv(int argc)
 
 void	fill_argv(t_command *command, t_token *start, t_token *end)
 {
-	printf("fill_argv\n");
+	// printf("fill_argv\n");
 	t_token *current = start;
 	int	i;
 
@@ -101,7 +101,7 @@ void	fill_argv(t_command *command, t_token *start, t_token *end)
 
 void	fill_command_segment(t_command *command, t_token *start, t_token *end)
 {
-	printf("fill_command_segment\n");
+	// printf("fill_command_segment\n");
 	int	argc;
 	
 	argc = count_arguments(start, end);
