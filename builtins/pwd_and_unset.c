@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 11:44:34 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:07:03 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,17 @@
 int	pwd_builtin(char **args)
 {
 	char	*cwd;
-
+	// int i = 0;
+	// while (args[i])
+	// {
+	// 	printf("arg[%d] = \"%s\"\n", i, args[i]);
+	// 	i++;
+	// }
 	if (args[1])
 	{
 		printf("pwd: too many arguments\n");
 		return (1);
+
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -69,7 +75,7 @@ char	**remove_env_entry(char **environment, char *var_name)
 	return (new_env);
 }
 
-int	unset_buitlin(char **args, t_data *data)
+int	unset_builtin(char **args, t_data *data)
 {
 	int	i;
 

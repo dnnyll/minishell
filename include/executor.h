@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 20:06:19 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:06:48 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,7 @@ int		env_builtin(t_env *env);
 int		exit_builtin(char **args, t_data *data);
 int		no_args_export(t_data *data);
 int		export_builtin(char **args, t_data *data);
+int		pwd_builtin(char **args);
+int		unset_builtin(char **args, t_data *data);
+
 #endif
