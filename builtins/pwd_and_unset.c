@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd_and_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
+/*   Updated: 2025/06/25 11:44:34 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -47,12 +57,12 @@ char	**remove_env_entry(char **environment, char *var_name)
 	while (environment[++i])
 	{
 		if (!should_remove(environment[i], var_name))
-			{
-				new_env[j] = ft_strdup(environment[i]);
-				if(!new_env[j])
-					return (free_tab(new_env, j), environment);
-				j++;
-			}
+		{
+			new_env[j] = ft_strdup(environment[i]);
+			if (!new_env[j])
+				return (free_tab(new_env, j), environment);
+			j++;
+		}
 	}
 	new_env[j] = NULL;
 	free_tab(environment, -1);

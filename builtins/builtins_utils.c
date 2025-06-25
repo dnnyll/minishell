@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 20:05:59 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:04:02 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,10 @@ int	is_valid_identifier(const char *str)
 }
 
 /*
-**is_valid_identifier:
+**free_tab: Frees an array of string (char** type), if 'limit' is -1, frees
+	the entire array up to NULL, else frees only up to 'limit' index.
+**is_valid_identifier: checks if s string is a valid identifier for an env
+	variable. A valid identifier begins with a letter or an underscore, then can
+	contain letters, numbers or underscores up to the '=' sign or the end of the
+	string.
 */
