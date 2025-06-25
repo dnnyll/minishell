@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:29 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 17:14:07 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:32:24 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ int	exit_builtin(char **args, t_data *data)
 	it and ensure that the code is between 0 and 255 and exit with this code.
 **256: a process return always a number between 0 and 255 (unsigned int sur
 	8 bits).
+**Test: run minishell in a terminal, cmd exit 42 and then echo $?
 */

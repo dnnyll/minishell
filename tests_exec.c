@@ -1,14 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_exec.c                                        :+:      :+:    :+:   */
+/*   tests_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:18:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 15:18:28 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:50:42 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 // int	main(int argc, char **argv, char **envp) // test export and unset
 // {
@@ -58,6 +60,48 @@
 // 		free(input);
 // 	}
 
+// 	free_char_array(data.environment);
+// 	clear_history();
+// 	return (0);
+// }
+
+
+// int	main(int argc, char **argv, char **envp) \\ tests cd and exit
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	t_data	data = init_data(); // Doit initialiser .environment, .oldpwd, etc.
+// 	data.environment = copy_environment(envp);
+
+// 	char	*input;
+// 	char	**split;
+
+// 	while (1)
+// 	{
+// 		input = readline("minishell> ");
+// 		if (!input)
+// 		{
+// 			printf("exit\n");
+// 			break;
+// 		}
+// 		add_history(input);
+// 		split = ft_split(input, ' ');
+// 		if (!split || !split[0])
+// 		{
+// 			free(input);
+// 			free_tab(split, -1);
+// 			continue;
+// 		}
+// 		if (ft_strncmp(split[0], "exit", 5) == 0)
+// 		{
+// 			exit_builtin(split, &data);
+// 			// Normalement ne retourne pas ici, sauf si exit échoue
+// 		}
+// 		else if (ft_strncmp(split[0], "cd", 3) == 0)
+// 			cd_builtin(split, data.environment);
+// 		free_tab(split, -1);
+// 		free(input);
+// 	}
 // 	free_char_array(data.environment);
 // 	clear_history();
 // 	return (0);
