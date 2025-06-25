@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/20 12:23:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:19:20 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,33 +42,33 @@ void	free_tokens(t_data *data)
 	data->token_head = NULL; // Clear reference in data
 }
 
-// Frees all commands from data->cmd_head
-// void	free_commands(t_data *data)
-// {
-// 	t_command *cmd = data->command_head;
-// 	t_command *next;
-// 	int i;
+// // Frees all commands from data->cmd_head
+// // void	free_commands(t_data *data)
+// // {
+// // 	t_command *cmd = data->command_head;
+// // 	t_command *next;
+// // 	int i;
 
-// 	while (cmd)
-// 	{
-// 		next = cmd->next;
+// // 	while (cmd)
+// // 	{
+// // 		next = cmd->next;
 
-// 		if (cmd->argv)
-// 		{
-// 			i = 0;
-// 			while (cmd->argv[i])
-// 				free(cmd->argv[i++]);
-// 			free(cmd->argv);
-// 		}
+// // 		if (cmd->argv)
+// // 		{
+// // 			i = 0;
+// // 			while (cmd->argv[i])
+// // 				free(cmd->argv[i++]);
+// // 			free(cmd->argv);
+// // 		}
 
-// 		free_redirects(cmd->redir_in);
-// 		free_redirects(cmd->redir_out);
+// // 		free_redirects(cmd->redir_in);
+// // 		free_redirects(cmd->redir_out);
 
-// 		free(cmd);
-// 		cmd = next;
-// 	}
-// 	data->command_head = NULL; // Clear reference in data
-// }
+// // 		free(cmd);
+// // 		cmd = next;
+// // 	}
+// // 	data->command_head = NULL; // Clear reference in data
+// // }
 
 
 
@@ -144,3 +144,10 @@ int	main(int argc, char **argv, char **envp)
 	clear_history();							//	frees history list
 	rl_clear_history();							//	cleans up internal readline history structures
 }
+
+
+
+
+
+
+
