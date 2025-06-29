@@ -6,11 +6,11 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:18:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/29 12:10:00 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:50:26 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
 
 // int	main(int argc, char **argv, char **envp) // test export and unset
 // {
