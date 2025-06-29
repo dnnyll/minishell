@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/25 15:49:39 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:09:10 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@
 // 	rl_clear_history();							//	cleans up internal readline history structures
 // }
 
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -161,7 +162,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		add_history(input);
 		split = ft_split(input, ' ');
@@ -169,7 +170,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(input);
 			free_tab(split, -1);
-			continue;
+			continue ;
 		}
 		if (ft_strncmp(split[0], "exit", 5) == 0)
 		{
@@ -178,6 +179,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else if (ft_strncmp(split[0], "cd", 3) == 0)
 			cd_builtin(split, data.environment);
+		else if (ft_strncmp(split[0], "pwd", 4) == 0)
+			pwd_builtin(split);
 		free_tab(split, -1);
 		free(input);
 	}
@@ -185,3 +188,4 @@ int	main(int argc, char **argv, char **envp)
 	clear_history();
 	return (0);
 }
+

@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:18:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 15:50:42 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:10:00 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 // }
 
 
-// int	main(int argc, char **argv, char **envp) \\ tests cd and exit
+// int	main(int argc, char **argv, char **envp) \\ tests cd, pwd and exit
 // {
 // 	(void)argc;
 // 	(void)argv;
@@ -99,6 +99,8 @@
 // 		}
 // 		else if (ft_strncmp(split[0], "cd", 3) == 0)
 // 			cd_builtin(split, data.environment);
+//		else if (ft_strncmp(split[0], "pwd", 4) == 0)
+//			pwd_builtin(split);
 // 		free_tab(split, -1);
 // 		free(input);
 // 	}

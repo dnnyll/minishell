@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/18 10:49:43 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/29 12:32:33 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,16 @@ static char	*get_cd_target(char **args, char **envp)
 int	cd_builtin(char **args, char **envp)
 {
 	char	*dir;
+	int		args_count;
 
+	args_count = 0;
+	while (args[args_count])
+		args_count++;
+	if (args_count > 2)
+	{
+		write(2, "cd: too many arguments\n", 24);
+		return (1);
+	}
 	dir = get_cd_target(args, envp);
 	if (!dir)
 		return (1);
