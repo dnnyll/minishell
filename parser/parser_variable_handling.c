@@ -277,7 +277,145 @@
 // 	}
 // }
 
+
+
+
+/*
+
+===============================
+ Variable Expansion Plan
+===============================
+
+GOAL:
+Expand environment variables (e.g., $USER, $?, ${PATH}) in WORD tokens
+if they are marked as expandable.
+
+CONSTRAINTS:
+- Do not expand inside single quotes
+- Expand inside double quotes or unquoted
+- Input is already tokenized and quoted
+- Environment is stored in char **envp
+
+-------------------------------
+STAGE 1: Entry Point
+-------------------------------
+
+void handle_variable(t_token *tokens, char **envp);
+
+For each token:
+  if token->type == WORD && token->expandable == 1:
+    - Call expand_variables(token->value, envp)
+    - Replace token->value with result
+
+-------------------------------
+STAGE 2: Expand Logic
+-------------------------------
+
+char *expand_variables(const char *input, char **envp);
+
+Steps:
+1. Create an empty result string
+2. Iterate over input character by character
+3. On `$`, handle one of the following cases:
+   - "$?"      → replace with exit code (from global)
+   - "$VAR"    → extract VAR name and look it up
+   - "${VAR}"  → extract VAR name between braces
+   - "$" alone → treat as empty string
+   - Invalid name → treat `$` as literal
+4. Append any literal characters to result
+5. Return new expanded string
+
+-------------------------------
+STAGE 3: Extract Variable Name
+-------------------------------
+
+char *extract_var_name(const char str[i], int *len);
+
+- If input starts with `{`, extract until `}`
+- Else, extract while [A-Za-z0-9_]
+- Set *len to number of characters consumed
+
+-------------------------------
+STAGE 4: Lookup Variable
+-------------------------------
+
+char *get_env_value(const char *name, char **envp);
+
+- Iterate through envp
+- Find "NAME=VALUE"
+- If match, return VALUE (duplicated)
+- If not found, return empty string
+
+Special case:
+  if name == "?" → return ft_itoa(global_exit_status)
+
+-------------------------------
+STAGE 5: Utilities
+-------------------------------
+
+char str[i]_join_and_free(char *s1, const char *s2);
+  - Joins s1 + s2, frees s1, returns new string
+
+char *substrdup(const char *src, int start, int len);
+  - Duplicates substring from src[start] to src[start+len]
+
+-------------------------------
+EXAMPLES
+-------------------------------
+
+Input: "Hello $USER"            → "Hello alice"
+Input: "$PATH is the path"     → "/usr/bin:/bin is the path"
+Input: "$?"                    → "0" (or other exit code)
+Input: "${HOME}"               → "/home/alice"
+Input: "$"                     → "" (empty string)
+Input: "$USER!"                → "alice!"
+
+-------------------------------
+NOTES
+-------------------------------
+
+- Variable expansion happens after tokenization
+- Result replaces token->value
+- No variable expansion inside single quotes
+- Braced syntax `${VAR}` is optional, but nice to support
+- Your get_env_value must not modify envp
+*/
+
 #include "minishell.h"
+
+
+
+char	*expand_variables(const char *input, char **envp)
+{
+	
+}
+
+
+
+int	isexpandable_variable(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			i++;
+			if (str[i] == '\0')
+				return (0); // $ at end, no variable
+			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
+				return (1); // Valid variable name or special
+			// You can extend this as needed
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
+
+
 
 
 /*
@@ -299,26 +437,21 @@
 
 	without this, the shell would not replace variables with their values before execution.
 */
-
 void	handle_variable(t_token *tokens)
 {
 	t_token	*current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && ft_strchr(current->value, '$'))
-		{
-			if (current->quote != SINGLE_QUOTE)
-				current->expandable = 1;
-			else
-				current->expandable = 0;
-		}
+		if (current->type == WORD && current->quote != SINGLE_QUOTE && has_expandable_variable(current->value))
+			current->expandable = 1;
 		else
 			current->expandable = 0;
+		}
 		printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
 			current->value,
 			token_type_str(current->type),
 			quote_type_str(current->quote),
 			current->expandable ? "Yes" : "No");
 		current = current->next;
-	}
 }
+
