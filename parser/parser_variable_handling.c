@@ -383,21 +383,123 @@ NOTES
 
 #include "minishell.h"
 
-//	garbage
-// char	*expansion_string_alloc(char *input)
-// {
-// 	int		length;
-// 	char	*result;
+/*
 
-// 	length = ft_strlen(input);
-// 	result = malloc(sizeof(char*) * length + 1);
-// 	if (!result)
-// 	{
-// 		free (result);
-// 		printf("eror allocating memory for result @ parser_variable_handling\n");
-// 		return (0);
-// 	}
-// }
+This is an example of how this file is working
+
+
+Input: "Hello $USER, status: $?"
+
+-------------------------------
+Main loop scanning input string
+-------------------------------
+
+i = 0 to end of input:
+  if input[i] != '$'
+    → append input[i] literally to result
+    → i++
+
+  else if input[i] == '$'
+    → call handle_variable_expansion(input, &i, data, result)
+    → update result with returned string
+    → i updated inside handle_variable_expansion to position after variable name or special var
+
+-------------------------------
+handle_variable_expansion function
+-------------------------------
+
+1) Check char after '$': input[i + 1]
+
+2) If alphanumeric or underscore:
+    → Extract variable name starting at input[i + 1]
+    → (Inside handle_variable_expansion)
+    → Advance i while input[i] is valid variable char (alnum or '_')
+    → Extract substring var_name = input[start_index..i-1]
+
+3) If special variable '?':
+    → Get last exit code from data->last_exit_code
+    → Convert exit code to string
+
+4) Lookup environment value of var_name (or special variable string)
+
+5) Append value to result string, freeing old result to avoid leaks
+
+6) Return new result string and updated i (position after variable)
+
+-------------------------------
+Back to main loop:
+-------------------------------
+
+Continue scanning input from updated i
+
+---
+
+### Step-by-step trace example with "Hello $USER, status: $?"
+
+| i  | input[i] | Action                                    | Function                   | Result so far            |
+|-----|---------|------------------------------------------|----------------------------|-------------------------|
+| 0   | 'H'     | Append 'H'                               | main loop append literal   | "H"                     |
+| 1   | 'e'     | Append 'e'                               | main loop append literal   | "He"                    |
+| 2   | 'l'     | Append 'l'                               | main loop append literal   | "Hel"                   |
+| 3   | 'l'     | Append 'l'                               | main loop append literal   | "Hell"                  |
+| 4   | 'o'     | Append 'o'                               | main loop append literal   | "Hello"                 |
+| 5   | ' '     | Append ' '                               | main loop append literal   | "Hello "                |
+| 6   | '$'     | Found '$' → call handle_variable_expansion | main loop calls handle_variable_expansion |                         |
+| 7   | 'U'     | Extract var name "USER" (indices 7 to 10) | handle_variable_expansion  |                         |
+| 11  | ','     | Lookup env var USER → "alice", append   | handle_variable_expansion returns new result | "Hello alice"            |
+| 11  | ','     | Append ','                              | main loop append literal   | "Hello alice,"          |
+| 12  | ' '     | Append ' '                              | main loop append literal   | "Hello alice, "         |
+| 13-20| chars  | Append literal characters ("status: ")  | main loop append literal   | "Hello alice, status: " |
+| 21  | '$'     | Found '$' → call handle_variable_expansion | main loop calls handle_variable_expansion |                         |
+| 22  | '?'     | Special var '?' → get last exit code    | handle_variable_expansion  |                         |
+| 23  | -       | Append exit code string "0"              | handle_variable_expansion returns new result | "Hello alice, status: 0"|
+| 23+ | End     | End of input, null-terminate result      | main loop                  | Final result string      |
+
+---
+
+### Function locations summary
+
+- **Main loop scanning input string:**  
+  - Iterates over `input`, appends normal chars directly  
+  - Calls `handle_variable_expansion` whenever it finds `$`
+
+- **handle_variable_expansion:**  
+  - Extracts variable names or special variables (like `$?`)  
+  - Looks up variable values (environment or shell special variables)  
+  - Appends expanded value to result string  
+  - Updates index pointer to continue scanning after variable
+
+---
+
+If you want, I can also sketch out the skeleton of these two functions so you can see the "big picture" structure without implementation details.
+
+Would you like that?
+
+*/
+
+char	*ft_strjoin_char(char *input, char c)
+{
+	int		i;
+	int		len;
+	char	*result;
+
+	i = 0;
+	len = ft_strlen(input);
+	result = malloc(sizeof(char) * len + 2);
+	if (!result)
+	{
+		printf("ft_strloin_char messed up\n");
+		free(result);
+	}
+	while (i < len)
+	{
+		result[i] = input[i];
+		i++;
+	}
+	result[i++] = c;
+	result[i] = '\0';
+	return (result);
+}
 
 char	*handle_exit_code(t_data *data, char *input)
 {
@@ -409,14 +511,31 @@ char	*handle_exit_code(t_data *data, char *input)
 	free (status);
 	return (result);
 }
-char	*handle_environment_variable(const char *input, int	i, t_data *data, char * result)
+
+char	*handle_environment_variables(const char *input, int	*i, t_data *data, char * result)
 {
-	
+	int		start;
+	char	*variable_name;
+	char	*value;
+	char	*new_result;
+	start = *i;
+
+	while (ft_isalnum(input[*i]) || input[*i] == '_')
+		(*i)++;	//note: dereference i → get the value it points to
+				//		increment that value
+				//		So *i gets the value, and then ++ increments it.
+	variable_name = ft_substr(input, start, *i - start);
+	value = get_env_value(data, variable_name);
+	free(variable_name);
+	new_result = ft_strjoin(result, value);
+	return (new_result);
 }
-char	*expand_variables(const char *input, t_token *tokens, t_data *data)
+
+char	*expand_variables(const char *input, t_data *data)
 {
 	int	i;
 	char	*result;
+	char	*temp;
 
 	i = 0;
 	result = strdup("");
@@ -427,26 +546,32 @@ char	*expand_variables(const char *input, t_token *tokens, t_data *data)
 			i++;
 			if (input[i] == '?')
 			{
-				result = handle_exit_code(data, input[i]);
+				temp = handle_exit_code(data, result);
+				free(result);
+				result = temp;
 				i++;
 			}
-			else if (ft_isalpha(input[i]) || input[i] == "_")
+			else if (ft_isalpha(input[i]) || input[i] == '_')
 			{
-				result = get_env_value(data, *input); // or token value
+				temp = handle_environment_variables(input, &i, data, result);
+				free (result);
+				result = temp;
 			}
 			else
 			{
-				result = ft_strjoin_char(result, '$');
+				temp = ft_strjoin_char(result, '$');	//need to code the ft_strjoin_char
+				free (result);
+				result = temp;
 			}
-			result[j] = result[i];
 		}
 		else
 		{
-			result = ft_strjoin_char(result, input[i]);
+			temp = ft_strjoin_char(result, input[i]);
+			free (result);
+			result = temp;
 			i++;
 		}
 	}
-	result[i] = '\0';
 	return(result);
 }
 
@@ -492,8 +617,9 @@ int	isexpandable_variable(const char *str)
 */
 
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
-void	handle_variable(t_token *tokens)
+void	handle_variables(t_token *tokens)
 {
+	printf("handle_variables\n");
 	t_token	*current = tokens;
 	while (current)
 	{
@@ -508,5 +634,18 @@ void	handle_variable(t_token *tokens)
 			current->expandable ? "Yes" : "No");
 		current = current->next;
 	}
+}
+
+char	*process_variables(const char *input, t_data *data, t_token *tokens)
+{
+	t_token *current = tokens;
+	char *expanded;
+
+	//	Marks which tokens are expandable
+	handle_variables(current);
+	//	Expands variables in the input string using tokens and data
+	expanded = expand_variables(input, data);
+	// free (current); //not sure
+	return (expanded);
 }
 

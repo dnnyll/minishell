@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/30 10:20:20 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:07:17 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,26 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input_line);				//	adds action to history
 		printf ("I AM HERE 00\n");
 
+
+
+
 		//	lexing % tokenizing
 		t_token *tokens = lexer(&data, input_line);
 		printf ("I AM HERE\n");
+
+
+
+		
 		//	parsing
-		handle_variable(tokens);
+		printf("main: process_variables(input_line, &data, tokens)\n");
+		process_variables(input_line, &data, tokens);
+		expand_token_values(tokens, &data);
+
+
+
+		
 		// validate_syntax(tokens);
+		printf("main: validate_syntax(tokens)\n");
 		verify_pipes(tokens);
 		verify_redirections(tokens);
 
@@ -112,19 +126,21 @@ int	main(int argc, char **argv, char **envp)
 		// Update exit_status from the result of this execution
 		//	- data->exit_status = get_exit_status();	this is necessary for the function expand_variable
 
+
+		
 		// simple check to verify lexer output
-		if (!tokens)
-			printf("Lexer returned NULL tokens\n");
-		else
-		{
-			printf("Lexer returned tokens:\n");
-			t_token *tmp = tokens;
-			while (tmp)
-			{
-				printf("Value: %-20s | Type: %d | Quote: %d\n", tmp->value, tmp->type, tmp->quote);
-				tmp = tmp->next;
-			}
-		}
+		// if (!tokens)
+		// 	printf("Lexer returned NULL tokens\n");
+		// else
+		// {
+		// 	printf("Lexer returned tokens:\n");
+		// 	t_token *tmp = tokens;
+		// 	while (tmp)
+		// 	{
+		// 		printf("Value: %-20s | Type: %d | Quote: %d\n", tmp->value, tmp->type, tmp->quote);
+		// 		tmp = tmp->next;
+		// 	}
+		// }
 
 
 		
