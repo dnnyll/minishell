@@ -428,7 +428,7 @@ handle_variable_expansion function
 
 -------------------------------
 Back to main loop:
--------------------------------
+------------------------------- 
 
 Continue scanning input from updated i
 

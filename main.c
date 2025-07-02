@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/02 17:07:17 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:35:19 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,12 @@ int	main(int argc, char **argv, char **envp)
 	data.environment = copy_environment(envp);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	char	*input_line;
+
+
+	//	test to search and print $HOME
+	// get_env_value(&data, "HOME");
+
 	
-	// get_env_value(&data, "HOME");				//	test to search and print $HOME
 	while (1)
 	{
 		input_line = readline(PROMPT);			//	displays prompt
@@ -107,11 +111,11 @@ int	main(int argc, char **argv, char **envp)
 
 
 
-		
+
 		//	parsing
 		printf("main: process_variables(input_line, &data, tokens)\n");
 		process_variables(input_line, &data, tokens);
-		expand_token_values(tokens, &data);
+		expand_token_values(tokens, &data);		//	located in the folder tokens
 
 
 
@@ -121,6 +125,10 @@ int	main(int argc, char **argv, char **envp)
 		verify_pipes(tokens);
 		verify_redirections(tokens);
 
+
+
+
+		
 		//	executing.
 		
 		// Update exit_status from the result of this execution

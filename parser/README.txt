@@ -151,34 +151,6 @@
 █████████████████████████████████████████████████████████████████████████████
 
 
-
-
-
-
-
-
-
-
-=====================================================
-   General Parsing Logic
-=====================================================
-
-While there are tokens:
-    If this is the first token or after a pipe:
-        create new t_cmd
-        link it to the previous one (if any)
-
-    For each token type:
-        - WORD: add to argv
-        - REDIR_IN: set infile from next token
-        - REDIR_OUT: set outfile from next token, append = 0
-        - APPEND: set outfile from next token, append = 1
-        - HEREDOC: set heredoc_delim from next token
-        - PIPE: end current command (prepare to create a new one next loop)
-
-    Move to next token
-
-
 ---------------------------------------- // ----------------------------------------
 
 
@@ -257,58 +229,6 @@ ________________________________________________________________________________
 
 ____________________________________________________________________________________
 
-
-
-
-
-
-
-remember to handle:
-
-Detect invalid starting tokens like ||, &&, >>, |, etc.
-
-Only allow redirections (>, >>, <, <<) attached to valid commands.
-
-Detect missing file names or missing commands around operators.
-
-╔════════════════════════════════════════════════════════════════╗
-║                           MAIN LOOP                            ║
-╚════════════════════════════════════════════════════════════════╝
-→ Begins an infinite loop to wait for user input:
-
-1. input_line = readline(PROMPT)
-   - Waits for user to type a command (e.g., echo hello > out.txt)
-   - Stores it in input_line
-
-2. add_history(input_line)
-   - Adds the command to history (readline feature)
-
-3. tokens = lexer(input_line)
-   - Tokenizes the string into a linked list of t_token
-   - Example:
-     Input: "echo hello > out.txt | grep h"
-     Token List:
-     [WORD: echo] → [WORD: hello] → [REDIR_OUT: >] → [WORD: out.txt] → 
-     [PIPE: |] → [WORD: grep] → [WORD: h]
-
-4. cmds = parse_tokens(tokens)
-   - This is where the core parsing happens to build commands.
-   - Returns a linked list of t_command nodes
-
-5. print_commands(cmds)
-   - For debugging: prints each command's argv and redirections
-
-6. free_commands(cmds)
-   - Frees the memory of the command list
-
-7. print_tokens(tokens)
-   - Optional: prints the tokens for debugging
-
-8. free_tokens(tokens)
-   - Frees the memory for tokens
-
-9. free(input_line)
-   - Frees input line string
 
 ══════════════════════════════════════════════════════════════════
                     parse_tokens(t_token *token_list)

@@ -53,6 +53,7 @@
 
 
 
+//	TIME TO CREATE MYVAR from the example $MYVAR=hello
 
 
 

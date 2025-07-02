@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/02 15:39:00 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:43:05 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 // 	int					type;		//	type: REDIR_IN/OUT, append, heredoc
 // 	struct s_redirect	*next;		//	for multiple redirections
 // } t_redirect;
+
+typedef struct s_variables
+{
+	// INSERT STUFF HERE
+} t_varibales;
 
 typedef struct s_command
 {
