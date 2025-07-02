@@ -386,9 +386,52 @@ NOTES
 
 //	we want tos scan the token value to verify if it contains a valid expandable variable
 
-char	*expand_variables(const char *input, char **envp)
+
+char	*expand_variables(const char *input, t_token *tokens, t_data *data)
 {
-	
+	int	i;
+	int	j;
+	int	length;
+	char	*result;
+	t_token	*current = tokens;
+
+	i = 0;
+	j = 0;
+	length = ft_strlen(input);
+	result = malloc(sizeof(char*) * length + 1);
+	if (!result)
+	{
+		free (result);
+		printf("eror allocating memory for result @ expand_variable\n";)
+		return (0);
+	}
+	while (input[i])
+	{
+		if (input[i] == '$')
+		{
+			i++;
+			if (input[i] == '?')
+			{
+				printf("substitute with $? value (last exit code)\n)");
+			}
+			else if (ft_isalpha(input[i]) || input[i] == "_")
+			{
+				get_env_value(data, *input); // or token value
+			}
+			else
+			{
+				result[j] = result[i];
+				result[j + 1] = result [i + 1];
+				i = i + 2;
+				j = j + 2;
+			}
+			result[j] = result[i];
+		}
+		i++;
+		j++;
+	}
+	result[j] = '\0';
+	return(result);
 }
 
 int	isexpandable_variable(const char *str)
@@ -412,10 +455,6 @@ int	isexpandable_variable(const char *str)
 	return (0);
 }
 
-
-
-
-
 /*
 	information concerning: handle_variable
 
@@ -435,6 +474,8 @@ int	isexpandable_variable(const char *str)
 
 	without this, the shell would not replace variables with their values before execution.
 */
+
+//	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variable(t_token *tokens)
 {
 	t_token	*current = tokens;
@@ -444,12 +485,12 @@ void	handle_variable(t_token *tokens)
 			current->expandable = 1;
 		else
 			current->expandable = 0;
-		}
 		printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
 			current->value,
 			token_type_str(current->type),
 			quote_type_str(current->quote),
 			current->expandable ? "Yes" : "No");
 		current = current->next;
+	}
 }
 
