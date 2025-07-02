@@ -1,11 +1,8 @@
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp) //tests cd, pwd and exit
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
-	(void)argv;
-	t_data	data = init_data(); // Doit initialiser .environment, .oldpwd, etc.
-	data.environment = copy_environment(envp);
 
 	char	*input;
 	char	**split;
@@ -14,31 +11,31 @@ int	main(int argc, char **argv, char **envp) //tests cd, pwd and exit
 	{
 		input = readline("minishell> ");
 		if (!input)
-		{
-			printf("exit\n");
-			break;
-		}
+			break ;
 		add_history(input);
 		split = ft_split(input, ' ');
+
 		if (!split || !split[0])
 		{
+			free_char_array(split);
 			free(input);
-			free_tab(split, -1);
 			continue;
 		}
-		if (ft_strncmp(split[0], "exit", 5) == 0)
+
+		if (ft_strncmp(split[0], "echo", 5) == 0)
+			echo_builtin(split);
+		else if (ft_strncmp(split[0], "env", 4) == 0)
+			env_builtin(envp);
+		else if (ft_strncmp(split[0], "exit", 5) == 0)
 		{
-			exit_builtin(split, &data);
-			// Normalement ne retourne pas ici, sauf si exit échoue
+			free_char_array(split);
+			free(input);
+			break ;
 		}
-		else if (ft_strncmp(split[0], "cd", 3) == 0)
-			cd_builtin(split, data.environment);
-		else if (ft_strncmp(split[0], "pwd", 4) == 0)
-			pwd_builtin(split);
-		free_tab(split, -1);
+
+		free_char_array(split);
 		free(input);
 	}
-	free_char_array(data.environment);
-	clear_history();
 	return (0);
 }
+
