@@ -169,14 +169,12 @@ int	verify_redirections(t_token *tokens)
 	return (1); // Success: redirections are valid
 }
 
-
 int	validate_syntax(t_token *tokens)
 {
 	t_token	*last_token;
 
 	if (!tokens)
 		return (printf("Error: no tokens @ validate_syntax\n"), 1);
-
 	last_token = get_last_token(tokens);
 
 	// Check if the first or last token is a pipe
@@ -185,18 +183,12 @@ int	validate_syntax(t_token *tokens)
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
-
 	// Run pipe checks
 	if (verify_pipes(tokens))
 		return (1);
-
 	// Run redirection checks
 	if (verify_redirections(tokens))
 		return (1);
 
 	return (0);
 }
-
-
-
-

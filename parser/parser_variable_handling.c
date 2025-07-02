@@ -383,28 +383,43 @@ NOTES
 
 #include "minishell.h"
 
+//	garbage
+// char	*expansion_string_alloc(char *input)
+// {
+// 	int		length;
+// 	char	*result;
 
-//	we want tos scan the token value to verify if it contains a valid expandable variable
+// 	length = ft_strlen(input);
+// 	result = malloc(sizeof(char*) * length + 1);
+// 	if (!result)
+// 	{
+// 		free (result);
+// 		printf("eror allocating memory for result @ parser_variable_handling\n");
+// 		return (0);
+// 	}
+// }
 
+char	*handle_exit_code(t_data *data, char *input)
+{
+	char	*status;
+	char	*result;
 
+	status = ft_itoa(data->last_exit_code_status);
+	result = ft_strjoin(input, status);
+	free (status);
+	return (result);
+}
+char	*handle_environment_variable(const char *input, int	i, t_data *data, char * result)
+{
+	
+}
 char	*expand_variables(const char *input, t_token *tokens, t_data *data)
 {
 	int	i;
-	int	j;
-	int	length;
 	char	*result;
-	t_token	*current = tokens;
 
 	i = 0;
-	j = 0;
-	length = ft_strlen(input);
-	result = malloc(sizeof(char*) * length + 1);
-	if (!result)
-	{
-		free (result);
-		printf("eror allocating memory for result @ expand_variable\n";)
-		return (0);
-	}
+	result = strdup("");
 	while (input[i])
 	{
 		if (input[i] == '$')
@@ -412,25 +427,26 @@ char	*expand_variables(const char *input, t_token *tokens, t_data *data)
 			i++;
 			if (input[i] == '?')
 			{
-				printf("substitute with $? value (last exit code)\n)");
+				result = handle_exit_code(data, input[i]);
+				i++;
 			}
 			else if (ft_isalpha(input[i]) || input[i] == "_")
 			{
-				get_env_value(data, *input); // or token value
+				result = get_env_value(data, *input); // or token value
 			}
 			else
 			{
-				result[j] = result[i];
-				result[j + 1] = result [i + 1];
-				i = i + 2;
-				j = j + 2;
+				result = ft_strjoin_char(result, '$');
 			}
 			result[j] = result[i];
 		}
-		i++;
-		j++;
+		else
+		{
+			result = ft_strjoin_char(result, input[i]);
+			i++;
+		}
 	}
-	result[j] = '\0';
+	result[i] = '\0';
 	return(result);
 }
 
