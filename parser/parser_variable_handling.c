@@ -384,13 +384,12 @@ NOTES
 #include "minishell.h"
 
 
+//	we want tos scan the token value to verify if it contains a valid expandable variable
 
 char	*expand_variables(const char *input, char **envp)
 {
 	
 }
-
-
 
 int	isexpandable_variable(const char *str)
 {
@@ -406,7 +405,6 @@ int	isexpandable_variable(const char *str)
 				return (0); // $ at end, no variable
 			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
 				return (1); // Valid variable name or special
-			// You can extend this as needed
 		}
 		else
 			i++;
@@ -442,7 +440,7 @@ void	handle_variable(t_token *tokens)
 	t_token	*current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && current->quote != SINGLE_QUOTE && has_expandable_variable(current->value))
+		if (current->type == WORD && current->quote != SINGLE_QUOTE && isexpandable_variable(current->value))
 			current->expandable = 1;
 		else
 			current->expandable = 0;
