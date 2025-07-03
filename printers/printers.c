@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:30:10 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/19 11:06:28 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:06:09 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void    print_tokens(t_data *data)
 	printf("-------------------\n\n");
 }
 
-
-
 void print_commands(t_command *cmd)
 {
     int i;
@@ -158,21 +156,21 @@ void print_commands(t_command *cmd)
     // printf("\n\033[1;34m=========================================\033[0m\n\n");
 }
 
-void    debug_environment_printer(t_data *data)
+void    debug_environment_variables_printer(t_data *data)
 {
     int i;
 
     i = 0;
-    printf("===== DEBUG ENVIRONMENT COPY =====\n");
-    if (data->environment[i])
+    printf("===== DEBUG ENVIRONMENT_variables COPY =====\n");
+    if (data->environment_variables[i])
     {
-        while (data->environment[i])
+        while (data->environment_variables[i])
         {
-            printf("%s\n", data->environment[i++]);
+            printf("%s\n", data->environment_variables[i++]);
         }
     }
     else
-        printf("Error: data->environment = NULL\n");
+        printf("Error: data->environment_variables = NULL\n");
     printf("===============================\n");
 
 }

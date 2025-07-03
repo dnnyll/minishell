@@ -506,7 +506,7 @@ char	*handle_exit_code(t_data *data, char *input)
 	return (result);
 }
 
-char	*handle_environment_variables(const char *input, int	*i, t_data *data, char * result)
+char	*handle_environment_variables(const char *input, int *i, t_data *data, char * result)
 {
 	int		start;
 	char	*variable_name;
@@ -519,7 +519,7 @@ char	*handle_environment_variables(const char *input, int	*i, t_data *data, char
 				//		increment that value
 				//		So *i gets the value, and then ++ increments it.
 	variable_name = ft_substr(input, start, *i - start);
-	value = get_env_value(data, variable_name);
+	value = search_env_value(data, variable_name);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
 	return (new_result);
@@ -636,8 +636,10 @@ char	*process_variables(const char *input, t_data *data, t_token *tokens)
 	char *expanded;
 
 	//	Marks which tokens are expandable
+	printf("handle_variables @ process_variables\n");
 	handle_variables(current);
 	//	Expands variables in the input string using tokens and data
+	printf("expand_variables @ process_variables\n");
 	expanded = expand_variables(input, data);
 	// free (current); //not sure
 	return (expanded);

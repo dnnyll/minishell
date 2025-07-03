@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/02 17:35:19 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:07:21 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,12 @@ void	free_tokens(t_data *data)
 // 	data->command_head = NULL; // Clear reference in data
 // }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
 	t_data	data = init_data();
-	data.environment = copy_environment(envp);
+	data.environment_variables = copy_environment(envp);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	char	*input_line;
 
@@ -128,7 +126,6 @@ int	main(int argc, char **argv, char **envp)
 
 
 
-		
 		//	executing.
 		
 		// Update exit_status from the result of this execution
@@ -161,7 +158,7 @@ int	main(int argc, char **argv, char **envp)
 		// free_commands(&data);
 		// print_tokens(&data);					//	prints tokens types
 		printf("pipe count = %d\n", data.pipe_count);
-		free_char_array(data.environment);
+		free_char_array(data.environment_variables);
 		free_tokens(&data);						//	frees token list
 		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line
