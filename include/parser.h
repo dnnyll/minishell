@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/02 17:43:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:37:14 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 
 typedef struct s_variables
 {
-	// INSERT STUFF HERE
+	char				*key;
+	char				*value;
+	struct s_variables	*next;
 } t_varibales;
 
 typedef struct s_command

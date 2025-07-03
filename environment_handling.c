@@ -50,7 +50,79 @@
 // [ ] echo "$HOME is $USER"
 
 
+/*
++---------------------------------------------+
+|              minishell launch               |
+|---------------------------------------------|
+| 1. Copy real environment into               |
+|      → data->environment                    |
+|                                             |
+| 2. Initialize local variable list           |
+|      → data->local_vars = NULL              |
++---------------------------------------------+
 
+              |
+              v
+
++---------------------------------------------+
+|         User types a command:               |
+|       echo "Hello $USER $FOO"               |
++---------------------------------------------+
+              |
+              v
+
++---------------------------------------------+
+|         Tokenization happens                |
+| - Splits into tokens                        |
+| - Keeps quotes info                         |
++---------------------------------------------+
+              |
+              v
+
++---------------------------------------------+
+|       handle_variables(tokens)              |
+| - If token->quote != SINGLE_QUOTE           |
+| - AND contains $                            |
+| → set token->expandable = 1                 |
++---------------------------------------------+
+              |
+              v
+
++---------------------------------------------+
+|       Variable expansion stage              |
+| For each token marked expandable:           |
+|   new_str = process_variables(token->value) |
++---------------------------------------------+
+              |
+              v
+
++---------------------------------------------+
+|   process_variables(value string)           |
+| - Walk through string character by char     |
+| - When $ is found:                          |
+|     var_name = extract from string          |
+|     → CALL lookup_variable(data, var_name)  |
+|                                             |
+|     THIS is where lookup_variable() happens |
++---------------------------------------------+
+              |
+              v
+
++---------------------------------------------+
+|        lookup_variable(data, name)          |
+|                                             |
+| 1. Check data->local_vars (FOO, BAR, etc.)  |
+|     - Found? → return copy of value         |
+|                                             |
+| 2. Else → CALL get_env_value(data, name)    |
+|     - Search in data->environment           |
+|     - Found? → return copy of value         |
+|                                             |
+| 3. Else → return NULL (empty string)        |
++---------------------------------------------+
+
+
+*/
 
 
 //	TIME TO CREATE MYVAR from the example $MYVAR=hello
@@ -78,6 +150,24 @@ char	**copy_environment(char **envp)
 	if (!environment_copy)
 		return (perror("Error: copying envp to environment_copy @ copy_environment\n"), NULL);
 	return (environment_copy);
+}
+
+char	*search_variable_value(t_data *data, const char *name)
+{
+	t_variiables	*current;
+
+	if (!data || !name)
+		return (perror("Error: empty data or name @ search_variable_value\n"), NULL);
+
+	// 1. Check local user-defined vars (assignments not exported)
+	current = data->local_variables;
+	while (current)
+	{
+		if (ft_strncmp(current->key, name) == 0)
+			return (ft_strdup(current->value));
+		current = current->next;
+	}
+	return (get_env_value(data, name));
 }
 
 char	*get_env_value(t_data *data, const char *name)

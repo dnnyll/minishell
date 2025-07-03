@@ -469,12 +469,6 @@ Continue scanning input from updated i
   - Appends expanded value to result string  
   - Updates index pointer to continue scanning after variable
 
----
-
-If you want, I can also sketch out the skeleton of these two functions so you can see the "big picture" structure without implementation details.
-
-Would you like that?
-
 */
 
 char	*ft_strjoin_char(char *input, char c)
