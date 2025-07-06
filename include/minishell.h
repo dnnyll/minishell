@@ -37,9 +37,10 @@ t_data	init_data(void);
 
 //	environement_handling.c
 char	**copy_environment(char **envp);
-char	*get_env_value(t_data *data, const char *name);
+char	*search_env_value(t_data *data, const char *name);
 
 //	printers.c
+
 // void print_redirections(t_redirect *redir, const char *label);
 void	print_commands(t_command *cmd_list);
 void	print_single_command(t_command *cmd);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   printers.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 12:30:10 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/19 11:06:28 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 // void print_redirections(t_redirect *redir, const char *label)
@@ -85,27 +73,25 @@ void print_data(t_data *data)
 
 void    print_tokens(t_data *data)
 {
-	t_token	*tokens = data->token_head;
+    t_token	*tokens = data->token_head;
 
-	if (!tokens)
-	{
-		printf("No tokens to print.\n");
-		return;
-	}
+    if (!tokens)
+    {
+        printf("No tokens to print.\n");
+        return;
+    }
 
-	printf("\n--- Token List ---\n");
-	while (tokens)
-	{
-		printf("Value: %-20s | Type: %-10s | Quote: %s\n",
-			tokens->value,
-			token_type_str(tokens->type),
-			quote_type_str(tokens->quote));
-		tokens = tokens->next;
-	}
-	printf("-------------------\n\n");
+    printf("\n--- Token List ---\n");
+    while (tokens)
+    {
+        printf("Value: %-20s | Type: %-10s | Quote: %s\n",
+            tokens->value,
+            token_type_str(tokens->type),
+            quote_type_str(tokens->quote));
+        tokens = tokens->next;
+    }
+    printf("-------------------\n\n");
 }
-
-
 
 void print_commands(t_command *cmd)
 {
@@ -158,21 +144,21 @@ void print_commands(t_command *cmd)
     // printf("\n\033[1;34m=========================================\033[0m\n\n");
 }
 
-void    debug_environment_printer(t_data *data)
+void    debug_environment_variables_printer(t_data *data)
 {
     int i;
 
     i = 0;
-    printf("===== DEBUG ENVIRONMENT COPY =====\n");
-    if (data->environment[i])
+    printf("===== DEBUG ENVIRONMENT_variables COPY =====\n");
+    if (data->environment_variables[i])
     {
-        while (data->environment[i])
+        while (data->environment_variables[i])
         {
-            printf("%s\n", data->environment[i++]);
+            printf("%s\n", data->environment_variables[i++]);
         }
     }
     else
-        printf("Error: data->environment = NULL\n");
+        printf("Error: data->environment_variables = NULL\n");
     printf("===============================\n");
 
 }

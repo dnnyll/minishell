@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 10:46:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/20 14:56:49 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -33,10 +21,18 @@ typedef struct s_command
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
 }	t_command;
 
+//	OBSOLETE
+typedef struct s_variables
+	{
+		char				*key;
+		char				*value;
+		struct s_variables	*next;
+}	t_variables;
+
 /*
-	information concerning: command
-	
-	Purpose: stores the arguments that will be passed to execve().
+information concerning: command
+
+Purpose: stores the arguments that will be passed to execve().
 
 	For: echo hello
 
@@ -50,10 +46,10 @@ typedef struct s_command
 */
 
 //	parse_commands
-void	parse_commands(t_data *data, t_token *tokens);
+void		parse_commands(t_data *data, t_token *tokens);
 t_command	*new_command(void);
-void	add_command_to_data(t_command **head, t_command *new_command);
-void	parse_commands(t_data *data, t_token *tokens);
+void		add_command_to_data(t_command **head, t_command *new_command);
+void		parse_commands(t_data *data, t_token *tokens);
 
 //	parser_fill_commands
 void	free_commands(t_data *data);
@@ -70,7 +66,13 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end);
 void	handle_pipes(t_data *data, t_token *start, t_token *end);
 
 //	parser_variable_handling
-void	handle_variable(t_token *tokens);
+char	*ft_strjoin_char(char *input, char c);
+char	*handle_exit_code(t_data *data, char *input);
+char	*handle_environment_variables(const char *input, int	*i, t_data *data, char * result);
+char	*expand_variables(const char *input, t_data *data);
+int		isexpandable_variable(const char *str);
+void	handle_variables(t_token *tokens);
+char	*process_variables(const char *input, t_data *data, t_token *tokens);
 
 //	parser_syntax
 t_token	*get_last_token(t_token *head);

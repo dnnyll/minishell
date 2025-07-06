@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 14:19:22 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/20 10:57:15 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 //	Purpose: Checks if a character is a whitespace (tabs, spaces, etc.).
@@ -47,24 +35,34 @@ t_lexer_result	extract_token(const char *input, int i)
 void	*lexer(t_data *data, const char *input)
 {
 	data->token_head = NULL;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	while (input[i])
 	{
+		printf("i = %d\n", i);
 		while (input[i] && ft_isspace(input[i]))
 			i++;											// Skip all whitespace
 		if (input[i] == '\0')
 			break ;											// End of input
 		t_lexer_result result = extract_token(input, i);	// Extract next token
+		printf("called extracted token\n");
 		if (result.index == -1)								// Syntax error occurred (e.g., unmatched quote)
 		{
+			printf("index == -1\n");
 			free_token_list(data->token_head);
 			return (NULL);									// Abort and clean up
 		}
-
 		if (result.token)
+		{
+			printf("token\n");
 			add_token(&data->token_head, result.token);		// Add token to the list
-
+		}
+		if (result.index <= i)
+		{
+			printf("ERROR: extract_token didn't advance input at i = %d\n", i);
+			break; // prevent infinite loop
+		}
 		i = result.index;									// Move index past the token
 	}
 	return (data->token_head);

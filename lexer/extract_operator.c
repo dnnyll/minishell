@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   extract_operator.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 13:34:28 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/09 11:23:53 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	get_operator_length(t_token_type type)
@@ -23,7 +11,9 @@ int	get_operator_length(t_token_type type)
 t_token_type	get_operator_type(const char *input)
 {
 	// printf("get_operator_type\n");
-	if (input[0] == '|' && input[1] != '|')
+	if (input[0] == '|')
+		return (PIPE);
+	if (input[0] == '|' && input[1] == '|')
 		return (PIPE);
 	if (input[0] == '<' && input[1] == '<')
 		return (HEREDOC);
@@ -35,10 +25,9 @@ t_token_type	get_operator_type(const char *input)
 		return (REDIR_OUT);
 	return (ERROR);
 }
-
 t_lexer_result extract_operator(const char *input, int i)
 {
-	// printf("extract_operator\n");
+	printf("extract_operator\n");
 	t_lexer_result	result;
 	t_token_type	type;
 	int				len;
@@ -47,8 +36,11 @@ t_lexer_result extract_operator(const char *input, int i)
 	type = get_operator_type(&input[i]);
 	if (type == ERROR)
 	{
-		result.token = NULL;
-		result.index = i;
+		// Extract the invalid operator char anyway, so the lexer keeps moving
+		op[0] = input[i];
+		op[1] = '\0';
+		result.token = create_token(op, ERROR);
+		result.index = i + 1;
 		return (result);
 	}
 	len = get_operator_length(type);
@@ -61,6 +53,7 @@ t_lexer_result extract_operator(const char *input, int i)
 	if (result.token)
 		result.index = i + len;
 	else
-		result.index = i;
+		result.index = i + len; // still move forward to avoid infinite loop
 	return (result);
 }
+
