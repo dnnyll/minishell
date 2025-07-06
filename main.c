@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/06 17:18:20 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/06 17:58:56 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int	main(int argc, char **argv, char **envp)
 
 
 		//	executing.
+	
+
 		
 		// Update exit_status from the result of this execution
 		//	- data->exit_status = get_exit_status();	this is necessary for the function expand_variable

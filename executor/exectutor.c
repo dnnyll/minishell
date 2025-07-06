@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exectutor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/09 10:52:17 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/06 17:58:06 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_builtin(t_command **argv)
-{
-	if (!)
-}
+// bool	is_builtin(t_command **argv)
+// {
+// 	if (!)
+// }
 
 void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
 {

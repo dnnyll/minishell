@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_and_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:07 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 19:23:10 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/06 17:53:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ int	env_builtin(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!data->environment)
+	if (!data->environment_variables)
 		return (1);
-	while (data->environment[i])
+	while (data->environment_variables[i])
 	{
-		printf("%s\n", data->environment[i]);
+		printf("%s\n", data->environment_variables[i]);
 		i++;
 	}
 	return (0);

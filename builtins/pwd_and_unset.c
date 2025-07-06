@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_and_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 15:07:03 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/06 17:57:45 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	unset_builtin(char **args, t_data *data)
 		if (!is_valid_identifier(args[i]))
 			printf("unset: '%s': not a valid identifier\n", args[i]);
 		else
-			data->environment = remove_env_entry(data->environment, args[i]);
+			data->environment_variables = remove_env_entry(data->environment_variables, args[i]);
 		i++;
 	}
 	return (0);
