@@ -52,15 +52,17 @@ int	echo_builtin(char **args)
 	return (0);
 }
 
-int	env_builtin(t_env *env)
+int	env_builtin(t_data *data)
 {
-	while (env)
+	int	i;
+
+	i = 0;
+	if (!data->environment)
+		return (1);
+	while (data->environment[i])
 	{
-		if (env->value)
-		{
-			printf("%s=%s\n", env->key, env->value);
-		}
-		env = env->next;
+		printf("%s\n", data->environment[i]);
+		i++;
 	}
 	return (0);
 }

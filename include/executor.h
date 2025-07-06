@@ -6,9 +6,11 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/21 20:06:19 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:06:48 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
@@ -84,8 +86,11 @@ void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
 int		cd_builtin(char **args, char **envp);
 int		echo_builtin(char **args);
-int		env_builtin(t_env *env);
+int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);
 int		no_args_export(t_data *data);
 int		export_builtin(char **args, t_data *data);
+int		pwd_builtin(char **args);
+int		unset_builtin(char **args, t_data *data);
+
 #endif
