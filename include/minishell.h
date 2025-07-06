@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:58:12 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/03 14:17:53 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/06 10:03:39 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_single_command(t_command *cmd);
 void	print_data(t_data *data);
 void	print_tokens(t_data *data);
 void	debug_parser_output(t_data *data);
-void	print_commands(t_command *cmd);*
+void	print_commands(t_command *cmd);
 void	debug_environment_printer(t_data *data);
 
 

@@ -571,6 +571,7 @@ char	*expand_variables(const char *input, t_data *data)
 
 int	isexpandable_variable(const char *str)
 {
+	printf("isexpandable_variable @parser_variable_handling.c\n");
 	int	i;
 
 	i = 0;
@@ -580,7 +581,7 @@ int	isexpandable_variable(const char *str)
 		{
 			i++;
 			if (str[i] == '\0')
-				return (0); // $ at end, no variable
+				return (printf("Error: $ followed by nothing\n"), 1); // $ at end, no variable
 			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
 				return (1); // Valid variable name or special
 		}

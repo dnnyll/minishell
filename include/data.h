@@ -12,7 +12,7 @@ typedef	struct	s_data
 	t_command	*command_head;			//	parser output (head of list of commands)
 	t_variables	*variables_head;		//	for new variable assignment ($MYVAR=cake)
 	char		**environment_variables;//	stores a copy of the environment
-	char		**local_variables;		//	stores a copy of inputed local variables (maybe it will be moved elsewhere)
+	// char		**local_variables;		//	stores a copy of inputed local variables (maybe it will be moved elsewhere)
 	int			last_exit_code_status;	//	tracks the return code of each command 
 										//	it's used to track and support '$?'
 	
