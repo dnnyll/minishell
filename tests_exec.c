@@ -115,8 +115,8 @@ int	main(int argc, char **argv, char **envp) // test echo and env
 	(void)argc;
 	(void)argv;
 
-	t_data	data = init_data(); // Initialise une structure avec data.env
-	data.env = init_env(envp); // Convertit envp (char **) en t_env * (liste chaînée)
+	t_data	data = init_data();
+	data.environment = copy_environment(envp);
 
 	char	*input;
 	char	**split;
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **envp) // test echo and env
 		if (!input)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		add_history(input);
 		split = ft_split(input, ' ');
@@ -135,25 +135,25 @@ int	main(int argc, char **argv, char **envp) // test echo and env
 		{
 			free_char_array(split);
 			free(input);
-			continue;
+			continue ;
 		}
 
 		if (ft_strncmp(split[0], "echo", 5) == 0)
 			echo_builtin(split);
 		else if (ft_strncmp(split[0], "env", 4) == 0)
-			env_builtin(data.env);
+			env_builtin(&data);
 		else if (ft_strncmp(split[0], "exit", 5) == 0)
 		{
 			free_char_array(split);
 			free(input);
-			break;
+			break ;
 		}
 
 		free_char_array(split);
 		free(input);
 	}
 
-	free_env_list(data.env); // fonction à adapter si besoin
+	free_char_array(data.environment);
 	clear_history();
 	return (0);
 }
