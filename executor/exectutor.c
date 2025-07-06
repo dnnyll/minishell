@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+bool	is_builtin(t_command **argv)
+{
+	if (!)
+}
+
 void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
 {
 	char	*path;
