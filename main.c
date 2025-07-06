@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/06 15:16:49 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:34:01 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	main(int argc, char **argv, char **envp)
 	//	test to search and print $HOME
 	// get_env_value(&data, "HOME");
 
-	
 	while (1)
 	{
 		input_line = readline(PROMPT);			//	displays prompt
@@ -105,15 +104,12 @@ int	main(int argc, char **argv, char **envp)
 
 
 
-
 		//	parsing
 		printf("main: process_variables(input_line, &data, tokens)\n");
 		// process_variables(input_line, &data, tokens);
 		expand_token_values(tokens, &data);		//	located in the folder tokens
 
 
-
-		
 		// validate_syntax(tokens);
 		printf("main: validate_syntax(tokens)\n");
 		validate_syntax(tokens);
