@@ -1,69 +1,5 @@
 #include "minishell.h"
 
-// int count_nodes(t_token *head)
-// {
-// 	int count = 0;
-// 	t_token *temp = head;	//“Give me the address of the first node in your token list, and I’ll walk through the list using the next pointers.”
-
-// 	while (temp && temp->type != PIPE)
-// 	{
-// 		if (temp->type == WORD)
-// 			count++;
-// 		else if (temp->type == REDIR_IN || temp->type == REDIR_OUT
-// 			|| temp->type == APPEND || temp->type == HEREDOC)
-// 			temp = temp->next; // skip redirection target
-// 		temp = temp->next;
-// 	}
-// 	return (count);
-// }
-
-
-// char **argument_collect(t_token *head)
-// {
-// 	int size = count_nodes(head);
-// 	char **argv = malloc(sizeof(char *) * (size + 1));
-// 	if (!argv)
-// 		return (NULL);
-// 	return argument_fill(argv, head);
-// }
-
-// char **argument_fill(char **argv, t_token *head)
-// {
-// 	t_token *temp = head;
-// 	int i = 0;
-
-// 	while (temp && temp->type != PIPE)
-// 	{
-// 		if (temp->type == WORD)
-// 		{
-// 			argv[i++] = ft_strdup(temp->value);
-// 			temp = temp->next;
-// 		}
-// 		else if (temp->type == REDIR_IN || temp->type == REDIR_OUT
-// 			|| temp->type == APPEND || temp->type == HEREDOC)
-// 		{
-// 			temp = temp->next; // skip file token
-// 			if (temp)
-// 				temp = temp->next;
-// 		}
-// 		else
-// 			temp = temp->next;
-// 	}
-// 	argv[i] = NULL;
-// 	return argv;
-// }
-
-// char **argument_collect(t_token *head)
-// {
-// 	char	**argv;
-// 	int	size = count_nodes(head);
-// 	argv = alloc_argv(NULL, size);
-// 	if (!argv)
-// 		return (NULL);
-// 	argument_fill(argv, head);
-// 	return (argv);
-// }
-
 t_command	*new_command(void)
 {
 	// printf("new_command\n");
@@ -83,15 +19,7 @@ t_command	*new_command(void)
 	command->next = NULL;
 	return (command);
 }
-/*
-	purpose:	this function is responsible for inserting a new t_command structure
-				(which represents one full parsed command segment) into the linked list of commands.
-				This list is stored in t_data->command_head (or simply head when passed to the function).
 
-				It maintains the ordered list of parsed commands.
-				It ensures that each new parsed command is properly appended to the end of the list.
-				It allows the parser to build the full pipeline of commands, one by one.
-*/
 void	add_command_to_data(t_command **head, t_command *new_command)
 {
 	// printf("add_command_to_data\n");
