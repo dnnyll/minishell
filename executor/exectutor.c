@@ -12,10 +12,26 @@
 
 #include "minishell.h"
 
-// bool	is_builtin(t_command **argv)
-// {
-// 	if (!)
-// }
+bool	is_builtin(t_command **argv)
+{
+	if (!argv || !*argv || !(*argv)->argv || !(*argv)->argv[0])
+		return (false);
+	if (ft_strncmp((*argv)->argv[0], "echo", 5) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "cd", 3) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "pwd", 4) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "export", 7) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "unset", 6) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "env", 4) == 0)
+		return (true);
+	if (ft_strncmp((*argv)->argv[0], "exit", 5) == 0)
+		return (true);
+	return (false);
+}
 
 void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
 {
