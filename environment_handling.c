@@ -279,5 +279,5 @@ char	*search_env_value(t_data *data, const char *variable_name)
 			i++;
 	}
 	printf("No match found for: %s\n", variable_name);
-	return(""); //	if not found
+	return(NULL); //	if not found
 }

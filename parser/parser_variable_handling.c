@@ -239,7 +239,7 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 	variable_name = ft_substr(input, start, *i - start);
 	value = search_env_value(data, variable_name);
 	if(!value)
-		return (printf("Error: search_env_value not found for the input\n"), NULL);
+		return (printf("Error: search_env_value not found for the input\n"), printf("\n"), NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
 	return (new_result);
