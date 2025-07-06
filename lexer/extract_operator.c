@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   extract_operator.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 13:34:28 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/24 17:19:14 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	get_operator_length(t_token_type type)
@@ -68,3 +56,4 @@ t_lexer_result extract_operator(const char *input, int i)
 		result.index = i + len; // still move forward to avoid infinite loop
 	return (result);
 }
+

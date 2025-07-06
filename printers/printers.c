@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   printers.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 12:30:10 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/03 14:06:09 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 // void print_redirections(t_redirect *redir, const char *label)
@@ -85,24 +73,24 @@ void print_data(t_data *data)
 
 void    print_tokens(t_data *data)
 {
-	t_token	*tokens = data->token_head;
+    t_token	*tokens = data->token_head;
 
-	if (!tokens)
-	{
-		printf("No tokens to print.\n");
-		return;
-	}
+    if (!tokens)
+    {
+        printf("No tokens to print.\n");
+        return;
+    }
 
-	printf("\n--- Token List ---\n");
-	while (tokens)
-	{
-		printf("Value: %-20s | Type: %-10s | Quote: %s\n",
-			tokens->value,
-			token_type_str(tokens->type),
-			quote_type_str(tokens->quote));
-		tokens = tokens->next;
-	}
-	printf("-------------------\n\n");
+    printf("\n--- Token List ---\n");
+    while (tokens)
+    {
+        printf("Value: %-20s | Type: %-10s | Quote: %s\n",
+            tokens->value,
+            token_type_str(tokens->type),
+            quote_type_str(tokens->quote));
+        tokens = tokens->next;
+    }
+    printf("-------------------\n\n");
 }
 
 void print_commands(t_command *cmd)

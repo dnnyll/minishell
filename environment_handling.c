@@ -224,7 +224,6 @@ char	**copy_environment(char **envp)
 	return (environment_copy);
 }
 
-
 //	used to search and verify if its a local variable or a environment_variables variable
 //	we still need to store the varibales in our data structure as char **local_variables
 // char	*search_variable_name(t_data *data, const char *variable_name)
@@ -255,6 +254,7 @@ char	**copy_environment(char **envp)
 // 	return (search_env_value(data, variable_name));
 // }
 //	used to search the environemnt varibles name wihtin the copy of the environment
+
 char	*search_env_value(t_data *data, const char *variable_name)
 {
 	int	i;
@@ -279,5 +279,5 @@ char	*search_env_value(t_data *data, const char *variable_name)
 			i++;
 	}
 	printf("No match found for: %s\n", variable_name);
-	return(NULL); //	if not found
+	return(""); //	if not found
 }

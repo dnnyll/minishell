@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_fill_commands.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 11:08:41 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/06/24 14:27:49 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 //	allows the command struct to be free to make sure the commands dont stack

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/03 14:07:21 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:16:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,21 +98,17 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		add_history(input_line);				//	adds action to history
-		printf ("I AM HERE 00\n");
-
-
 
 
 		//	lexing % tokenizing
 		t_token *tokens = lexer(&data, input_line);
-		printf ("I AM HERE\n");
 
 
 
 
 		//	parsing
 		printf("main: process_variables(input_line, &data, tokens)\n");
-		process_variables(input_line, &data, tokens);
+		// process_variables(input_line, &data, tokens);
 		expand_token_values(tokens, &data);		//	located in the folder tokens
 
 
@@ -120,8 +116,8 @@ int	main(int argc, char **argv, char **envp)
 		
 		// validate_syntax(tokens);
 		printf("main: validate_syntax(tokens)\n");
-		verify_pipes(tokens);
-		verify_redirections(tokens);
+		validate_syntax(tokens);
+
 
 
 
