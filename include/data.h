@@ -17,6 +17,7 @@
 
 typedef struct s_token t_token;
 typedef struct s_command t_command;
+typedef struct s_env t_env;
 
 typedef	struct	s_data
 {
@@ -24,7 +25,7 @@ typedef	struct	s_data
 	t_command	*command_head;		//	parser output (head of list of commands)
 	char		**environment;		//	stores a copy of the environment
 	int			last_exit_status;	//	tracks the return code of each command 
-									//	it's used to track and support '$?'
+	t_env		*env_list;
 
 	int			pipe_count;			// new - temporary
 	int			command_count;		// new - temporary
