@@ -12,6 +12,7 @@ t_command	*new_command(void)
 	command->infile = NULL;
 	command->outfile = NULL;
 	command->heredoc_delim = NULL;
+	command->heredoc_quoted = 0;
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
 	command->append = 0;
@@ -47,7 +48,7 @@ void	parse_commands(t_data *data, t_token *tokens)
 		if (current->type == PIPE)
 		{
 			// Cut the segment here
-			current->type = T_EOF;  // Optional: mark the pipe visually
+			current->type = PIPE;  // Optional: mark the pipe visually
 			// Parse the segment [segment_start ... current (exclusive)]
 			t_command *command = new_command();
 			if (!command)
@@ -62,7 +63,7 @@ void	parse_commands(t_data *data, t_token *tokens)
 	// Handle the final segment (after last pipe or if no pipes)
 	if (segment_start)
 	{
-		printf("Initiatin segment_start condition\n");
+		printf("Initiating segment_start condition\n");
 		t_command *command = new_command();
 		if (!command)
 		{
