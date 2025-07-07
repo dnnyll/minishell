@@ -85,6 +85,7 @@ static void	set_heredoc(t_command *command, t_token *current)
 	if (command->heredoc_delim)
 		free(command->heredoc_delim);
 	command->heredoc_delim = ft_strdup(current->next->value);
+	command->heredoc_quoted = (current->next->quote != NO_QUOTE);
 }
 
 /*

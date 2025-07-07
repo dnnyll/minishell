@@ -15,6 +15,7 @@ typedef struct s_command
 	char				*outfile;			// Output redirection file (for '>' or '>>')
 	int					append;				// 1 if '>>' (append mode), 0 if '>' (truncate)
 	char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
+	int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
 	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
 	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
 	int					is_builtin;			// 1 if the command is a builtin (optional for execution)

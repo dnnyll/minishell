@@ -123,6 +123,7 @@ void print_commands(t_command *cmd)
         printf("outfile:       %s\n", cmd->outfile ? cmd->outfile : "(none)");
         printf("append:        %s\n", cmd->append ? "true" : "false");
         printf("heredoc_delim: %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "(none)");
+        printf("heredoc_quoted: %s\n", cmd->heredoc_quoted ? "true" : "false");
 
         // Print file descriptors (highlight if not default)
         printf("fd_in:         %d %s\n", cmd->fd_in,
