@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_pipe(t_cmd *cmd, int *fd)
+int	ft_pipe(t_command *cmd, int *fd)
 {
 	fd[0] = -1;
 	fd[1] = -1;

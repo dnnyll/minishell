@@ -33,22 +33,22 @@ bool	is_builtin(t_command **argv)
 	return (false);
 }
 
-void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
+void	child_process(t_command *cmd, int prev_pipe_read, int *fd, char **env_vars)
 {
 	char	*path;
 
 	edit_pipe_fd(cmd->infile, cmd->outfile, prev_pipe_read, fd);
 	setup_child_signals();
-	path = get_path(cmd->args[0], env_vars);
+	path = get_path(cmd->argv[0], env_vars);
 	if (!path)
 	{
 		write(2, "minishell: command not found: ", 30);
-		write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
 		write(2, "\n", 1);
 		exit(127);
 	}
 	cmd->path = path;
-	if (execve(cmd->path, cmd->args, env_vars) == -1)
+	if (execve(cmd->path, cmd->argv, env_vars) == -1)
 	{
 		perror("execve failed");
 		exit(1);
@@ -66,12 +66,12 @@ int	parent_process(int prev_pipe_read, int *fd)
 	return (-1);
 }
 
-void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
+void	execute_pipeline(t_command *cmd_list, char **env_vars)
 {
-	t_cmd	*cmd;
-	int		fd[2];
-	int		prev_pipe_read;
-	pid_t	pid;
+	t_command	*cmd;
+	int			fd[2];
+	int			prev_pipe_read;
+	pid_t		pid;
 
 	cmd = cmd_list;
 	prev_pipe_read = -1;
@@ -92,6 +92,12 @@ void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 }
 
 /*
+** is_buitlins : !argv->the cmd ptr is NULL, !*argv->the cmd pointed to is
+	NULL, !(*argv)->agv -> the argv array(the cmds argv)doesn't exist, 
+	!(*argv)->argv[0]-> there is no cmd(empt line). If any ot htese conditions
+	is true, it's not a valid command, so we return false.
+	This function is for check if the cmd is a buitlins or not, ft_strncmp
+	compare each char of argv[0] and return true if it match.
 ** child_process : prepare the redirection in/out and replace the actual
 	process with the command to execute, else display an error. Default
 	behaviors are restored for SIGINY and SIGQUIT signals. And search
@@ -100,6 +106,6 @@ void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 	code 127 (mean command not found). Stock the path in cmd to use it.
 ** parent_process : is called just after fork() to close old unsused fd.
 	And to prepare the next pipeline.
-** execute_pipeline : execute all commands from t_cmd with or without pipe
+** execute_pipeline : execute all commands from t_command with or without pipe
 	in  while loop.
 */

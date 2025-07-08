@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	child_heredoc(t_cmd *cmd, int *pipe_fd)
+void	child_heredoc(t_command *cmd, int *pipe_fd)
 {
 	char	*line;
 
@@ -33,7 +33,7 @@ void	child_heredoc(t_cmd *cmd, int *pipe_fd)
 	exit(0);
 }
 
-void	parent_heredoc(t_cmd *cmd, int *pipe_fd, int pid)
+void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid)
 {
 	int	status;
 
@@ -52,7 +52,7 @@ void	handle_heredoc_sigint(int sig)
 	exit(130);
 }
 
-void	handle_heredoc(t_cmd *cmd)
+void	handle_heredoc(t_command *cmd)
 {
 	int	pid;
 	int	pipe_fd[2];
@@ -68,7 +68,7 @@ void	handle_heredoc(t_cmd *cmd)
 		parent_heredoc(cmd, pipe_fd, pid);
 }
 
-int	check_heredoc(t_cmd *cmd_list)
+int	check_heredoc(t_command *cmd_list)
 {
 	while (cmd_list)
 	{
