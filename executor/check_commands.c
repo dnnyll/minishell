@@ -12,18 +12,18 @@
 
 #include "minishell.h"
 
-int	is_command(t_cmd *cmd)
+int	is_command(t_command *cmd)
 {
 	return (cmd && cmd->type == CMD);
 }
 
-int	is_redir(t_cmd *cmd)
+int	is_redir(t_command *cmd)
 {
 	return (cmd && (cmd->type == REDIR_IN || cmd->type == REDIR_OUT
 			|| cmd->type == APPEND || cmd->type == HEREDOC));
 }
 
-int	is_pipe(t_cmd *cmd)
+int	is_pipe(t_command *cmd)
 {
 	return (cmd && cmd->type == PIPE);
 }

@@ -15,17 +15,11 @@
 int	pwd_builtin(char **args)
 {
 	char	*cwd;
-	// int i = 0;
-	// while (args[i])
-	// {
-	// 	printf("arg[%d] = \"%s\"\n", i, args[i]);
-	// 	i++;
-	// }
+
 	if (args[1])
 	{
 		printf("pwd: too many arguments\n");
 		return (1);
-
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -85,7 +79,8 @@ int	unset_builtin(char **args, t_data *data)
 		if (!is_valid_identifier(args[i]))
 			printf("unset: '%s': not a valid identifier\n", args[i]);
 		else
-			data->environment_variables = remove_env_entry(data->environment_variables, args[i]);
+			data->environment_var = remove_env_entry(data->environment_var,
+					args[i]);
 		i++;
 	}
 	return (0);

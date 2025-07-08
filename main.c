@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	t_data	data = init_data();
-	data.environment_variables = copy_environment(envp);
+	data.environment_var = copy_environment(envp);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	char	*input_line;
 
@@ -153,7 +153,8 @@ int	main(int argc, char **argv, char **envp)
 		// free_commands(&data);
 		// print_tokens(&data);					//	prints tokens types
 		printf("pipe count = %d\n", data.pipe_count);
-		free_char_array(data.environment_variables);
+		execute_commands(data.command_head, &data);
+		free_char_array(data.environment_var);
 		free_tokens(&data);						//	frees token list
 		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line

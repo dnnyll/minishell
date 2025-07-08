@@ -13,22 +13,17 @@ typedef struct s_command
 	char				**argv;				// NULL-terminated array of arguments (argv[0] = command)
 	char				*infile;			// Input redirection file (for '<')
 	char				*outfile;			// Output redirection file (for '>' or '>>')
+	char				*path;
+	char				*value;
 	int					append;				// 1 if '>>' (append mode), 0 if '>' (truncate)
 	char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
 	int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
 	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
 	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
-	int					is_builtin;			// 1 if the command is a builtin (optional for execution)
+	t_token_type		type;
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
+	struct s_command	*prev;
 }	t_command;
-
-//	OBSOLETE
-typedef struct s_variables
-	{
-		char				*key;
-		char				*value;
-		struct s_variables	*next;
-}	t_variables;
 
 /*
 information concerning: command

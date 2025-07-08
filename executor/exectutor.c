@@ -12,53 +12,32 @@
 
 #include "minishell.h"
 
-bool	is_builtin(t_command **argv)
-{
-	if (!argv || !*argv || !(*argv)->argv || !(*argv)->argv[0])
-		return (false);
-	if (ft_strncmp((*argv)->argv[0], "echo", 5) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "cd", 3) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "pwd", 4) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "export", 7) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "unset", 6) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "env", 4) == 0)
-		return (true);
-	if (ft_strncmp((*argv)->argv[0], "exit", 5) == 0)
-		return (true);
-	return (false);
-}
-
-void	child_process(t_cmd *cmd, int prev_pipe_read, int *fd, char **env_vars)
+void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
 {
 	char	*path;
 
-	edit_pipe_fd(cmd->infile, cmd->outfile, prev_pipe_read, fd);
+	edit_pipe_fd(cmd, prev_fd, fd);
 	setup_child_signals();
-	path = get_path(cmd->args[0], env_vars);
+	path = get_path(cmd->argv[0], env_vars);
 	if (!path)
 	{
 		write(2, "minishell: command not found: ", 30);
-		write(2, cmd->args[0], ft_strlen(cmd->args[0]));
+		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
 		write(2, "\n", 1);
 		exit(127);
 	}
 	cmd->path = path;
-	if (execve(cmd->path, cmd->args, env_vars) == -1)
+	if (execve(cmd->path, cmd->argv, env_vars) == -1)
 	{
 		perror("execve failed");
 		exit(1);
 	}
 }
 
-int	parent_process(int prev_pipe_read, int *fd)
+int	parent_process(int prev_fd, int *fd)
 {
-	if (prev_pipe_read != -1)
-		close(prev_pipe_read);
+	if (prev_fd != -1)
+		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
 	if (fd[0] != -1)
@@ -66,31 +45,62 @@ int	parent_process(int prev_pipe_read, int *fd)
 	return (-1);
 }
 
-void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
+void	execute_buitlins(t_command *cmd, t_data *data)
 {
-	t_cmd	*cmd;
-	int		fd[2];
-	int		prev_pipe_read;
-	pid_t	pid;
+	if (!cmd || !cmd->argv || !cmd->argv[0])
+		return ;
+	if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
+		echo_builtin(cmd->argv);
+	else if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
+		cd_builtin(cmd->argv, data->environment_var);
+	else if (ft_strncmp(cmd->argv[0], "pwd", 4) == 0)
+		pwd_builtin(cmd->argv);
+	else if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
+		export_builtin(cmd->argv, data);
+	else if (ft_strncmp(cmd->argv[0], "unset", 6) == 0)
+		unset_builtin(cmd->argv, data);
+	else if (ft_strncmp(cmd->argv[0], "env", 4) == 0)
+		env_builtin(data);
+	else if (ft_strncmp(cmd->argv[0], "exit", 5) == 0)
+		exit_builtin(cmd->argv, data);
+}
+
+void	execute_commands(t_command *cmd_list, t_data *data)
+{
+	if (!cmd_list)
+		return ;
+	if (check_heredoc(cmd_list))
+		return ;
+	if (!cmd_list->next && is_builtin(&cmd_list))
+		execute_buitlins(cmd_list, data);
+	else
+		execute_pipeline(cmd_list, data->environment_var);
+}
+
+void	execute_pipeline(t_command *cmd_list, char **env_vars)
+{
+	t_command	*cmd;
+	int			fd[2];
+	int			prev_fd;
+	pid_t		pid;
 
 	cmd = cmd_list;
-	prev_pipe_read = -1;
+	prev_fd = -1;
 	while (cmd)
 	{
 		if (ft_pipe(cmd, fd))
 			return ;
-		if (ft_fork(&pid, prev_pipe_read, fd))
+		if (ft_fork(&pid, prev_fd, fd))
 			return ;
 		if (pid == 0)
-			child_process(cmd, prev_pipe_read, fd, env_vars);
-		prev_pipe_read = parent_process(prev_pipe_read, fd);
+			child_process(cmd, prev_fd, fd, env_vars);
+		prev_fd = parent_process(prev_fd, fd);
 		cmd = cmd->next;
 	}
 	pid = 1;
 	while (pid > 0)
 		pid = wait(NULL);
 }
-
 /*
 ** child_process : prepare the redirection in/out and replace the actual
 	process with the command to execute, else display an error. Default
@@ -100,6 +110,12 @@ void	execute_pipeline(t_cmd *cmd_list, char **env_vars)
 	code 127 (mean command not found). Stock the path in cmd to use it.
 ** parent_process : is called just after fork() to close old unsused fd.
 	And to prepare the next pipeline.
-** execute_pipeline : execute all commands from t_cmd with or without pipe
+** execute_buitlins : This function is for execute a builtin if this is one,
+	check if cmd and cmd->argv[0] are valid and compare the name with strncmp, 
+	then call the right buitlins with goods args
+**execute_commands : Decides how to execute a list of commands. If it'a a single
+	builtin, executed directly int the parent. Or a cmd pipeline with fork and
+	pipes.
+** execute_pipeline : execute all commands from t_command with or without pipe
 	in  while loop.
 */

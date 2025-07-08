@@ -16,7 +16,7 @@ t_command	*new_command(void)
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
 	command->append = 0;
-	command->is_builtin = 0;
+	//command->is_builtin = 0;
 	command->next = NULL;
 	return (command);
 }

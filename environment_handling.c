@@ -54,8 +54,8 @@
 +---------------------------------------------+
 |              minishell launch               |
 |---------------------------------------------|
-| 1. Copy real environment_variables into               |
-|      → data->environment_variables                    |
+| 1. Copy real environment_var into               |
+|      → data->environment_var                    |
 |                                             |
 | 2. Initialize local variable list           |
 |      → data->local_vars = NULL              |
@@ -115,7 +115,7 @@
 |     - Found? → return copy of value         |
 |                                             |
 | 2. Else → CALL search_env_value(data, name)    |
-|     - Search in data->environment_variables           |
+|     - Search in data->environment_var           |
 |     - Found? → return copy of value         |
 |                                             |
 | 3. Else → return NULL (empty string)        |
@@ -224,7 +224,7 @@ char	**copy_environment(char **envp)
 	return (environment_copy);
 }
 
-//	used to search and verify if its a local variable or a environment_variables variable
+//	used to search and verify if its a local variable or a environment_var variable
 //	we still need to store the varibales in our data structure as char **local_variables
 // char	*search_variable_name(t_data *data, const char *variable_name)
 // {
@@ -242,8 +242,8 @@ char	**copy_environment(char **envp)
 // 		// Compare the variable name with the beginning of the local_variable string
 // 		if (ft_strncmp(data->local_variables[i], variable_name, variable_length) == 0)
 // 		{
-// 			printf("Match found: %s\n", data->environment_variables[i]);
-// 			printf("Returning value: %s\n", data->environment_variables[i] + variable_length + 1);
+// 			printf("Match found: %s\n", data->environment_var[i]);
+// 			printf("Returning value: %s\n", data->environment_var[i] + variable_length + 1);
 // 			// Return a copy of the value part (after the '=' sign)
 // 			return (ft_strdup(data->local_variables[i] + variable_length + 1));
 // 		}
@@ -264,17 +264,17 @@ char	*search_env_value(t_data *data, const char *variable_name)
 	variable_length = ft_strlen(variable_name);
 	if (!data || !variable_name)
 		return (perror("Error: empty data or name @ search_env_value\n"), NULL);
-	while(data->environment_variables[i])
+	while(data->environment_var[i])
 	{
-		printf("Checking env[%d]: %s\n", i, data->environment_variables[i]);
-		// Compare the variable name with the beginning of the environment_variables string
-		if (ft_strncmp(data->environment_variables[i], variable_name, variable_length) == 0
-			&& data->environment_variables[i][variable_length] == '=')
+		printf("Checking env[%d]: %s\n", i, data->environment_var[i]);
+		// Compare the variable name with the beginning of the environment_var string
+		if (ft_strncmp(data->environment_var[i], variable_name, variable_length) == 0
+			&& data->environment_var[i][variable_length] == '=')
 			{
-				printf("Match found: %s\n", data->environment_variables[i]);
-				printf("Returning value: %s\n", data->environment_variables[i] + variable_length + 1);
+				printf("Match found: %s\n", data->environment_var[i]);
+				printf("Returning value: %s\n", data->environment_var[i] + variable_length + 1);
 				// Return a copy of the value part (after the '=' sign)
-				return (ft_strdup(data->environment_variables[i] + variable_length + 1));
+				return (ft_strdup(data->environment_var[i] + variable_length + 1));
 			}
 			i++;
 	}

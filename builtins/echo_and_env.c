@@ -57,11 +57,11 @@ int	env_builtin(t_data *data)
 	int	i;
 
 	i = 0;
-	if (!data->environment_variables)
+	if (!data->environment_var)
 		return (1);
-	while (data->environment_variables[i])
+	while (data->environment_var[i])
 	{
-		printf("%s\n", data->environment_variables[i]);
+		printf("%s\n", data->environment_var[i]);
 		i++;
 	}
 	return (0);
