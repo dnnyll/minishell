@@ -33,12 +33,13 @@
 */
 
 //	init_data.c
-t_data	init_data(void);
+t_data	*init_data(void);
+t_env	*init_env(void);
 
 //	environement_handling.c
 char	**copy_environment(char **envp);
 char	*search_env_value(t_data *data, const char *name);
-
+void	identify_local_variables(t_env *env, t_token *tokens, char *input_variable);
 //	printers.c
 
 // void print_redirections(t_redirect *redir, const char *label);
@@ -49,6 +50,8 @@ void	print_tokens(t_data *data);
 void	debug_parser_output(t_data *data);
 void	print_commands(t_command *cmd);
 void	debug_environment_printer(t_data *data);
+void	print_env_list(t_env *env);
+void	print_data(t_data *data);
 
 
 //	main.c (to be re-arranged)

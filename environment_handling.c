@@ -139,15 +139,15 @@ typedef struct s_variables
 */
 
 // //	DO NOT NEED TO CREATE PARSING FOR LOCAL VARIABLES: MYVAR=cake
-// int	is_local_variable(char c)
-// {
-// 	return (c == '=');
-// }
+int	is_local_variable(char c)
+{
+	return (c == '=');
+}
 
-// void	identify_local_variables(t_variables *variables, t_token *tokens, char *input_variable)
+// void	identify_local_variables(t_env *env, t_token *tokens, char *input_variable)
 // {
 // 	t_token	*current_token = tokens;
-// 	t_variables	*current_variables = variables;
+// 	t_env	*current_env = env;
 // 	int	i;
 // 	int	input_variable_length;
 	
@@ -162,10 +162,10 @@ typedef struct s_variables
 // 				if (is_local_variable(current_token->value[i]))
 // 				{
 // 					char *temp = ft_substr(current_token->value, 0, i);
-// 					current_variables->key = temp;
+// 					current_env->key = temp;
 // 					free (temp);
 // 					temp = ft_substr(current_token->value, i, input_variable_length);
-// 					current_variables->value = temp;
+// 					current_env->value = temp;
 // 					free(temp);
 // 					return ;
 // 				}
@@ -175,8 +175,8 @@ typedef struct s_variables
 // 		}
 // 		current_token = current_token->next;
 // 	}
-// 	printf("s_variables\n");
-// 	printf("key: %s\n | value: %s\n", current_variables->key, current_variables->value);
+// 	printf("s_env\n");
+// 	printf("key: %s\n | value: %s\n", current_env->key, current_env->value);
 // }
 
 

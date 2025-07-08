@@ -14,6 +14,8 @@
 		"utility": "c",
 		"span": "c",
 		"string": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"string_view": "c",
+		"ranges": "c"
 	}
 }

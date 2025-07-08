@@ -65,11 +65,11 @@ void print_single_command(t_command *cmd)
         printf("heredoc_delim: %s\n", cmd->heredoc_delim);
     printf("append: %d\n", cmd->append);
 }
-void print_data(t_data *data)
-{
-    printf("==== Parser Output ====\n");
-    print_commands(data->command_head);
-}
+// void print_data(t_data *data)
+// {
+//     printf("==== Parser Output ====\n");
+//     print_commands(data->command_head);
+// }
 
 void    print_tokens(t_data *data)
 {
@@ -179,4 +179,68 @@ void debug_parser_output(t_data *data)
     print_commands(data->command_head);
 
     printf("===============================\n");
+}
+
+//==================================================================================
+//=================STRUCTURE PRINTING===============================================
+//==================================================================================
+
+void	print_env_list(t_env *env)
+{
+	while (env)
+	{
+		printf("key: [%s], value: [%s]\n", env->key, env->value);
+		env = env->next;
+	}
+}
+
+void	print_data(t_data *data)
+{
+	int	i;
+
+	if (!data)
+	{
+		printf("Data is NULL\n");
+		return;
+	}
+	
+	printf("=== DATA STRUCTURE ===\n");
+	printf("last_exit_code_status: %d\n", data->last_exit_code_status);
+	printf("pipe_count: %d\n", data->pipe_count);
+	printf("command_count: %d\n", data->command_count);
+
+	printf("\n--- ENVIRONMENT VARIABLES ARRAY ---\n");
+	if (data->environment_variables)
+	{
+		for (i = 0; data->environment_variables[i]; i++)
+			printf("[%d]: %s\n", i, data->environment_variables[i]);
+	}
+	else
+		printf("environment_variables is NULL\n");
+
+	printf("\n--- ENV LINKED LIST ---\n");
+	if (data->env)
+		print_env_list(data->env);
+	else
+		printf("env is NULL\n");
+
+	printf("\n--- TOKEN HEAD ---\n");
+	if (data->token_head)
+		printf("token_head is not NULL\n"); // You can add a token printer later
+	else
+		printf("token_head is NULL\n");
+
+	printf("\n--- COMMAND HEAD ---\n");
+	if (data->command_head)
+		printf("command_head is not NULL\n"); // You can add a command printer later
+	else
+		printf("command_head is NULL\n");
+
+	printf("\n--- VARIABLES HEAD ---\n");
+	if (data->variables_head)
+		printf("variables_head is not NULL\n"); // You can add a variable printer later
+	else
+		printf("variables_head is NULL\n");
+
+	printf("=========================\n");
 }

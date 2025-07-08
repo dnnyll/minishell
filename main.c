@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/06 17:58:56 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:02:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	t_data	data = init_data();
-	data.environment_variables = copy_environment(envp);
-	// debug_environment_printer(&data);			//	test to print copy of environment as verification
+	t_data	*data = init_data();
+	// t_env	*env = init_env();
+	// printf("env: %s\n", env->key);
+
+
+	data->environment_variables = copy_environment(envp);
 	char	*input_line;
 
 
+
 	//	test to search and print $HOME
-	// get_env_value(&data, "HOME");
+	// get_env_value(data, "HOME");
 
 	while (1)
 	{
@@ -101,14 +105,14 @@ int	main(int argc, char **argv, char **envp)
 
 
 		//	lexing % tokenizing
-		t_token *tokens = lexer(&data, input_line);
-
+		t_token *tokens = lexer(data, input_line);
 
 
 		//	parsing
-		printf("main: process_variables(input_line, &data, tokens)\n");
-		// process_variables(input_line, &data, tokens);
-		expand_token_values(tokens, &data);		//	located in the folder tokens
+		printf("main: process_variables(input_line, data, tokens)\n");
+		// process_variables(input_line, data, tokens);
+		expand_token_values(tokens, data);		//	located in the folder tokens
+
 
 
 		// validate_syntax(tokens);
@@ -116,6 +120,7 @@ int	main(int argc, char **argv, char **envp)
 		validate_syntax(tokens);
 
 
+		// print_data(data);
 
 
 
@@ -145,20 +150,19 @@ int	main(int argc, char **argv, char **envp)
 
 		
 	//	separates words into tokens
-		parse_commands(&data, tokens);
-		// handle_pipes(&data, tokens, NULL);
-		debug_parser_output(&data);
+		parse_commands(data, tokens);
+		// handle_pipes(data, tokens, NULL);
+		debug_parser_output(data);
 		// print_commands(data.command_head);
-		// print_commands(&data);
-		// free_commands(&data);
-		// print_tokens(&data);					//	prints tokens types
-		printf("pipe count = %d\n", data.pipe_count);
-		free_char_array(data.environment_variables);
-		free_tokens(&data);						//	frees token list
-		free_commands(&data);					//	frees command list
+		// print_commands(data);
+		// free_commands(data);
+		// print_tokens(data);					//	prints tokens types
+		printf("pipe count = %d\n", data->pipe_count);
+		free_char_array(data->environment_variables);
+		free_tokens(data);						//	frees token list
+		free_commands(data);					//	frees command list
 		free(input_line);						//	frees input line
 	}
-	
 	clear_history();							//	frees history list
 	rl_clear_history();							//	cleans up internal readline history structures
 }
