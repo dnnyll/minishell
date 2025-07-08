@@ -22,13 +22,6 @@ typedef struct s_command
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
 }	t_command;
 
-//	OBSOLETE
-typedef struct s_variables
-	{
-		char				*key;
-		char				*value;
-		struct s_variables	*next;
-}	t_variables;
 
 /*
 information concerning: command

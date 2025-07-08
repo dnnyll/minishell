@@ -21,4 +21,11 @@ typedef	struct	s_data
 	int			command_count;			// new - temporary
 }	t_data;
 
+typedef struct s_env
+	{
+		char			*key;
+		char			*value;
+		struct s_env	*next;
+}	t_env;
+
 #endif

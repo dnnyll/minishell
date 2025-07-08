@@ -237,17 +237,20 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 				//		increment that value
 				//		So *i gets the value, and then ++ increments it.
 	variable_name = ft_substr(input, start, *i - start);
+	// data->env->key = variable_name;
 	value = search_env_value(data, variable_name);
 	if(!value)
 		return (printf("Error: search_env_value not found for the input\n"), NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
+	// data->env->value = value;
+	// printf("CHECK %s\n\n", data->env->value); <----------------- FIGURE OUT HOW TO ADD KEY AND VALUE TO ENV STRUCTURE IN DATA
 	return (new_result);
 }
 
 char	*expand_variables(const char *input, t_data *data)
 {
-	int	i;
+	int		i;
 	char	*result;
 	char	*temp;
 
