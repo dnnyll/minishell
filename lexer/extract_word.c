@@ -14,7 +14,10 @@ int	get_word_length(const char *input)
 	int	len;
 	
 	len = 0;
-	while (input[len] && !ft_isspace(input[len]) && !is_operator_char(input[len]))
+	while (input[len] 
+		&& !ft_isspace(input[len]) 
+		&& !is_operator_char(input[len]) 
+		&& !is_quote(input[len]))
 		len++;
 	return (len);
 }

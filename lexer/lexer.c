@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+#define BUFFER_SIZE 1000
 //	Purpose: Checks if a character is a whitespace (tabs, spaces, etc.).
 int	ft_isspace(int c)
 {
@@ -21,14 +21,44 @@ int	is_operator_start(char c)
 }
 
 //	Purpose: Decides how to extract the token based on the current character.
+// t_lexer_result	extract_token(const char *input, int i)
+// {
+// 	if (is_quote(input[i]))						// Quoted string → special extract
+// 		return (extract_quoted(input, i));
+// 	else if (is_operator_start(input[i]))		// Shell operator → handled separately
+// 		return (extract_operator(input, i));
+// 	else										// Regular word
+// 		return (extract_word(input, i));
+// }
+// t_lexer_result	extract_full_word(const char *input, int i)
+// {
+// 	int	temp_buffer = BUFFER_SIZE;
+// 	int	i;
+// 	char	quote;
+
+// 	i = 0;
+// 	while (input[i])
+// 	{
+// 		if (is_quote(input[i]))
+// 		{
+// 			temp_buffer = input[i];
+// 			quote = input[i];
+
+// 		}
+// 		if (input[i] == quote)
+// 			extract_word(input, i);
+// 		i++;
+// 	}
+// }
+
 t_lexer_result	extract_token(const char *input, int i)
 {
-	if (is_quote(input[i]))						// Quoted string → special extract
-		return (extract_quoted(input, i));
-	else if (is_operator_start(input[i]))		// Shell operator → handled separately
+	if (is_quote(input[i]))
+		return (extract_quoted(input, i));			// quoted stirng -> special extract
+	else if (is_operator_start(input[i]))			// shell operator -> handled separately
 		return (extract_operator(input, i));
-	else										// Regular word
-		return (extract_word(input, i));
+	else
+		return (extract_word(input, i));			// regular word
 }
 
 //	Purpose: Main lexer function: loops through the input and builds a list of tokens.
@@ -38,6 +68,8 @@ void	*lexer(t_data *data, const char *input)
 	int		i;
 
 	i = 0;
+	//	need a new function with condition to verify and extract FULL WORD and QUOTED, it should call both of them
+	//	FIX PREVIOUS teSt
 	while (input[i])
 	{
 		printf("i = %d\n", i);

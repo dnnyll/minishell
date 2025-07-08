@@ -47,7 +47,7 @@ t_lexer_result	extract_quoted(const char *input, int i)
 	if (!token_value)
 		return ((t_lexer_result){NULL, i});
 
-	token = create_token(token_value, WORD);	// Create token object
+	token = create_token(token_value, WORD);		// Create token object
 	free (token_value);								// Free temporary buffer after use
 
 	if (!token)
