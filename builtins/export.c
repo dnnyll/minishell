@@ -19,17 +19,17 @@ int	no_args_export(t_data *data)
 	char	*equal_sign;
 
 	i = 0;
-	while (data->environment_variables[i])
+	while (data->environment_var[i])
 	{
-		equal_sign = ft_strchr(data->environment_variables[i], '=');
+		equal_sign = ft_strchr(data->environment_var[i], '=');
 		if (equal_sign)
 		{
-			name_len = equal_sign - data->environment_variables[i];
-			printf("declare -x %.*s=\"%s\"\n", name_len, data->environment_variables[i],
+			name_len = equal_sign - data->environment_var[i];
+			printf("declare -x %.*s=\"%s\"\n", name_len, data->environment_var[i],
 				equal_sign + 1);
 		}
 		else
-			printf("declare -x %s\n", data->environment_variables[i]);
+			printf("declare -x %s\n", data->environment_var[i]);
 		i++;
 	}
 	return (0);
@@ -73,19 +73,19 @@ void	add_or_update_env(t_data *data, char *arg)
 		len++;
 	name = ft_substr(arg, 0, len);
 	i = 0;
-	while (data->environment_variables[i])
+	while (data->environment_var[i])
 	{
-		if (ft_strncmp(data->environment_variables[i], name, len) == 0
-			&& data->environment_variables[i][len] == '=')
+		if (ft_strncmp(data->environment_var[i], name, len) == 0
+			&& data->environment_var[i][len] == '=')
 		{
-			free(data->environment_variables[i]);
-			data->environment_variables[i] = ft_strdup(arg);
+			free(data->environment_var[i]);
+			data->environment_var[i] = ft_strdup(arg);
 			free(name);
 			return ;
 		}
 		i++;
 	}
-	data->environment_variables = append_env_entry(data->environment_variables, arg);
+	data->environment_var = append_env_entry(data->environment_var, arg);
 	free(name);
 }
 
@@ -110,7 +110,7 @@ int	export_builtin(char **args, t_data *data)
 	format by the export command like the bash do. If a variable as a value
 	it displays otherwise displays : declare -x VAR. With 'strchr' find the
 	'=' that separates name and value. 'name_len = equal_sign -
-	data->environment_variables[i]' calculates the length of the name.
+	data->environment_var[i]' calculates the length of the name.
 	And with 'printf("declare -x %.*s=\"%s\"\n"...' displays the name and value
 	in quotes.
 **declare -x: do like bash, it's just text before declaration.

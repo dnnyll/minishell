@@ -50,12 +50,14 @@
 
 //pipe utils
 int		ft_pipe(t_command *cmd, int *fd);
-int		ft_fork(pid_t *pid, int prev_pipe_read, int *fd);
-void	edit_pipe_fd(int infile, int outfile, int prev_pipe_read, int *fd);
+int		ft_fork(pid_t *pid, int prev_fd, int *fd);
+void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
 
 //execution
-void	child_process(t_command *cmd, int prev_pipe_read, int *fd, char **env_vars);
-int		parent_process(int prev_pipe_read, int *fd);
+void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars);
+int		parent_process(int prev_fd, int *fd);
+void	execute_buitlins(t_command *cmd, t_data *data);
+void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, char **env_vars);
 
 //commands utils
@@ -84,6 +86,7 @@ void	setup_child_signals(void);
 //builtins
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
+bool	is_builtin(t_command **argv);
 int		cd_builtin(char **args, char **envp);
 int		echo_builtin(char **args);
 int		env_builtin(t_data *data);

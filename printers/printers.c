@@ -132,7 +132,7 @@ void print_commands(t_command *cmd)
             (cmd->fd_out != STDOUT_FILENO) ? "(!= STDOUT)" : "");
 
         // Print builtin flag
-        printf("is_builtin:    %s\n", cmd->is_builtin ? "yes" : "no");
+        //printf("is_builtin:    %s\n", cmd->is_builtin ? "yes" : "no");
 
         // Pipe connection visualization
         if (cmd->next)
@@ -151,15 +151,15 @@ void    debug_environment_variables_printer(t_data *data)
 
     i = 0;
     printf("===== DEBUG ENVIRONMENT_variables COPY =====\n");
-    if (data->environment_variables[i])
+    if (data->environment_var[i])
     {
-        while (data->environment_variables[i])
+        while (data->environment_var[i])
         {
-            printf("%s\n", data->environment_variables[i++]);
+            printf("%s\n", data->environment_var[i++]);
         }
     }
     else
-        printf("Error: data->environment_variables = NULL\n");
+        printf("Error: data->environment_var = NULL\n");
     printf("===============================\n");
 
 }

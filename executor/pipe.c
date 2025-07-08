@@ -27,14 +27,14 @@ int	ft_pipe(t_command *cmd, int *fd)
 	return (0);
 }
 
-int	ft_fork(pid_t *pid, int prev_pipe_read, int *fd)
+int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 {
 	*pid = fork();
 	if (*pid == -1)
 	{
 		perror("fork error");
-		if (prev_pipe_read != -1)
-			close(prev_pipe_read);
+		if (prev_fd != -1)
+			close(prev_fd);
 		if (fd[0] != -1)
 		{
 			close(fd[0]);
@@ -45,22 +45,22 @@ int	ft_fork(pid_t *pid, int prev_pipe_read, int *fd)
 	return (0);
 }
 
-void	edit_pipe_fd(int infile, int outfile, int prev_pipe_read, int *fd)
+void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 {
-	if (infile != 0)
+	if (cmd->fd_in != 0)
 	{
-		dup2(infile, 0);
-		close(infile);
+		dup2(cmd->fd_in, 0);
+		close(cmd->fd_in);
 	}
-	else if (prev_pipe_read != -1)
+	else if (prev_fd != -1)
 	{
-		dup2(prev_pipe_read, 0);
-		close(prev_pipe_read);
+		dup2(prev_fd, 0);
+		close(prev_fd);
 	}
-	if (outfile != 1)
+	if (cmd->fd_out != 1)
 	{
-		dup2(outfile, 1);
-		close(outfile);
+		dup2(cmd->fd_out, 1);
+		close(cmd->fd_out);
 	}
 	else if (fd[1] != -1)
 	{

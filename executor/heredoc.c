@@ -40,9 +40,9 @@ void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid)
 	close(pipe_fd[1]);
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
-		cmd->infile = -1;
+		cmd->fd_in = -1;
 	else
-		cmd->infile = pipe_fd[0];
+		cmd->fd_in = pipe_fd[0];
 }
 
 void	handle_heredoc_sigint(int sig)
@@ -75,7 +75,7 @@ int	check_heredoc(t_command *cmd_list)
 		if (cmd_list->type == HEREDOC)
 		{
 			handle_heredoc(cmd_list);
-			if (cmd_list->infile == -1)
+			if (cmd_list->fd_in == -1)
 				return (1);
 		}
 		cmd_list = cmd_list->next;
@@ -88,8 +88,8 @@ int	check_heredoc(t_command *cmd_list)
 	line is written to the write-end of the pipe. Once done, close the pipe and
 	exit.
 **parent_heredoc : close the write-end of the pipe, wait for the child process
-	to finish. If the chils was interrupted by a signal, set infile to -1.
-	Otherwise, set infile to the read-end of the pipe.
+	to finish. If the chils was interrupted by a signal, set fd_in to -1.
+	Otherwise, set fd_in to the read-end of the pipe.
 **handle_heredoc : create the heredoc, use a pipe to write the process child
 	to read it from the parent process. Create a child process (fork) to read
 	the heredoc input and the parent recover what the child wrote in the pipe.
@@ -97,6 +97,6 @@ int	check_heredoc(t_command *cmd_list)
 **handle_heredoc_signit : special signal handler for heredoc, 130 is the
 	standard code for Ctrl+C in heredoc.
 **check_heredoc : go through each command int the list. If a heredoc is found,
-	call handle_heredoc. If any heredoc was interrupted (infile == -1),
+	call handle_heredoc. If any heredoc was interrupted (fd_in == -1),
 	return 1 to indicate an error.
 */
