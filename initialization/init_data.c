@@ -3,6 +3,8 @@
 t_data	init_data(void)	//declare in minishell.h
 {
 	t_data	data;
+
+	ft_bzero(&data, sizeof(t_data));
 	data.token_head = NULL;
 	data.command_head = NULL;
 	data.variables_head = NULL;
