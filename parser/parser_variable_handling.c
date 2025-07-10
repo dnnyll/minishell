@@ -283,6 +283,7 @@ char	*expand_variables(const char *input, t_data *data)
 			temp = ft_strjoin_char(result, input[i]);
 			free (result);
 			result = temp;
+			free(temp);
 			i++;
 		}
 	}
