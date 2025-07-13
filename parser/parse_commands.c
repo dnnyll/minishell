@@ -8,6 +8,7 @@ t_command	*new_command(void)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
+	ft_bzero(command, sizeof(t_command));
 	command->argv = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;
