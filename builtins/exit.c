@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:29 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 17:32:24 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/13 13:25:14 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	exit_builtin(char **args, t_data *data)
 	exit_code = ft_atoi(args[1]) % 256;
 	if (exit_code < 0)
 		exit_code += 256;
+	free_on_exit(data);
 	exit(exit_code);
 }
 

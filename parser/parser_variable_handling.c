@@ -253,6 +253,11 @@ char	*expand_variables(const char *input, t_data *data)
 
 	i = 0;
 	result = strdup("");
+	if (!result)
+	{
+		return (NULL);
+		free(result);
+	}
 	while (input[i])
 	{
 		if (input[i] == '$')

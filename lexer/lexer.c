@@ -31,6 +31,24 @@ t_lexer_result	extract_token(const char *input, int i)
 		return (extract_word(input, i));
 }
 
+void	free_lexer_result(t_lexer_result *result)
+{
+	if (!result)
+		return;
+	if (result->token)
+		free(result->token);
+	free(result);
+}
+
+void	free_single_token(t_token *token)
+{
+	if (!token)
+		return;
+	if (token->value)
+		free(token->value);
+	free(token);
+}
+
 //	Purpose: Main lexer function: loops through the input and builds a list of tokens.
 void	*lexer(t_data *data, const char *input)
 {
@@ -50,6 +68,8 @@ void	*lexer(t_data *data, const char *input)
 		if (result.index == -1)								// Syntax error occurred (e.g., unmatched quote)
 		{
 			printf("index == -1\n");
+			if (result.token)
+				free_single_token(result.token);
 			free_token_list(data->token_head);
 			return (NULL);									// Abort and clean up
 		}
@@ -61,6 +81,8 @@ void	*lexer(t_data *data, const char *input)
 		if (result.index <= i)
 		{
 			printf("ERROR: extract_token didn't advance input at i = %d\n", i);
+			if (result.token)
+				free_single_token(result.token);
 			break; // prevent infinite loop
 		}
 		i = result.index;									// Move index past the token

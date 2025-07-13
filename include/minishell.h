@@ -46,6 +46,9 @@ void	free_tokens(t_data *data);
 //	utility_functions
 void	free_char_array(char **array);
 
+//	memory_management
+void	free_on_exit(t_data *data);
+
 //	prompt default
 # define PROMPT "minishell$ "
 
