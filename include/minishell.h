@@ -2,7 +2,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//	authosized libraries
+//	authosized standard libraries
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -13,24 +13,14 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <stdbool.h>
+
+//	personal library/header files
 # include "data.h"
 # include "tokens.h"
 # include "../lib/Libft/libft.h"
 # include "lexer.h"
 # include "executor.h"
 # include "parser.h"
-
-/*
-
-//	libraries/directories of programs
-# include "input/input.h"
-# include "lexer/lexer.h"
-# include "parser/parser.h"
-# include "executor/executor.h"
-# include "env/env.h"
-# include "signals/signals.h"
-# include "utils/utils.h"
-*/
 
 //	init_data.c
 t_data	init_data(void);
@@ -50,21 +40,14 @@ void	debug_parser_output(t_data *data);
 void	print_commands(t_command *cmd);
 void	debug_environment_printer(t_data *data);
 
-
 //	main.c (to be re-arranged)
-
 void	free_tokens(t_data *data);
 // void	free_commands(t_data *data);
-
 
 //	utility_functions
 void	free_char_array(char **array);
 
-
-
 //	prompt default
 # define PROMPT "minishell$ "
-
-
 
 #endif

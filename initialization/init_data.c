@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_data	init_data(void)	//declare in minishell.h
+t_data	init_data(void)
 {
 	t_data	data;
 
@@ -8,8 +8,10 @@ t_data	init_data(void)	//declare in minishell.h
 	data.token_head = NULL;
 	data.command_head = NULL;
 	data.variables_head = NULL;
-
-	// keep on adding whatever you need to initiatlize;
+	data.last_exit_code_status = 0;
+	data.env = NULL;
+	data.pipe_count = 0;
+	data.command_count = 0;
 
 	return (data);
 }

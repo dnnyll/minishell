@@ -11,13 +11,15 @@ t_command	*new_command(void)
 	command->argv = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;
+	command->path = NULL;
+	command->value = NULL;
+	command->append = 0;
 	command->heredoc_delim = NULL;
 	command->heredoc_quoted = 0;
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
-	command->append = 0;
-	//command->is_builtin = 0;
 	command->next = NULL;
+	command->prev = NULL;
 	return (command);
 }
 
