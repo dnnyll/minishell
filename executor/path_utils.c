@@ -56,6 +56,8 @@ char	*get_path(char *cmd_name, char **envp)
 	char	**paths;
 	char	*cmd_path;
 
+	if (ft_strchr(cmd_name, '/') && access(cmd_name, X_OK) == 0)
+		return (ft_strdup(cmd_name));
 	path_line = find_path_variable(envp);
 	if (!path_line)
 		return (NULL);
