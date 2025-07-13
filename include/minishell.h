@@ -42,7 +42,6 @@ void	debug_environment_printer(t_data *data);
 
 //	main.c (to be re-arranged)
 void	free_tokens(t_data *data);
-// void	free_commands(t_data *data);
 
 //	utility_functions
 void	free_char_array(char **array);

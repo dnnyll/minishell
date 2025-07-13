@@ -25,6 +25,10 @@ void	free_commands(t_data *data)
 			free(current->infile);
 		if (current->outfile)
 			free(current->outfile);
+		if (current->path)
+			free(current->path);
+		if (current->value)
+			free(current->value);
 		if (current->heredoc_delim)
 			free(current->heredoc_delim);
 		// No need to close fd_in / fd_out here unless you're manually opening files elsewhere

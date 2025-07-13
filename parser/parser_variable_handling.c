@@ -281,7 +281,7 @@ char	*expand_variables(const char *input, t_data *data)
 		else
 		{
 			temp = ft_strjoin_char(result, input[i]);
-			free (result);
+			// free (result);
 			result = temp;
 			free(temp);
 			i++;
