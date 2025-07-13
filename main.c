@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 		if (input_line[0] == '\0')				// trigers when enter is pressed on a empty line
 		{
 			free(input_line);
-			continue;
+			continue ;
 		}
 		add_history(input_line);				//	adds action to history
 
