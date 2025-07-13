@@ -3,6 +3,7 @@
 t_data	init_data(void)
 {
 	t_data	data;
+
 	ft_bzero(&data, sizeof(t_data));
 	data.token_head = NULL;
 	data.command_head = NULL;

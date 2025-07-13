@@ -42,10 +42,12 @@ clean:
 fclean:	clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
+	rm -f valgrind.log
 
 re: fclean all
 
 leaks:	all
-	valgrind --leak-check=full --show-leak-kinds=definite --track-origins=yes --track-fds=yes ./minishell
+#valgrind --leak-check=full --show-leak-kinds=definite --track-origins=yes --track-fds=yes ./minishell
+	valgrind -s --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --track-fds=all --default-suppressions=yes --suppressions=.valgrind_readline ./$(NAME)
 
 .PHONY: all clean fclean re

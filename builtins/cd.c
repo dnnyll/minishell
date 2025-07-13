@@ -86,5 +86,12 @@ int	cd_builtin(char **args, char **envp)
 	arg given (args[1]).
 **cd_builtin: This is the main function of the cd builtin, gets the target
 	directory using get_cd_target, uses chdir() to change directories and displays
-	an error message if the operation fails. 
+	an error message if the operation fails.
+** cd cmds : cd → doit te ramener dans le HOME ($HOME).
+			cd ~ → équivalent à cd (HOME).
+			cd . → reste dans le dossier actuel.
+			cd .. → va dans le dossier parent.
+			cd / → va à la racine du système.
+			cd /home/mrosset/Desktop/minishell → va à l’endroit précisé.
+			valgrind --leak-check=full --track-origins=yes ./minishell
 */

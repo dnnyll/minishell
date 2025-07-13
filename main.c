@@ -154,7 +154,7 @@ int	main(int argc, char **argv, char **envp)
 		// print_tokens(&data);					//	prints tokens types
 		printf("pipe count = %d\n", data.pipe_count);
 		execute_commands(data.command_head, &data);
-		free_char_array(data.environment_var);
+		//free_char_array(data.environment_var);
 		free_tokens(&data);						//	frees token list
 		free_commands(&data);					//	frees command list
 		free(input_line);						//	frees input line
@@ -162,4 +162,6 @@ int	main(int argc, char **argv, char **envp)
 	
 	clear_history();							//	frees history list
 	rl_clear_history();							//	cleans up internal readline history structures
+	free_char_array(data.environment_var);
+	return (0);
 }
