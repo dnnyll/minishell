@@ -47,28 +47,33 @@ int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 
 void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 {
-	if (cmd->fd_in != 0)
+	//gestion de l'entree
+	if (cmd->fd_in != STDIN_FILENO)
 	{
-		dup2(cmd->fd_in, 0);
+		dup2(cmd->fd_in, STDIN_FILENO);
 		close(cmd->fd_in);
 	}
 	else if (prev_fd != -1)
 	{
-		dup2(prev_fd, 0);
+		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	if (cmd->fd_out != 1)
+	//getion de la sortie
+	if (cmd->fd_out != STDOUT_FILENO)
 	{
-		dup2(cmd->fd_out, 1);
+		dup2(cmd->fd_out, STDOUT_FILENO);
 		close(cmd->fd_out);
 	}
 	else if (fd[1] != -1)
 	{
-		dup2(fd[1], 1);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	//ferme les 2 fd du pipe
 	if (fd[0] != -1)
 		close(fd[0]);
+	if (fd[1] != -1)
+		close(fd[1]);
 }
 
 /*
@@ -81,5 +86,6 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 	if there is an input file if there is a prev pipe, it reads from the pipe.
 	It also redirects output, if there is an input file it writes to that and
 	if the command is followed by a pipe, it writes to the pipe.
-	At the end it close all unused fd to avoid leaks.
+	At the end it close all unused fd to avoid leaks. he fisrt part of the
+	function is for the stdin, the stdout and for close all fd.
 */
