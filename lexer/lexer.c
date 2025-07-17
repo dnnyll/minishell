@@ -58,16 +58,14 @@ void	*lexer(t_data *data, const char *input)
 	i = 0;
 	while (input[i])
 	{
-		printf("i = %d\n", i);
 		while (input[i] && ft_isspace(input[i]))
 			i++;											// Skip all whitespace
 		if (input[i] == '\0')
 			break ;											// End of input
 		t_lexer_result result = extract_token(input, i);	// Extract next token
-		printf("called extracted token\n");
 		if (result.index == -1)								// Syntax error occurred (e.g., unmatched quote)
 		{
-			printf("index == -1\n");
+			printf("Info: index == -1\n");
 			if (result.token)
 				free_single_token(result.token);
 			free_token_list(data->token_head);

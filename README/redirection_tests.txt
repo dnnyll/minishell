@@ -1,0 +1,137 @@
+/*
+
+# Basic output redirection
+echo hello > file.txt
+
+# Expected result:
+# file.txt contains "hello\n"
+
+NOT CREATING file.txt
+
+
+
+# Output append redirection
+echo world >> file.txt
+
+# Expected result:
+# file.txt now contains:
+# hello
+# world
+
+
+
+# Input redirection
+cat < file.txt
+
+# Expected result:
+# hello
+# world
+
+
+
+# Output redirection overwrite
+echo overwritten > file.txt
+
+# Expected result:
+# file.txt contains "overwritten\n"
+
+
+
+# Input + Output redirection (invalid order in bash)
+cat < file.txt > out.txt
+
+# Expected result:
+# out.txt contains the content of file.txt:
+# overwritten
+
+
+
+# Redirection with missing file (input)
+cat < non_existing.txt
+
+# Expected result:
+# bash: non_existing.txt: No such file or directory
+
+
+
+# Output redirection with permission denied (read-only file)
+touch readonly.txt && chmod 444 readonly.txt
+echo test > readonly.txt
+
+# Expected result:
+# bash: readonly.txt: Permission denied
+
+# File descriptor aggregation (redirect stderr to stdout)
+ls notfound 2>&1
+
+# Expected result:
+# ls: cannot access 'notfound': No such file or directory
+
+# Redirect stdout and stderr to file
+ls notfound > out.txt 2>&1
+
+# Expected result:
+# out.txt contains:
+# ls: cannot access 'notfound': No such file or directory
+
+# Redirect stdout only (stderr still in terminal)
+ls notfound > out.txt
+
+# Expected result:
+# out.txt is empty
+# ls error printed on terminal
+
+# Close stdout
+echo hello 1>&-
+
+# Expected result:
+# bash: echo: write error: Bad file descriptor
+
+# Chain of redirections
+echo test > a.txt > b.txt
+
+# Expected result:
+# 'b.txt' contains "test\n"
+# 'a.txt' is empty or contains nothing (bash behavior)
+
+# Multiple redirections with append
+echo first >> a.txt >> b.txt
+
+# Expected result:
+# Both a.txt and b.txt contain "first\n" appended
+
+# Here-document basic
+cat << EOF
+line 1
+line 2
+EOF
+
+# Expected result:
+# line 1
+# line 2
+
+# Here-document with tab suppression
+cat <<- EOF
+	line with tab
+EOF
+
+# Expected result:
+# line with tab
+
+# Here-document with quoted delimiter (no expansion)
+cat << 'EOF'
+$HOME
+EOF
+
+# Expected result:
+# $HOME
+
+# Here-document with expansion
+cat << EOF
+$HOME
+EOF
+
+# Expected result:
+# [your home directory path]
+
+*/

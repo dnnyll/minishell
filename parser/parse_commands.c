@@ -50,14 +50,16 @@ void	parse_commands(t_data *data, t_token *tokens)
 	{
 		if (current->type == PIPE)
 		{
+			data->pipe_count++;
 			// Cut the segment here
 			current->type = PIPE;  // Optional: mark the pipe visually
 			// Parse the segment [segment_start ... current (exclusive)]
 			t_command *command = new_command();
 			if (!command)
-				return ; // handle error
+			return ; // handle error
 			fill_command_segment(command, segment_start, current); // You'll write this
 			add_command_to_data(&data->command_head, command);
+			data->command_count++;
 			segment_start = current->next; // move to next segment
 		}
 		current = current->next;
@@ -75,6 +77,7 @@ void	parse_commands(t_data *data, t_token *tokens)
 		}
 		fill_command_segment(command, segment_start, NULL);
 		add_command_to_data(&data->command_head, command);
+		data->command_count++;
 		printf("Added final command\n");
 	}
 }

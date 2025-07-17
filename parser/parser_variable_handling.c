@@ -278,7 +278,7 @@ char	*expand_variables(const char *input, t_data *data)
 			}
 			else
 			{
-				temp = ft_strjoin_char(result, '$');	//need to code the ft_strjoin_char
+				temp = ft_strjoin_char(result, '$');
 				free (result);
 				result = temp;
 			}
