@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/17 10:56:28 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/17 11:40:05 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,44 +89,10 @@ int	main(int argc, char **argv, char **envp)
 		printf("calling validate_syntax(tokens) @ main.c\n");
 		validate_syntax(tokens);
 
-
-
-
-
-		//	executing.
-	
-
-		
-		// Update exit_status from the result of this execution
-		//	- data->exit_status = get_exit_status();	this is necessary for the function expand_variable
-
-
-		
-		// simple check to verify lexer output
-		// if (!tokens)
-		// 	printf("Lexer returned NULL tokens\n");
-		// else
-		// {
-		// 	printf("Lexer returned tokens:\n");
-		// 	t_token *tmp = tokens;
-		// 	while (tmp)
-		// 	{
-		// 		printf("Value: %-20s | Type: %d | Quote: %d\n", tmp->value, tmp->type, tmp->quote);
-		// 		tmp = tmp->next;
-		// 	}
-		// }
-
-
-		
 	//	separates words into tokens
 		parse_commands(&data, tokens);
 		// handle_pipes(&data, tokens, NULL);
 		debug_parser_output(&data);
-		// print_commands(data.command_head);
-		// print_commands(&data);
-		// free_commands(&data);
-		// print_tokens(&data);					//	prints tokens types
-		printf("pipe count = %d\n", data.pipe_count);
 		execute_commands(data.command_head, &data);
 		//free_char_array(data.environment_var);
 		free_tokens(&data);						//	frees token list

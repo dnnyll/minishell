@@ -59,8 +59,8 @@ void	parse_commands(t_data *data, t_token *tokens)
 			return ; // handle error
 			fill_command_segment(command, segment_start, current); // You'll write this
 			add_command_to_data(&data->command_head, command);
-			segment_start = current->next; // move to next segment
 			data->command_count++;
+			segment_start = current->next; // move to next segment
 		}
 		current = current->next;
 	}
