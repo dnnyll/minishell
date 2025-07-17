@@ -83,6 +83,7 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 	int			fd[2];
 	int			prev_fd;
 	pid_t		pid;
+	int			status;
 
 	cmd = cmd_list;
 	prev_fd = -1;
@@ -97,9 +98,9 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 		prev_fd = parent_process(prev_fd, fd);
 		cmd = cmd->next;
 	}
-	pid = 1;
+	pid = wait(&status);
 	while (pid > 0)
-		pid = wait(NULL);
+		pid = wait(&status);
 }
 /*
 ** child_process : prepare the redirection in/out and replace the actual
