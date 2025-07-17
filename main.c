@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/13 12:54:17 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/17 10:56:28 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,19 @@ int	main(int argc, char **argv, char **envp)
 
 
 		//	lexing % tokenizing
+		
 		t_token *tokens = lexer(&data, input_line);
-
+		printf("calling lexer(&data, input_line) @ main.c\n");
 
 
 		//	parsing
-		printf("main: process_variables(input_line, &data, tokens)\n");
+		printf("calling process_variables(input_line, &data, tokens) @ main.c\n");
 		// process_variables(input_line, &data, tokens);
 		expand_token_values(tokens, &data);		//	located in the folder tokens
 
 
 		// validate_syntax(tokens);
-		printf("main: validate_syntax(tokens)\n");
+		printf("calling validate_syntax(tokens) @ main.c\n");
 		validate_syntax(tokens);
 
 
