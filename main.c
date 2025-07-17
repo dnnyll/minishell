@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/17 11:40:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/17 15:29:32 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*input_line;
 
 
+
+	//
 	//	test to search and print $HOME
 	// get_env_value(&data, "HOME");
 
