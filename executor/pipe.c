@@ -87,5 +87,5 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 	It also redirects output, if there is an input file it writes to that and
 	if the command is followed by a pipe, it writes to the pipe.
 	At the end it close all unused fd to avoid leaks. he fisrt part of the
-	function is for the stdin, the stdout and for close all fd.
+	function is for the stdin, the stdout and for close all fd. 
 */
