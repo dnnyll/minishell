@@ -22,7 +22,8 @@ void	child_heredoc(t_command *cmd, int *pipe_fd)
 	{
 		line = readline("> ");
 		if (!line
-			|| ft_strncmp(line, cmd->value, ft_strlen(cmd->value) + 1) == 0)
+			|| ft_strncmp(line, cmd->heredoc_delim,
+				ft_strlen(cmd->heredoc_delim) + 1) == 0)
 			break ;
 		write (pipe_fd[1], line, ft_strlen(line));
 		write (pipe_fd[1], "\n", 1);
