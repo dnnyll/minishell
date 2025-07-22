@@ -44,6 +44,8 @@ void	add_command_to_data(t_command **head, t_command *new_command)
 void	parse_commands(t_data *data, t_token *tokens)
 {
 	// printf("parse_commands\n");
+	data->command_count = 0;
+	data->pipe_count = 0;
 	t_token	*current = tokens;
 	t_token	*segment_start = current;
 	while (current)

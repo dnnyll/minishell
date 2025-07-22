@@ -202,28 +202,6 @@ typedef struct s_variables
 // 	return (local_variables_storage);
 // }
 
-char	**copy_environment(char **envp)
-{
-	int		i;
-	char	**environment_copy;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	environment_copy = malloc(sizeof(char*) * (i + 1));
-	if (!environment_copy)
-		return (perror("Error: arlloc environemnt_copy @ copy_environment\n"), NULL);
-	i = 0;
-	while (envp[i])
-	{
-		environment_copy[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	if (!environment_copy)
-		return (perror("Error: copying envp to environment_copy @ copy_environment\n"), NULL);
-	return (environment_copy);
-}
-
 //	used to search and verify if its a local variable or a environment_var variable
 //	we still need to store the varibales in our data structure as char **local_variables
 // char	*search_variable_name(t_data *data, const char *variable_name)
@@ -255,6 +233,29 @@ char	**copy_environment(char **envp)
 // }
 //	used to search the environemnt varibles name wihtin the copy of the environment
 
+
+char	**copy_environment(char **envp)
+{
+	int		i;
+	char	**environment_copy;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	environment_copy = malloc(sizeof(char*) * (i + 1));
+	if (!environment_copy)
+		return (perror("Error: arlloc environemnt_copy @ copy_environment\n"), NULL);
+	i = 0;
+	while (envp[i])
+	{
+		environment_copy[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	if (!environment_copy)
+		return (perror("Error: copying envp to environment_copy @ copy_environment\n"), NULL);
+	return (environment_copy);
+}
+
 char	*search_env_value(t_data *data, const char *variable_name)
 {
 	int	i;
@@ -281,3 +282,5 @@ char	*search_env_value(t_data *data, const char *variable_name)
 	printf("No match found for: %s\n", variable_name);
 	return(""); //	if not found
 }
+
+

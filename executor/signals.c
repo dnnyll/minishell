@@ -3,35 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/09 09:54:04 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:28:26 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_signal_status = 0;
+
 void	handle_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	(void)sig;				// suppress unused parameter warning
+	g_signal_status = 130;	// Convention: 130 = SIGINT + 128
+	write(1, "\n", 1);		// print a newline to stdout (file descriptor 1)
+	rl_on_new_line();		// tell readline library that we are on a new line
+	rl_replace_line("", 0);	// clear the current input line
+	rl_redisplay();			// redraw the prompt and input line
 }
+
 
 void	setup_parent_signals(void)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);  // Ctrl-C triggers handle_sigint
+	signal(SIGQUIT, SIG_IGN);       // Ctrl-\ (SIGQUIT) is ignored
 }
 
 void	setup_child_signals(void)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);  // Ctrl-C behaves default (usually terminate)
+	signal(SIGQUIT, SIG_DFL); // Ctrl-\ behaves default (usually terminate)
 }
+
 
 /*
 **rl : readline

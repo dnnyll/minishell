@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/17 11:40:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:42:59 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,6 @@
 // 	}
 // }
 
-// Frees all tokens from data->token_head
-void	free_tokens(t_data *data)
-{
-	t_token	*token = data->token_head;
-	t_token	*next;
-
-	while (token)
-	{
-		next = token->next;
-		free(token->value);
-		free(token);
-		token = next;
-	}
-	data->token_head = NULL; // Clear reference in data
-}
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -50,12 +33,8 @@ int	main(int argc, char **argv, char **envp)
 
 	t_data	data = init_data();
 	data.environment_var = copy_environment(envp);
-	// debug_environment_printer(&data);			//	test to print copy of environment as verification
+	data.env = build_env_list(data.environment_var);
 	char	*input_line;
-
-
-	//	test to search and print $HOME
-	// get_env_value(&data, "HOME");
 
 	while (1)
 	{

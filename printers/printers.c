@@ -167,6 +167,54 @@ void    debug_environment_variables_printer(t_data *data)
     printf("===============================\n");
 
 }
+void print_env_list(t_env *env)
+{
+	int i = 1;
+	printf("\n\033[1;33m---- Environment Variables ----\033[0m\n");
+	while (env)
+	{
+		printf("  [%d] key: '%s', value: '%s'\n", i,
+			env->key ? env->key : "(null)",
+			env->value ? env->value : "(null)");
+		env = env->next;
+		i++;
+	}
+	if (i == 1)
+		printf("  (empty)\n");
+}
+
+void print_data_debug(t_data *data)
+{
+	printf("\n\033[1;36m==== DATA DEBUG ====\033[0m\n");
+
+	// Environment variables (linked list)
+	print_env_list(data->env);
+
+	// Environment variables (array copy)
+	printf("\n\033[1;33m---- Environment Array ----\033[0m\n");
+	if (data->environment_var)
+	{
+		int i = 0;
+		while (data->environment_var[i])
+		{
+			printf("  [%d]: %s\n", i, data->environment_var[i]);
+			i++;
+		}
+		if (i == 0)
+			printf("  (empty)\n");
+	}
+	else
+		printf("  (null)\n");
+
+	// Last exit code
+	printf("\nlast_exit_code_status: %d\n", data->last_exit_code_status);
+
+	// // Temporary counts
+	// printf("pipe_count:    %d\n", data->pipe_count);
+	// printf("command_count: %d\n", data->command_count);
+
+	printf("\033[1;36m===================\033[0m\n");
+}
 
 //  this is the main debug function that calls all the other printers
 
@@ -175,15 +223,18 @@ void debug_parser_output(t_data *data)
     printf("===== DEBUG PARSER OUTPUT =====\n");
 
     // Print token list (optional, if you have a token printer)
-    printf("\n____________Tokens____________\n");
+    printf("\n____________ Tokens ____________\n");
     print_tokens(data);
 
     // Print commands
-    printf("\n____________Parsed Commands____________\n");
+    printf("\n____________ Parsed Commands ____________\n");
     print_commands(data->command_head);
 
-    // Print counters
-    printf("\npipes_count = %d | commands_count = %d\n", data->pipe_count, data->command_count);
+    // Print environment variables (linked list + array + counters)
+    print_data_debug(data);
+
+    // Print counters (already handled inside print_data_debug, optional if you want redundancy)
+    printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);
 
     printf("===============================\n");
 }
