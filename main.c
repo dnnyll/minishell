@@ -33,7 +33,9 @@ int	main(int argc, char **argv, char **envp)
 
 	t_data	data = init_data();
 	data.environment_var = copy_environment(envp);
-	data.env = build_env_list(data.environment_var);
+  data.env = build_env_list(data.environment_var);
+	// debug_environment_printer(&data);			//	test to print copy of environment as verification
+	setup_parent_signals();
 	char	*input_line;
 
 	while (1)
