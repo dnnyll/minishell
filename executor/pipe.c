@@ -16,7 +16,7 @@ int	ft_pipe(t_command *cmd, int *fd)
 {
 	fd[0] = -1;
 	fd[1] = -1;
-	if (cmd && cmd->next && cmd->next->type == PIPE)
+	if (cmd && cmd->next)
 	{
 		if (pipe(fd) == -1)
 		{
@@ -26,6 +26,23 @@ int	ft_pipe(t_command *cmd, int *fd)
 	}
 	return (0);
 }
+
+// int	ft_pipe(t_command *cmd, int *fd)
+// {
+// 	fd[0] = -1;
+// 	fd[1] = -1;
+// 	if (cmd && cmd->next)
+// 		printf("ft_pipe: cmd type = %d, next type = %d\n", cmd->type, cmd->next->type); //
+// 	if (cmd && cmd->next && cmd->next->type == PIPE)
+// 	{
+// 		if (pipe(fd) == -1)
+// 		{
+// 			perror("pipe error");
+// 			return (1);
+// 		}
+// 	}
+// 	return (0);
+// }
 
 int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 {

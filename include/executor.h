@@ -54,11 +54,11 @@ int		ft_fork(pid_t *pid, int prev_fd, int *fd);
 void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
 
 //execution
-void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars);
+void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);
 int		parent_process(int prev_fd, int *fd);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
-void	execute_pipeline(t_command *cdm_list, char **env_vars);
+void	execute_pipeline(t_command *cdm_list, t_data *data);
 
 //commands utils
 int		is_command(t_command *cmd);
