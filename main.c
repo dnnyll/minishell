@@ -51,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data = init_data();
 	data.environment_var = copy_environment(envp);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
+	setup_parent_signals();
 	char	*input_line;
 
 

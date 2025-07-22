@@ -72,8 +72,8 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 	//ferme les 2 fd du pipe
 	if (fd[0] != -1)
 		close(fd[0]);
-	if (fd[1] != -1)
-		close(fd[1]);
+	//if (fd[1] != -1)
+		//close(fd[1]);
 }
 
 /*
