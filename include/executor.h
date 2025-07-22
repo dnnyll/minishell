@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 15:06:48 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/22 11:46:24 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,12 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //heredoc
-void	child_heredoc(t_command *cmd, int *pipe_fd);
+char	*expand_line(char *line, t_command *cmd, t_data *data);
+void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data);
 void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid);
 void	handle_heredoc_sigint(int sig);
-void	handle_heredoc(t_command *cmd);
-int		check_heredoc(t_command *cmd_list);
+void	handle_heredoc(t_command *cmd, t_data *data);
+int		check_heredoc(t_command *cmd_list, t_data *data);
 
 //signals
 void	handle_sigint(int sig);

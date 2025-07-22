@@ -21,16 +21,12 @@
 # include "lexer.h"
 # include "executor.h"
 # include "parser.h"
+# include "environment_management.h"
 
 //	init_data.c
 t_data	init_data(void);
 
-//	environement_handling.c
-char	**copy_environment(char **envp);
-char	*search_env_value(t_data *data, const char *name);
-
 //	printers.c
-
 // void print_redirections(t_redirect *redir, const char *label);
 void	print_commands(t_command *cmd_list);
 void	print_single_command(t_command *cmd);
@@ -38,10 +34,9 @@ void	print_data(t_data *data);
 void	print_tokens(t_data *data);
 void	debug_parser_output(t_data *data);
 void	print_commands(t_command *cmd);
+void	print_env_list(t_env *env);
+void	print_data_debug(t_data *data);
 void	debug_environment_printer(t_data *data);
-
-//	main.c (to be re-arranged)
-void	free_tokens(t_data *data);
 
 //	utility_functions
 void	free_char_array(char **array);

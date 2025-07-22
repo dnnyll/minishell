@@ -17,6 +17,7 @@ typedef struct s_lexer_result
 }	t_lexer_result;
 
 //	extract_word.c
+const char *quote_type_str(t_quote_type quote);
 int				is_operator_char(char c);
 int				get_word_length(const char *input);
 t_lexer_result	extract_word(const char *input, int i);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+         #
+#    By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/26 13:59:43 by daniefe2          #+#    #+#              #
-#    Updated: 2025/06/29 16:38:56 by mrosset          ###   ########.fr        #
+#    Updated: 2025/07/17 15:29:05 by daniefe2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all:	$(LIBFT_A) $(NAME)
 $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_A) -lreadline
 
 clean:

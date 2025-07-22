@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+const char *quote_type_str(t_quote_type quote)
+{
+	if (quote == NO_QUOTE) return "None";
+	if (quote == SINGLE_QUOTE) return "Single";
+	if (quote == DOUBLE_QUOTE) return "Double";
+	return ("Unknown");
+}
 //	Purpose: Finds the length of a quoted string, stopping at the matching closing quote.
 int	get_quoted_length(const char *input, char quote_char)
 {

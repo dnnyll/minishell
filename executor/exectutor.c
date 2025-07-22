@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/06 17:58:06 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/22 11:41:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 {
 	if (!cmd_list)
 		return ;
-	if (check_heredoc(cmd_list))
+	if (check_heredoc(cmd_list, 0))
 		return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
 		execute_buitlins(cmd_list, data);

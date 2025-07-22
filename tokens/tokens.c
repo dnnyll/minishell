@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+// Frees all tokens from data->token_head
+void	free_tokens(t_data *data)
+{
+	t_token	*token = data->token_head;
+	t_token	*next;
+
+	while (token)
+	{
+		next = token->next;
+		free(token->value);
+		free(token);
+		token = next;
+	}
+	data->token_head = NULL; // Clear reference in data
+}
+
 const char *token_type_str(t_token_type type)
 {
 	if (type == CMD) return "COMMAND";
@@ -13,14 +29,6 @@ const char *token_type_str(t_token_type type)
 	if (type == ERROR) return "ERROR";
 	if (type == ENV) return "ENV";
 	return ("UNKNOWN");
-}
-
-const char *quote_type_str(t_quote_type quote)
-{
-	if (quote == NO_QUOTE) return "None";
-	if (quote == SINGLE_QUOTE) return "Single";
-	if (quote == DOUBLE_QUOTE) return "Double";
-	return ("Unknown");
 }
 
 //	Purpose: Adds a new token to the end of the token list.
