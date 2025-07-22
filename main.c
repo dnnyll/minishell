@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/22 14:42:59 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:17:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 
 	t_data	data = init_data();
 	data.environment_var = copy_environment(envp);
-  data.env = build_env_list(data.environment_var);
+  data.env_head = build_env_list(data.environment_var);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	setup_parent_signals();
 	char	*input_line;

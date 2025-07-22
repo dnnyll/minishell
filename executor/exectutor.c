@@ -6,38 +6,11 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 11:41:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:56:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
-// {
-// 	char	*path;
-
-// 	edit_pipe_fd(cmd, prev_fd, fd);
-// 	setup_child_signals();
-// 	path = get_path(cmd->argv[0], env_vars);
-// 	if (fd)
-// 	{
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 	}
-// 	if (!path)
-// 	{
-// 		write(2, "minishell: command not found: ", 30);
-// 		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-// 		write(2, "\n", 1);
-// 		exit(127);
-// 	}
-// 	cmd->path = path;
-// 	if (execve(cmd->path, cmd->argv, env_vars) == -1)
-// 	{
-// 		perror("execve failed");
-// 		exit(1);
-// 	}
-// }
 
 void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
 {
@@ -53,9 +26,12 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
 		write(2, "\n", 1);
 		exit(127);
 	}
-	execve(path, cmd->argv, env_vars);
-	perror("execve failed");
-	exit(1);
+	cmd->path = path;
+	if (execve(cmd->path, cmd->argv, env_vars) == -1)
+	{
+		perror("execve failed");
+		exit(1);
+	}
 }
 
 int	parent_process(int prev_fd, int *fd)
@@ -64,9 +40,9 @@ int	parent_process(int prev_fd, int *fd)
 		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
-	//if (fd[0] != -1)
-	return (fd[0]);
-	//return (-1);
+	if (fd[0] != -1)
+		return (fd[0]);
+	return (-1);
 }
 
 void	execute_buitlins(t_command *cmd, t_data *data)
@@ -107,22 +83,13 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 	int			fd[2];
 	int			prev_fd;
 	pid_t		pid;
-	int			status;
 
 	cmd = cmd_list;
 	prev_fd = -1;
 	while (cmd)
 	{
-		if (cmd->next)
-		{
-			if (ft_pipe(cmd, fd))
-				return ;
-		}
-		else
-		{
-			fd[0] = -1;
-			fd[1] = -1;
-		}
+		if (ft_pipe(cmd, fd))
+			return ;
 		if (ft_fork(&pid, prev_fd, fd))
 			return ;
 		if (pid == 0)
@@ -130,13 +97,9 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 		prev_fd = parent_process(prev_fd, fd);
 		cmd = cmd->next;
 	}
-	if (prev_fd != -1)
-		close(prev_fd);
-	// pid = wait(&status);
-	// while (pid > 0)
-	// 	pid = wait(&status);
-	while (waitpid(-1, &status, 0) > 0)
-		;
+	pid = 1;
+	while (pid > 0)
+		pid = wait(NULL);
 }
 /*
 ** child_process : prepare the redirection in/out and replace the actual

@@ -44,6 +44,24 @@
 
 #include "minishell.h"
 
+char	*search_list_env_value(t_env *env_head, const char *name)
+	{
+	t_env *current = env_head;
+	printf("DEBUG: search_env_value called with name: [%s]\n", name);
+	while (current)
+	{
+		printf("DEBUG: checking env key: [%s]\n", current->key);
+		if (strcmp(current->key, name) == 0)
+		{
+			printf("DEBUG: found match! value = [%s]\n", current->value);
+			return current->value;
+		}
+		current = current->next;
+	}
+	printf("DEBUG: no match found for [%s]\n", name);
+	return (NULL);
+}
+
 void	add_env_node(t_env **head, t_env *new_node)
 {
 	if (!head || !new_node)

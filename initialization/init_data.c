@@ -9,7 +9,7 @@ t_data	init_data(void)
 	data.command_head = NULL;
 	data.variables_head = NULL;
 	data.last_exit_code_status = 0;
-	data.env = NULL;
+	data.env_head = NULL;
 	data.pipe_count = 0;
 	data.command_count = 0;
 

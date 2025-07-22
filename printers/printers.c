@@ -188,7 +188,7 @@ void print_data_debug(t_data *data)
 	printf("\n\033[1;36m==== DATA DEBUG ====\033[0m\n");
 
 	// Environment variables (linked list)
-	print_env_list(data->env);
+	print_env_list(data->env_head);
 
 	// Environment variables (array copy)
 	printf("\n\033[1;33m---- Environment Array ----\033[0m\n");
