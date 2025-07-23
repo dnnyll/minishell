@@ -1,30 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 13:26:04 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/22 16:17:49 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
-
-// Frees a linked list of redirection structs
-// static void	free_redirects(t_redirect *redir)
-// {
-// 	t_redirect *next;
-
-// 	while (redir)
-// 	{
-// 		next = redir->next;
-// 		free(redir->file);
-// 		free(redir);
-// 		redir = next;
-// 	}
-// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -33,7 +7,7 @@ int	main(int argc, char **argv, char **envp)
 
 	t_data	data = init_data();
 	data.environment_var = copy_environment(envp);
-  data.env_head = build_env_list(data.environment_var);
+	data.env_head = build_env_list(data.environment_var);
 	// debug_environment_printer(&data);			//	test to print copy of environment as verification
 	setup_parent_signals();
 	char	*input_line;
@@ -72,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 
 	//	separates words into tokens
 		parse_commands(&data, tokens);
+
 		// handle_pipes(&data, tokens, NULL);
 		debug_parser_output(&data);
 		execute_commands(data.command_head, &data);

@@ -10,6 +10,7 @@
 
 typedef struct s_command
 {
+	t_heredoc			*heredoc_head;		// <--- Link to heredoc manager
 	char				**argv;				// NULL-terminated array of arguments (argv[0] = command)
 	char				*infile;			// Input redirection file (for '<')
 	char				*outfile;			// Output redirection file (for '>' or '>>')

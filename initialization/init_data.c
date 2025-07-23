@@ -8,6 +8,7 @@ t_data	init_data(void)
 	data.token_head = NULL;
 	data.command_head = NULL;
 	data.variables_head = NULL;
+	data.heredoc_head = NULL;
 	data.last_exit_code_status = 0;
 	data.env_head = NULL;
 	data.pipe_count = 0;

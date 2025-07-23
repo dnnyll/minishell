@@ -9,6 +9,7 @@ t_command	*new_command(void)
 	if (!command)
 		return (NULL);
 	ft_bzero(command, sizeof(t_command));
+	command->heredoc_head = NULL;
 	command->argv = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;

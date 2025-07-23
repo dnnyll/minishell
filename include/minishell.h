@@ -22,6 +22,7 @@
 # include "executor.h"
 # include "parser.h"
 # include "environment_management.h"
+# include "heredoc.h"
 
 //	init_data.c
 t_data	init_data(void);
@@ -37,6 +38,7 @@ void	print_commands(t_command *cmd);
 void	print_env_list(t_env *env);
 void	print_data_debug(t_data *data);
 void	debug_environment_printer(t_data *data);
+void 	print_heredoc(t_heredoc *heredoc);
 
 //	utility_functions
 void	free_char_array(char **array);

@@ -6,11 +6,46 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:23:58 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 17:15:26 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:23:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
++--------------------------------------------+
+|         Heredoc with Temporary File        |
++--------------------------------------------+
+|                                            |
+| [ ] 1. Create a unique tempfile path       |
+|       e.g., "/tmp/.heredoc_XXXX"           |
+|                                            |
+| [ ] 2. Open file for writing (`O_CREAT`)   |
+|                                            |
+| [ ] 3. Fork a child                        |
+|      +----------------------------------+  |
+|      | In child:                        |  |
+|      |                                  |  |
+|      | [ ] Loop: readline("> ")        |  |
+|      | [ ] If line == limiter → break  |  |
+|      | [ ] If not quoted → expand vars |  |
+|      | [ ] Write line + \n to file     |  |
+|      | [ ] free(line)                  |  |
+|      | [ ] close file & exit           |  |
+|      +----------------------------------+  |
+|                                            |
+| [ ] 4. In parent:                          |
+|      [ ] wait for child                    |
+|      [ ] close write fd                    |
+|                                            |
+| [ ] 5. Reopen tempfile in O_RDONLY mode    |
+|                                            |
+| [ ] 6. Assign as command's fd_in           |
+|                                            |
+| [ ] 7. In exec child:                      |
+|      [ ] dup2(fd_in, STDIN_FILENO)         |
+|      [ ] execve(...)                       |
++--------------------------------------------+*/
+
 
 // void	child_heredoc(t_command *cmd, int *pipe_fd)
 // {

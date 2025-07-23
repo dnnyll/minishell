@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 17:03:38 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/23 10:46:45 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int		ft_fork(pid_t *pid, int prev_fd, int *fd);
 void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
 
 //execution
-void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars);
+void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);
 int		parent_process(int prev_fd, int *fd);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
-void	execute_pipeline(t_command *cdm_list, char **env_vars);
+void	execute_pipeline(t_command *cdm_list, t_data *data);
 
 //commands utils
 int		is_command(t_command *cmd);

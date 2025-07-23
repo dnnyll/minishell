@@ -1,24 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exectutor.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 16:56:27 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
+void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
 
 	edit_pipe_fd(cmd, prev_fd, fd);
 	setup_child_signals();
-	path = get_path(cmd->argv[0], env_vars);
+	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
 		write(2, "minishell: command not found: ", 30);
@@ -27,7 +15,7 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
 		exit(127);
 	}
 	cmd->path = path;
-	if (execve(cmd->path, cmd->argv, env_vars) == -1)
+	if (execve(cmd->path, cmd->argv, data->environment_var) == -1)
 	{
 		perror("execve failed");
 		exit(1);
@@ -69,15 +57,15 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 {
 	if (!cmd_list)
 		return ;
-	if (check_heredoc(cmd_list, 0))
+	if (check_heredoc(cmd_list, data))
 		return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
 		execute_buitlins(cmd_list, data);
 	else
-		execute_pipeline(cmd_list, data->environment_var);
+		execute_pipeline(cmd_list, data);
 }
 
-void	execute_pipeline(t_command *cmd_list, char **env_vars)
+void execute_pipeline(t_command *cmd_list, t_data *data)
 {
 	t_command	*cmd;
 	int			fd[2];
@@ -93,7 +81,7 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 		if (ft_fork(&pid, prev_fd, fd))
 			return ;
 		if (pid == 0)
-			child_process(cmd, prev_fd, fd, env_vars);
+			child_process(cmd, prev_fd, fd, data);
 		prev_fd = parent_process(prev_fd, fd);
 		cmd = cmd->next;
 	}
@@ -101,6 +89,7 @@ void	execute_pipeline(t_command *cmd_list, char **env_vars)
 	while (pid > 0)
 		pid = wait(NULL);
 }
+
 /*
 ** child_process : prepare the redirection in/out and replace the actual
 	process with the command to execute, else display an error. Default

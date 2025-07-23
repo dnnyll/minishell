@@ -69,7 +69,7 @@ static void	set_redir_out(t_command *command, t_token *current, int append)
 /*
 	information concerning: set_heredoc
 
-	purpose: stores the heredoc delimiter from a HEREDOC (<<) token.
+	purpose: stores the heredoc delimiter from a HEREDOC (<<) token.w
 
 	for: commands like cat << EOF
 
@@ -122,15 +122,15 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 			else if (current->type == APPEND)
 				set_redir_out(command, current, 1);
 			else if (current->type == HEREDOC)
+			{
 				set_heredoc(command, current);
+				// command->heredoc_counter++; <-------------------------mofify here
+			}
 			current = current->next;
 		}
 		current = current->next;
 	}
 }
-
-
-
 
 
 // void	handle_redirections(t_command *command, t_token *start, t_token *end)
