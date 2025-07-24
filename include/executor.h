@@ -47,6 +47,7 @@ void	handle_heredoc(t_command *cmd, t_data *data);
 int		check_heredoc(t_command *cmd_list, t_data *data);
 
 //signals
+extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);
