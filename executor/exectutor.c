@@ -99,6 +99,42 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		execute_pipeline(cmd_list, data);
 }
 
+// void	execute_pipeline(t_command *cmd_list, t_data *data)
+// {
+// 	t_command	*cmd;
+// 	int			fd[2];
+// 	int			prev_fd;
+// 	pid_t		pid;
+// 	int			status;
+
+// 	cmd = cmd_list;
+// 	prev_fd = -1;
+// 	while (cmd)
+// 	{
+// 		if (cmd->next)
+// 		{
+// 			if (ft_pipe(cmd, fd))
+// 				return ;
+// 		}
+// 		else
+// 		{
+// 			fd[0] = -1;
+// 			fd[1] = -1;
+// 		}
+// 		if (ft_fork(&pid, prev_fd, fd))
+// 			return ;
+// 		if (pid == 0)
+// 			child_process(cmd, prev_fd, fd, data);
+// 		else
+// 			prev_fd = parent_process(prev_fd, fd);
+// 		cmd = cmd->next;
+// 	}
+// 	if (prev_fd != -1)
+// 		close(prev_fd);
+// 	while (waitpid(-1, &status, 0) > 0)
+// 		;
+// }
+
 void	execute_pipeline(t_command *cmd_list, t_data *data)
 {
 	t_command	*cmd;
@@ -111,32 +147,20 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	prev_fd = -1;
 	while (cmd)
 	{
-		if (cmd->next)
-		{
-			if (ft_pipe(cmd, fd))
-				return ;
-		}
-		else
-		{
-			fd[0] = -1;
-			fd[1] = -1;
-		}
+		if (ft_pipe(cmd, fd))
+			return ;
 		if (ft_fork(&pid, prev_fd, fd))
 			return ;
 		if (pid == 0)
 			child_process(cmd, prev_fd, fd, data);
-		else
-			prev_fd = parent_process(prev_fd, fd);
+		prev_fd = parent_process(prev_fd, fd);
 		cmd = cmd->next;
 	}
-	if (prev_fd != -1)
-		close(prev_fd);
 	pid = wait(&status);
 	while (pid > 0)
 		pid = wait(&status);
-	// while (waitpid(-1, &status, 0) > 0)
-	// 	;
 }
+
 /*
 ** child_process : prepare the redirection in/out and replace the actual
 	process with the command to execute, else display an error. Default
