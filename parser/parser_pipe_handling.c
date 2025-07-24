@@ -104,7 +104,7 @@ void	handle_pipes(t_data *data, t_token *start, t_token *end)
 		{
 			data->pipe_count++;
 			// create new command for segment [segment_start ... current)
-			new_pipe_command = new_command();
+			new_pipe_command = init_command();
 			if (!new_pipe_command)
 				return (perror("Error: malloc sizeof t_command @ parser_piepes_handling.c\n"));
 			fill_command_segment(new_pipe_command, segment_start, current);	// segment end is current (pipe token)
@@ -116,7 +116,7 @@ void	handle_pipes(t_data *data, t_token *start, t_token *end)
 	// handle last segment after last PIPE (or whole command if no PIPE)
 	if (segment_start && segment_start != end)
 	{
-		new_pipe_command = new_command();
+		new_pipe_command = init_command();
 		if (!new_pipe_command)
 			return(perror("Error: initi new_command @ handle_pipes\n"));
 		fill_command_segment(new_pipe_command, segment_start, end);

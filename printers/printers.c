@@ -246,12 +246,12 @@ void debug_parser_output(t_data *data)
     print_commands(data->command_head);
 
     // Print environment variables (linked list + array + counters)
-    print_data_debug(data);
+    // print_data_debug(data);
 
     // Print counters (already handled inside print_data_debug, optional if you want redundancy)
     printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);
-
+    printf("\nheredoc_count = %d\n", data->redir_head->heredoc_count);
     // Print heredoc structure
-    print_heredoc(data->heredoc_head);
+    // print_heredoc(data->heredoc_head);
     printf("===============================\n");
 }

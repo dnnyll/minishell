@@ -25,7 +25,11 @@
 # include "heredoc.h"
 
 //	init_data.c
-t_data	init_data(void);
+t_data		*init_data(void);
+t_command	*init_command(void);
+t_redir		*init_redir(void);
+t_heredoc	*init_heredoc(int counter);
+
 
 //	printers.c
 // void print_redirections(t_redirect *redir, const char *label);

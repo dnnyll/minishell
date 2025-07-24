@@ -5,10 +5,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	t_data	data = init_data();
-	data.environment_var = copy_environment(envp);
-	data.env_head = build_env_list(data.environment_var);
-	// debug_environment_printer(&data);			//	test to print copy of environment as verification
+	t_data	*data = init_data();
+	data->redir_head = init_redir();
+		if (!data->redir_head)
+			return (printf("REDIT INIT IN MAIN IS FUCKING UP\n"), 1); 
+	data->environment_var = copy_environment(envp);
+	data->env_head = build_env_list(data->environment_var);
+	// debug_environment_printer(data);			//	test to print copy of environment as verification
 	setup_parent_signals();
 	char	*input_line;
 
@@ -30,14 +33,14 @@ int	main(int argc, char **argv, char **envp)
 
 		//	lexing % tokenizing
 		
-		t_token *tokens = lexer(&data, input_line);
-		printf("calling lexer(&data, input_line) @ main.c\n");
+		t_token *tokens = lexer(data, input_line);
+		printf("calling lexer(data, input_line) @ main.c\n");
 
 
 		//	parsing
-		printf("calling process_variables(input_line, &data, tokens) @ main.c\n");
-		// process_variables(input_line, &data, tokens);
-		expand_token_values(tokens, &data);		//	located in the folder tokens
+		printf("calling process_variables(input_line, data, tokens) @ main.c\n");
+		// process_variables(input_line, data, tokens);
+		expand_token_values(tokens, data);		//	located in the folder tokens
 
 
 		// validate_syntax(tokens);
@@ -45,19 +48,21 @@ int	main(int argc, char **argv, char **envp)
 		validate_syntax(tokens);
 
 	//	separates words into tokens
-		parse_commands(&data, tokens);
+		parse_commands(data, tokens);
+		printf("HERE IS THE SEGFAULT\n\n\n\n\n");
+		launch_heredoc(data);
 
-		// handle_pipes(&data, tokens, NULL);
-		debug_parser_output(&data);
-		execute_commands(data.command_head, &data);
-		//free_char_array(data.environment_var);
-		free_tokens(&data);						//	frees token list
-		free_commands(&data);					//	frees command list
+		// handle_pipes(data, tokens, NULL);
+		debug_parser_output(data);
+		execute_commands(data->command_head, data);
+		//free_char_array(data->environment_var);
+		free_tokens(data);						//	frees token list
+		free_commands(data);					//	frees command list
 		free(input_line);						//	frees input line
 	}
 	
 	clear_history();							//	frees history list
 	rl_clear_history();							//	cleans up internal readline history structures
-	free_char_array(data.environment_var);
+	free_char_array(data->environment_var);
 	return (0);
 }

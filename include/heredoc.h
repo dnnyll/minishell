@@ -3,30 +3,28 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-typedef	struct s_redirection
+typedef	struct s_redir
 {
 	int	heredoc_count;
-} t_redirection;
+} t_redir;
 
 typedef	struct s_heredoc
 {
 	char			*filename;
 	int				fd;
-	int				counter;	//number of heredocs input
-	t_redirection	redirection;
+	int				counter;
 	pid_t			pid;
+	t_redir			*redir_head;
 } t_heredoc;
 
 //	heredoc_temp.c
-t_heredoc	*heredoc_init(int counter);	//removed argument: count , need info
+t_heredoc	*init_heredoc(int counter);	//removed argument: count , need info
 char		*create_heredoc_filename(int id);
 int			open_heredoc_filename(t_heredoc *heredoc);
 int			write_line_to_heredoc(int fd, char *line);
 int			fill_heredoc(t_heredoc *heredoc, t_command *command);
 void		heredoc_cleanup(t_heredoc *heredoc);
 int			launch_heredoc(t_data *data);
-
-
 
 # endif
 

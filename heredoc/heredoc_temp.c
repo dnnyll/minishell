@@ -97,19 +97,6 @@ Next steps:
 +-----------------------------------------------+
 */
 
-t_heredoc	*heredoc_init(int	counter)	// removed counter need info
-{
-	t_heredoc	*heredoc;
-
-	heredoc = malloc(sizeof(t_heredoc));
-	if (!heredoc)
-		return (NULL);
-	heredoc->filename = NULL;
-	heredoc->counter = counter;
-	heredoc->pid = getpid();
-	return (heredoc);
-}
-
 char	*create_heredoc_filename(int id)
 {
 	char	*filename;
@@ -238,10 +225,37 @@ void heredoc_cleanup(t_heredoc *heredoc)
 
 int	launch_heredoc(t_data *data)
 {
-	heredoc_init(data->redirection_head->heredoc_count);
-	// create_heredoc_filename(heredoc->pid);
-	open_heredoc_filename(data->heredoc_head);
-	fill_heredoc(data->heredoc_head, data->command_head);
+	t_heredoc	*heredoc;
+
+	// Step 1: Initialize heredoc
+	heredoc = init_heredoc(data->redir_head->heredoc_count);
+	if (!heredoc)
+		return (-1);
+
+	// Step 2: Store it in data if needed
+	data->heredoc_head = heredoc;
+
+	// Step 3: Create the file
+	if (open_heredoc_filename(heredoc) == -1)
+	{
+		heredoc_cleanup(heredoc);
+		return (-1);
+	}
+
+	// Step 4: Fill the file with heredoc content
+	if (fill_heredoc(heredoc, data->command_head) == -1)
+	{
+		heredoc_cleanup(heredoc);
+		return (-1);
+	}
+
+	// Step 5: Close file now (execution will reopen it for reading)
+	close(heredoc->fd);
+	heredoc->fd = -1;
+
+	// Step 6: Update command to treat heredoc like a redirection
+	data->command_head->infile = strdup(heredoc->filename);
+	// Optionally set a flag to unlink after execution
+
 	return (0);
-	// heredoc_cleanup(heredoc);
 }
