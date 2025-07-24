@@ -16,7 +16,7 @@ int	ft_pipe(t_command *cmd, int *fd)
 {
 	fd[0] = -1;
 	fd[1] = -1;
-	if (cmd && cmd->next && cmd->next->type == PIPE)
+	if (cmd && cmd->next)
 	{
 		if (pipe(fd) == -1)
 		{
@@ -47,7 +47,6 @@ int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 
 void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 {
-	//gestion de l'entree
 	if (cmd->fd_in != STDIN_FILENO)
 	{
 		dup2(cmd->fd_in, STDIN_FILENO);
@@ -58,7 +57,6 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
-	//getion de la sortie
 	if (cmd->fd_out != STDOUT_FILENO)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
@@ -69,11 +67,8 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	//ferme les 2 fd du pipe
 	if (fd[0] != -1)
 		close(fd[0]);
-	//if (fd[1] != -1)
-		//close(fd[1]);
 }
 
 /*

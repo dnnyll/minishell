@@ -49,5 +49,12 @@ void	setup_child_signals(void)
 **SIG_DFL : this is the default value of a signal
 **SIG_IGN : "signal ignore"
 **handle_sigint : this function execute in the parent shell when the user do
-	ctrl+c, display a new empty line
+	ctrl+c, display a new empty line.
+	**g_signals_status pour main:
+		//if (g_signal_status == 130) //if Ctrl-C
+		// {
+		// 	g_signal_status = 0; //reset the variable
+		// 	free(input_line); // free the empty or partial line
+		// 	continue ;         // repeat the loop to display the prompt
+		//}
 */
