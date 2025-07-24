@@ -17,7 +17,7 @@ volatile sig_atomic_t	g_signal_status = 0;
 void	handle_sigint(int sig)
 {
 	(void)sig;				// suppress unused parameter warning
-	g_signal_status = 130;	// Convention: 130 = SIGINT + 128
+	g_signal_status = sig;	// Convention: 130 = SIGINT + 128
 	write(1, "\n", 1);		// print a newline to stdout (file descriptor 1)
 	rl_on_new_line();		// tell readline library that we are on a new line
 	rl_replace_line("", 0);	// clear the current input line
