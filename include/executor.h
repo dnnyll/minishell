@@ -15,39 +15,6 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-//typedef enum e_type
-//{
-//	CMD,
-//	PIPE,
-//	REDIR_IN,
-//	REDIR_OUT,
-//	APPEND,
-//	HEREDOC
-//}	t_type;
-
-// typedef struct s_cmd
-// {
-// 	char			**args;
-// 	char			*path;
-// 	char			*value;
-// 	int				infile;
-// 	int				outfile;
-// 	t_token_type	type;
-// 	struct s_cmd	*next;
-// 	struct s_cmd	*prev;
-// }	t_command;
-	//t_type			type;
-
-// typedef struct s_env
-// {
-// 	char			*key;
-// 	char			*value;
-// 	struct s_env	*next;
-// }	t_env;
-//key : the name of the variable
-//value : valu of the variable
-//ptr to the next variable
-
 //pipe utils
 int		ft_pipe(t_command *cmd, int *fd);
 int		ft_fork(pid_t *pid, int prev_fd, int *fd);

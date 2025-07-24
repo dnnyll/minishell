@@ -12,33 +12,6 @@
 
 #include "minishell.h"
 
-// void	child_process(t_command *cmd, int prev_fd, int *fd, char **env_vars)
-// {
-// 	char	*path;
-
-// 	edit_pipe_fd(cmd, prev_fd, fd);
-// 	setup_child_signals();
-// 	path = get_path(cmd->argv[0], env_vars);
-// 	if (fd)
-// 	{
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 	}
-// 	if (!path)
-// 	{
-// 		write(2, "minishell: command not found: ", 30);
-// 		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-// 		write(2, "\n", 1);
-// 		exit(127);
-// 	}
-// 	cmd->path = path;
-// 	if (execve(cmd->path, cmd->argv, env_vars) == -1)
-// 	{
-// 		perror("execve failed");
-// 		exit(1);
-// 	}
-// }
-
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
@@ -99,42 +72,6 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		execute_pipeline(cmd_list, data);
 }
 
-// void	execute_pipeline(t_command *cmd_list, t_data *data)
-// {
-// 	t_command	*cmd;
-// 	int			fd[2];
-// 	int			prev_fd;
-// 	pid_t		pid;
-// 	int			status;
-
-// 	cmd = cmd_list;
-// 	prev_fd = -1;
-// 	while (cmd)
-// 	{
-// 		if (cmd->next)
-// 		{
-// 			if (ft_pipe(cmd, fd))
-// 				return ;
-// 		}
-// 		else
-// 		{
-// 			fd[0] = -1;
-// 			fd[1] = -1;
-// 		}
-// 		if (ft_fork(&pid, prev_fd, fd))
-// 			return ;
-// 		if (pid == 0)
-// 			child_process(cmd, prev_fd, fd, data);
-// 		else
-// 			prev_fd = parent_process(prev_fd, fd);
-// 		cmd = cmd->next;
-// 	}
-// 	if (prev_fd != -1)
-// 		close(prev_fd);
-// 	while (waitpid(-1, &status, 0) > 0)
-// 		;
-// }
-
 void	execute_pipeline(t_command *cmd_list, t_data *data)
 {
 	t_command	*cmd;
@@ -177,5 +114,6 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	builtin, executed directly int the parent. Or a cmd pipeline with fork and
 	pipes.
 ** execute_pipeline : execute all commands from t_command with or without pipe
-	in  while loop.
+	in  while loop. Wait the pid to make sure that the parent wait correctly all
+	children to execute all process.
 */
