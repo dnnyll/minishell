@@ -66,6 +66,7 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	int			fd[2];
 	int			prev_fd;
 	pid_t		pid;
+	int			status;
 
 	cmd = cmd_list;
 	prev_fd = -1;
