@@ -57,8 +57,8 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 {
 	if (!cmd_list)
 		return ;
-	if (check_heredoc(cmd_list, data))
-		return ;
+	// if (check_heredoc(cmd_list, data))
+	// 	return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
 		execute_buitlins(cmd_list, data);
 	else

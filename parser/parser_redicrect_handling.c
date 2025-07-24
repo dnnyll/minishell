@@ -110,7 +110,8 @@ static void	set_heredoc(t_command *command, t_token *current)
 void	handle_redirections(t_command *command, t_token *start, t_token *end)
 {
 	t_token	*current = start;
-	printf("CHECKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK: %d\n", command->redir_head->heredoc_count);
+
+	command->redir_head->heredoc_count = 0;
 	while (current && current != end)
 	{
 		if (current->next && current->next->type == WORD)
@@ -123,7 +124,6 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 				set_redir_out(command, current, 1);
 			else if (current->type == HEREDOC)
 			{
-				printf("HEREDOC_COUNT = %d\n\n\n", command->redir_head->heredoc_count);
 				command->redir_head->heredoc_count++;
 				set_heredoc(command, current);
 			}

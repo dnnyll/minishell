@@ -47,11 +47,16 @@ int	main(int argc, char **argv, char **envp)
 		printf("calling validate_syntax(tokens) @ main.c\n");
 		validate_syntax(tokens);
 
-	//	separates words into tokens
+		//	separates words into tokens
 		parse_commands(data, tokens);
-		printf("HERE IS THE SEGFAULT\n\n\n\n\n");
-		launch_heredoc(data);
 
+		//	hadnle heredocs in the limbo phase
+		// launch_heredoc(data);
+		if (process_heredocs(data) == -1)
+		{
+			perror("heredoc");
+			// clean up and return
+		}
 		// handle_pipes(data, tokens, NULL);
 		debug_parser_output(data);
 		execute_commands(data->command_head, data);

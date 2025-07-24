@@ -146,6 +146,7 @@ int	open_heredoc_filename(t_heredoc *heredoc)
 		perror("open heredoc temp file");
 		return (-1);
 	}
+	printf("heredoc fd=%d filename=%s\n", heredoc->fd, heredoc->filename);
 	return (0);
 }
 /*
@@ -167,95 +168,100 @@ int	write_line_to_heredoc(int fd, char *line)
 		return (-1);
 	if (write(fd, "\n", 1) == -1)
 		return (-1);
+	printf("Wrote line to heredoc\n");
 	return (0);
 }
-
-int	fill_heredoc(t_heredoc *heredoc, t_command *command)
+int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
 {
 	char	*line;
 	char	*expanded_line;
+	int		should_free;
 
 	if (!heredoc || !command || !command->heredoc_delim)
-		return (-1); // invalid inputs
+		return (-1);
+
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			break; // EOF or error
-		// Check if line matches delimiter
-		// if (ft_strncmp(line, command->heredoc_delim, how do i get this len?) == 0) //< ---------------- fuck?
+			break;
+
 		if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
 			&& line[ft_strlen(command->heredoc_delim)] == '\0')
 		{
 			free(line);
-			break ; // End heredoc input
+			break;
 		}
 		if (command->heredoc_quoted == 0)
 		{
-			expanded_line = expand_variables(line, 0);
+			expanded_line = expand_variables(line, data);
 			free(line);
 			if (!expanded_line)
 				return (-1);
+			should_free = 1;
 		}
 		else
-			expanded_line = line;  // no expansion
-		// If heredoc_quoted == 0 => expand variables in line here (implement expansion separately)
-		// Else heredoc_quoted == 1 => write line literally (no expansion)
-		// For now, just write the line as is to the heredoc file:
-		if (write_line_to_heredoc(heredoc->fd, line) == -1)
 		{
-			free(line);
-			return (-1); // error writing
+			expanded_line = line;
+			should_free = 0;
 		}
-		free(line);
+		if (write_line_to_heredoc(heredoc->fd, expanded_line) == -1)
+		{
+			if (should_free)
+				free(expanded_line);
+			else
+				free(line);
+			return (-1);
+		}
+		if (should_free)
+			free(expanded_line);
+		else
+			free(line);
 	}
 	return (0);
 }
 
-void heredoc_cleanup(t_heredoc *heredoc)
+void	heredoc_cleanup(t_heredoc *heredoc)
 {
 	if (!heredoc)
 		return;
-	if (heredoc->fd != -1)
-		close(heredoc->fd);
 	if (heredoc->filename)
+	{
+		printf("Leaving heredoc file intact for now: %s\n", heredoc->filename);
+		// unlink(heredoc->filename);  this has to be added in the execution phase
 		free(heredoc->filename);
+		heredoc->filename = NULL;
+	}
 	free(heredoc);
 }
 
-int	launch_heredoc(t_data *data)
+int	process_heredocs(t_data *data)
 {
-	t_heredoc	*heredoc;
+	t_command *cmd = data->command_head;
+	int	id = 0;
 
-	// Step 1: Initialize heredoc
-	heredoc = init_heredoc(data->redir_head->heredoc_count);
-	if (!heredoc)
-		return (-1);
-
-	// Step 2: Store it in data if needed
-	data->heredoc_head = heredoc;
-
-	// Step 3: Create the file
-	if (open_heredoc_filename(heredoc) == -1)
+	while (cmd)
 	{
-		heredoc_cleanup(heredoc);
-		return (-1);
+		if (cmd->heredoc_delim)
+		{
+			t_heredoc *heredoc = init_heredoc(id);
+			if (!heredoc || open_heredoc_filename(heredoc) == -1)
+			{
+				heredoc_cleanup(heredoc);
+				return (-1);
+			}
+			if (fill_heredoc(heredoc, cmd, data) == -1)
+			{
+				heredoc_cleanup(heredoc);
+				return (-1);
+			}
+			close(heredoc->fd);
+			heredoc->fd = -1;
+			cmd->infile = strdup(heredoc->filename); // cmd takes ownership
+			heredoc_cleanup(heredoc); // or store for unlinking later
+			id++;
+		}
+		cmd = cmd->next;
 	}
-
-	// Step 4: Fill the file with heredoc content
-	if (fill_heredoc(heredoc, data->command_head) == -1)
-	{
-		heredoc_cleanup(heredoc);
-		return (-1);
-	}
-
-	// Step 5: Close file now (execution will reopen it for reading)
-	close(heredoc->fd);
-	heredoc->fd = -1;
-
-	// Step 6: Update command to treat heredoc like a redirection
-	data->command_head->infile = strdup(heredoc->filename);
-	// Optionally set a flag to unlink after execution
-
 	return (0);
 }
