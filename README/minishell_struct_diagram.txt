@@ -1,0 +1,72 @@
+24/07/2025
++----------------------------+
+|          t_data            |
+|----------------------------|
+| token_head  --------------> t_token (head of token list)
+| command_head -------------> t_command (head of commands list)
+| redir_head  --------------> t_redir (shared redirections)
+| last_exit_code_status       (int)
+| pipe_count                 (int)
+| command_count              (int)
++----------------------------+
+
+                |
+                | points to (shared by all commands)
+                v
+
++----------------------------+
+|          t_redir           |
+|----------------------------|
+| heredoc_count (int)        |
+| heredoc_head -------------> t_heredoc (head of heredoc list)
+| ... (other redir info)     |
++----------------------------+
+
+                |
+                | linked list of heredoc entries
+                v
+
++----------------------------+      +----------------------------+      +----------------------------+
+|         t_heredoc          | ---> |         t_heredoc          | ---> |         t_heredoc          | ---> NULL
+|----------------------------|      |----------------------------|      |----------------------------|
+| delimiter (char*)          |      | delimiter (char*)          |      | delimiter (char*)          |
+| quoted (int)               |      | quoted (int)               |      | quoted (int)               |
+| next (t_heredoc*)          |      | next (t_heredoc*)          |      | next (t_heredoc*)          |
++----------------------------+      +----------------------------+      +----------------------------+
+
+                ^
+                |
+                | referenced by (shared redir_head)
+                |
+
++----------------------------+
+|        t_command           |
+|----------------------------|
+| argv (char**)              |
+| infile (char*)             |
+| outfile (char*)            |
+| path (char*)               |
+| value (char*)              |
+| append (int)               |
+| heredoc_delim (char*)      | <-- Individual heredoc delimiter string per command
+| heredoc_quoted (int)       | <-- Whether delimiter is quoted for this command
+| fd_in (int)                |
+| fd_out (int)               |
+| redir_head ---------------> t_redir (shared redirections)
+| next (t_command*)          |
+| prev (t_command*)          |
++----------------------------+
+
+                ^
+                |
+                | Linked list of commands
+                |
+
++----------------------------+
+|         t_token            |
+|----------------------------|
+| type (enum/int)            |
+| value (char*)              |
+| next (t_token*)            |
+| prev (t_token*)            |
++----------------------------+

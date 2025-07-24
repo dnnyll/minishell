@@ -6,11 +6,46 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:23:58 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 11:58:54 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:23:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
++--------------------------------------------+
+|         Heredoc with Temporary File        |
++--------------------------------------------+
+|                                            |
+| [ ] 1. Create a unique tempfile path       |
+|       e.g., "/tmp/.heredoc_XXXX"           |
+|                                            |
+| [ ] 2. Open file for writing (`O_CREAT`)   |
+|                                            |
+| [ ] 3. Fork a child                        |
+|      +----------------------------------+  |
+|      | In child:                        |  |
+|      |                                  |  |
+|      | [ ] Loop: readline("> ")        |  |
+|      | [ ] If line == limiter → break  |  |
+|      | [ ] If not quoted → expand vars |  |
+|      | [ ] Write line + \n to file     |  |
+|      | [ ] free(line)                  |  |
+|      | [ ] close file & exit           |  |
+|      +----------------------------------+  |
+|                                            |
+| [ ] 4. In parent:                          |
+|      [ ] wait for child                    |
+|      [ ] close write fd                    |
+|                                            |
+| [ ] 5. Reopen tempfile in O_RDONLY mode    |
+|                                            |
+| [ ] 6. Assign as command's fd_in           |
+|                                            |
+| [ ] 7. In exec child:                      |
+|      [ ] dup2(fd_in, STDIN_FILENO)         |
+|      [ ] execve(...)                       |
++--------------------------------------------+*/
+
 
 // void	child_heredoc(t_command *cmd, int *pipe_fd)
 // {
@@ -35,8 +70,8 @@
 
 char	*expand_line(char *line, t_command *cmd, t_data *data)
 {
-	printf("%p\n\n", (void *)data->env);
-	if (cmd->heredoc_quoted == false && data->env)
+	printf("%p\n\n", (void *)data->env_head);
+	if (cmd->heredoc_quoted == false && data->env_head)
 		return (expand_variables(line, data));
 	else
 		return (ft_strdup(line));
@@ -44,9 +79,10 @@ char	*expand_line(char *line, t_command *cmd, t_data *data)
 
 void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data)
 {
+	(void)data;
 	printf("DEBUG: child_heredoc started for delim = %s\n", cmd->heredoc_delim);
 	char	*line;
-	char	*expanded;
+	// char	*expanded;
 
 	signal(SIGINT, handle_heredoc_sigint);
 	close(pipe_fd[0]);
@@ -59,10 +95,10 @@ void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data)
 				free(line);
 			break ;
 		}
-		expanded = expand_line(line, cmd, data);	// <-- HERE is where data->env is checked inside expand_line
-		write(pipe_fd[1], expanded, ft_strlen(expanded));
+		// expanded = expand_line(line, cmd, data);	// <-- HERE is where data->env is checked inside expand_line
+		// write(pipe_fd[1], expanded, ft_strlen(expanded));
 		write(pipe_fd[1], "\n", 1);
-		free(expanded);
+		// free(expanded);
 		free(line);
 	}
 	close(pipe_fd[1]);

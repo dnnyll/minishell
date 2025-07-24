@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exectutor.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 16:16:25 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 11:41:34 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
@@ -64,8 +52,8 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 {
 	if (!cmd_list)
 		return ;
-	if (check_heredoc(cmd_list, 0))
-		return ;
+	// if (check_heredoc(cmd_list, data))
+	// 	return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
 		execute_buitlins(cmd_list, data);
 	else
@@ -78,7 +66,6 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	int			fd[2];
 	int			prev_fd;
 	pid_t		pid;
-	int			status;
 
 	cmd = cmd_list;
 	prev_fd = -1;

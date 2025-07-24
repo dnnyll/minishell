@@ -182,13 +182,28 @@ void print_env_list(t_env *env)
 	if (i == 1)
 		printf("  (empty)\n");
 }
+void print_heredoc(t_heredoc *heredoc)
+{
+	if (!heredoc)
+	{
+		printf("\n\033[1;31m[HEREDOC] (null pointer)\033[0m\n");
+		return;
+	}
+
+	printf("\n\033[1;35m---- Heredoc Debug ----\033[0m\n");
+	printf("filename: %s\n", heredoc->filename ? heredoc->filename : "(null)");
+	printf("fd:       %d\n", heredoc->fd);
+	printf("counter:  %d\n", heredoc->counter);
+	printf("pid:      %d\n", heredoc->pid);
+	printf("\033[1;35m-----------------------\033[0m\n");
+}
 
 void print_data_debug(t_data *data)
 {
 	printf("\n\033[1;36m==== DATA DEBUG ====\033[0m\n");
 
 	// Environment variables (linked list)
-	print_env_list(data->env);
+	print_env_list(data->env_head);
 
 	// Environment variables (array copy)
 	printf("\n\033[1;33m---- Environment Array ----\033[0m\n");
@@ -231,10 +246,12 @@ void debug_parser_output(t_data *data)
     print_commands(data->command_head);
 
     // Print environment variables (linked list + array + counters)
-    print_data_debug(data);
+    // print_data_debug(data);
 
     // Print counters (already handled inside print_data_debug, optional if you want redundancy)
     printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);
-
+    printf("\nheredoc_count = %d\n", data->redir_head->heredoc_count);
+    // Print heredoc structure
+    // print_heredoc(data->heredoc_head);
     printf("===============================\n");
 }

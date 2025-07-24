@@ -1,6 +1,11 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+typedef struct s_redir t_redir;      // Forward declaration
+typedef struct s_heredoc t_heredoc;  // Forward declaration
+typedef enum e_token_type t_token_type; // Forward declaration if it's an enum
+
+
 // typedef struct s_redirect
 // {
 // 	char 				*file;		//	rederection target (filename)
@@ -10,6 +15,7 @@
 
 typedef struct s_command
 {
+	t_heredoc			*heredoc_head;		// <--- Link to heredoc manager
 	char				**argv;				// NULL-terminated array of arguments (argv[0] = command)
 	char				*infile;			// Input redirection file (for '<')
 	char				*outfile;			// Output redirection file (for '>' or '>>')
@@ -20,9 +26,10 @@ typedef struct s_command
 	int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
 	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
 	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
-	t_token_type		type;
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
 	struct s_command	*prev;
+	t_token_type		type;
+	t_redir				*redir_head;
 }	t_command;
 
 /*
@@ -43,8 +50,8 @@ Purpose: stores the arguments that will be passed to execve().
 
 //	parse_commands
 void		parse_commands(t_data *data, t_token *tokens);
-t_command	*new_command(void);
-void		add_command_to_data(t_command **head, t_command *new_command);
+t_command	*init_command(void);
+void		add_command_to_data(t_command **head, t_command *init_command);
 void		parse_commands(t_data *data, t_token *tokens);
 
 //	parser_fill_commands
