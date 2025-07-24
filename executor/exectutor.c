@@ -44,18 +44,15 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	char	*path;
 
 	edit_pipe_fd(cmd, prev_fd, fd);
-	// printf("Child PID %d: after edit_pipe_fd\n", getpid()); //
 	setup_child_signals();
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
-		// printf("Child PID %d: command not found: %s\n", getpid(), cmd->argv[0]); //
 		write(2, "minishell: command not found: ", 30);
 		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
 		write(2, "\n", 1);
 		exit(127);
 	}
-	// printf("Child PID %d: execve path = %s\n", getpid(), path); //
 	execve(path, cmd->argv, data->environment_var);
 	perror("execve failed");
 	exit(1);
@@ -67,7 +64,6 @@ int	parent_process(int prev_fd, int *fd)
 		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
-	// printf("Parent: closed fds, returning fd[0] = %d\n", fd[0]); //
 	return (fd[0]);
 }
 
@@ -75,7 +71,6 @@ void	execute_buitlins(t_command *cmd, t_data *data)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return ;
-	// printf("Executing builtin: %s\n", cmd->argv[0]); //
 	if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
 		echo_builtin(cmd->argv);
 	else if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
@@ -99,15 +94,9 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 	if (check_heredoc(cmd_list, 0))
 		return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
-	{
-		// printf("Single builtin command detected\n"); //
 		execute_buitlins(cmd_list, data);
-	}
 	else
-	{
-		printf("Executing pipeline of commands\n");
 		execute_pipeline(cmd_list, data);
-	}
 }
 
 void	execute_pipeline(t_command *cmd_list, t_data *data)
@@ -122,12 +111,10 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	prev_fd = -1;
 	while (cmd)
 	{
-		// printf("Parent: preparing to fork command: %s\n", cmd->argv[0]); //
 		if (cmd->next)
 		{
 			if (ft_pipe(cmd, fd))
 				return ;
-			// printf("Pipe created: fd[0] = %d, fd[1] = %d\n", fd[0], fd[1]); //
 		}
 		else
 		{
@@ -137,25 +124,18 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 		if (ft_fork(&pid, prev_fd, fd))
 			return ;
 		if (pid == 0)
-		{
-			// printf("Child: executing command: %s\n", cmd->argv[0]); //
 			child_process(cmd, prev_fd, fd, data);
-		}
 		else
-		{
-			// printf("Parent: forked child %d for command: %s\n", pid, cmd->argv[0]); //
 			prev_fd = parent_process(prev_fd, fd);
-		}
 		cmd = cmd->next;
 	}
 	if (prev_fd != -1)
 		close(prev_fd);
-	// pid = wait(&status);
-	// while (pid > 0)
-	// 	pid = wait(&status);
-	while (waitpid(-1, &status, 0) > 0)
-		;
-		// printf("Parent: child process ended, status = %d\n", status); //
+	pid = wait(&status);
+	while (pid > 0)
+		pid = wait(&status);
+	// while (waitpid(-1, &status, 0) > 0)
+	// 	;
 }
 /*
 ** child_process : prepare the redirection in/out and replace the actual
