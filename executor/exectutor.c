@@ -19,12 +19,19 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	exit(1);
 }
 
-int	parent_process(int prev_fd, int *fd)
+int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 {
+	int	status;
+
 	if (prev_fd != -1)
 		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
+	if (pid > 0)
+	{
+		waitpid(pid, &status, 0);
+		child_exit_code(status, data);
+	}
 	return (fd[0]);
 }
 
@@ -48,6 +55,8 @@ void	execute_buitlins(t_command *cmd, t_data *data)
 		exit_status = env_builtin(data);
 	else if (ft_strncmp(cmd->argv[0], "exit", 5) == 0)
 		exit_status = exit_builtin(cmd->argv, data);
+	else
+		return ;
 	data->last_exit_code_status = exit_status;
 }
 
@@ -81,7 +90,7 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 			return ;
 		if (pid == 0)
 			child_process(cmd, prev_fd, fd, data);
-		prev_fd = parent_process(prev_fd, fd);
+		prev_fd = parent_process(prev_fd, fd, pid, data);
 		cmd = cmd->next;
 	}
 	pid = wait(&status);

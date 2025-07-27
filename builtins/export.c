@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/06 17:57:05 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:49:45 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ int	export_builtin(char **args, t_data *data)
 	while (args[i])
 	{
 		if (!is_valid_identifier(args[i]))
+		{
 			printf("export: '%s': not a valid identifier\n", args[i]);
+			return (1);
+		}
 		else
 			add_or_update_env(data, args[i]);
 		i++;
