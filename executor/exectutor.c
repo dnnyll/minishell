@@ -37,7 +37,7 @@ void	execute_buitlins(t_command *cmd, t_data *data)
 	if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
 		exit_status = echo_builtin(cmd->argv);
 	else if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)
-		exit_status = cd_builtin(cmd->argv, data->environment_var);
+		exit_status = cd_builtin(cmd->argv, data);
 	else if (ft_strncmp(cmd->argv[0], "pwd", 4) == 0)
 		exit_status = pwd_builtin(cmd->argv);
 	else if (ft_strncmp(cmd->argv[0], "export", 7) == 0)
@@ -48,8 +48,7 @@ void	execute_buitlins(t_command *cmd, t_data *data)
 		exit_status = env_builtin(data);
 	else if (ft_strncmp(cmd->argv[0], "exit", 5) == 0)
 		exit_status = exit_builtin(cmd->argv, data);
-
-	// update_last_exit_status(exit_status)
+	data->last_exit_code_status = exit_status;
 }
 
 void	execute_commands(t_command *cmd_list, t_data *data)

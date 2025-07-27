@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/23 10:46:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:48:09 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	setup_child_signals(void);
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
 bool	is_builtin(t_command **argv);
-int		cd_builtin(char **args, char **envp);
+int		cd_builtin(char **args, t_data *data);
 int		echo_builtin(char **args);
 int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);
