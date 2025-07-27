@@ -23,6 +23,11 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
+		if (g_signal_status == SIGINT) //if Ctrl-C
+		{
+			g_signal_status = 0; //reset the variable
+			// set $? a 128 + SIGINT = 130
+		}
 		if (input_line[0] == '\0')				// trigers when enter is pressed on a empty line
 		{
 			free(input_line);

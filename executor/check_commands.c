@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:11:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/22 10:41:57 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:42:27 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,21 @@ int	is_redir(t_command *cmd)
 int	is_pipe(t_command *cmd)
 {
 	return (cmd && cmd->type == PIPE);
+}
+
+void	child_exit_code(int status, t_data *data)
+{
+	int	sig;
+
+	if (WIFEXITED(status))
+		data->last_exit_code_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		else if (sig == SIGQUIT)
+			write(1, "Quit (core dumped)\n", 19);
+		data->last_exit_code_status = 128 + sig;
+	}
 }

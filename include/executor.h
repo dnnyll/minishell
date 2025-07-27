@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/23 10:46:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:42:37 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
 
 //execution
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);
-int		parent_process(int prev_fd, int *fd);
+int		parent_process(int prev_fd, int *fd, pid_t pid, t_data *data);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);
@@ -51,12 +51,13 @@ extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);
+void	child_exit_code(int status, t_data *data);
 
 //builtins
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
 bool	is_builtin(t_command **argv);
-int		cd_builtin(char **args, char **envp);
+int		cd_builtin(char **args, t_data *data);
 int		echo_builtin(char **args);
 int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);

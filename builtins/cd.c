@@ -6,33 +6,34 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/29 12:32:33 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/27 11:53:52 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_env_var(char *name, char **envp)
+static char	*get_env_var(char *name, t_data *data)
 {
 	int	i;
 	int	len;
 
 	len = ft_strlen(name);
 	i = 0;
-	while (envp[i])
+	while (data->environment_var[i])
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
+		if (ft_strncmp(data->environment_var[i], name, len) == 0
+			&& data->environment_var[i][len] == '=')
+			return (data->environment_var[i] + len + 1);
 		i++;
 	}
 	return (NULL);
 }
 
-static char	*handle_cd_dash(char **envp)
+static char	*handle_cd_dash(t_data *data)
 {
 	char	*oldpwd;
 
-	oldpwd = get_env_var("OLDPWD", envp);
+	oldpwd = get_env_var("OLDPWD", data);
 	if (!oldpwd)
 	{
 		write(2, "cd: OLDPWD not set\n", 19);
@@ -42,16 +43,16 @@ static char	*handle_cd_dash(char **envp)
 	return (oldpwd);
 }
 
-static char	*get_cd_target(char **args, char **envp)
+static char	*get_cd_target(char **args, t_data *data)
 {
 	if (!args[1])
-		return (get_env_var("HOME", envp));
+		return (get_env_var("HOME", data));
 	if (ft_strncmp(args[1], "-", 2) == 0)
-		return (handle_cd_dash(envp));
+		return (handle_cd_dash(data));
 	return (args[1]);
 }
 
-int	cd_builtin(char **args, char **envp)
+int	cd_builtin(char **args, t_data *data)
 {
 	char	*dir;
 	int		args_count;
@@ -64,7 +65,7 @@ int	cd_builtin(char **args, char **envp)
 		write(2, "cd: too many arguments\n", 24);
 		return (1);
 	}
-	dir = get_cd_target(args, envp);
+	dir = get_cd_target(args, data);
 	if (!dir)
 		return (1);
 	if (chdir(dir) == -1)
