@@ -35,7 +35,7 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_A) -lreadline
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_A) -lreadline
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
