@@ -1,5 +1,6 @@
-#ifndef ENVIRONENT_MANAGEMENT
-# define ENVIRONENT_MANAGEMENT_H
+
+#ifndef ENVIRONMENT_MANAGEMENT_H
+# define ENVIRONMENT_MANAGEMENT_H
 
 typedef struct s_env
 {

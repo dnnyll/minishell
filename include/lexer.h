@@ -1,7 +1,6 @@
+
 #ifndef LEXER_H
 # define LEXER_H
-
-# include "minishell.h"
 
 /*
 	helper struct that temporarily holds the result of a token extraction
@@ -17,7 +16,7 @@ typedef struct s_lexer_result
 }	t_lexer_result;
 
 //	extract_word.c
-const char *quote_type_str(t_quote_type quote);
+const char 		*quote_type_str(t_quote_type quote);
 int				is_operator_char(char c);
 int				get_word_length(const char *input);
 t_lexer_result	extract_word(const char *input, int i);
@@ -33,18 +32,18 @@ t_token_type	get_operator_type(const char *input);
 t_lexer_result	extract_operator(const char *input, int i);
 
 //	lexer.c
-int	ft_isspace(int c);
-int	is_quote(char c);
-int	is_operator_start(char c);
+int				ft_isspace(int c);
+int				is_quote(char c);
+int				is_operator_start(char c);
 t_lexer_result	extract_token(const char *input, int i);
-void	*lexer(t_data *data, const char *input);
+void			*lexer(t_data *data, const char *input);
 
 
 
 
 
-void	free_lexer_result(t_lexer_result *result);
-void	free_single_token(t_token *token);
+void			free_lexer_result(t_lexer_result *result);
+void			free_single_token(t_token *token);
 
 
 

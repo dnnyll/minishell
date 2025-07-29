@@ -20,7 +20,7 @@ to do:
 	this is often used to check the position of the last token 
 	for syntax validation (e.g., pipe at the end).
 */
-t_token *get_last_token(t_token *head)
+t_token	*get_last_token(t_token *head)
 {
 	if (!head)
 		return (NULL);

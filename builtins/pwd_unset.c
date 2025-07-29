@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_and_unset.c                                    :+:      :+:    :+:   */
+/*   pwd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/06 17:57:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/29 10:24:37 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ int	unset_builtin(char **args, t_data *data)
 	beginning of entry. Checks that the following char is an '=' (to avoid
 	deleting variable with the same prefix).
 **remove_env_entry: This function is for remove a specific env variable from the
-	env. It counts the number of entries in env, allocates a new array. Copies the
-	variable except the one to be removed, using should_remove and frees the old
-	array.
+	env. It counts the number of entries in env, allocates a new array. Copies
+	the variable except the one to be removed, using should_remove and frees the
+	old array.
 **unset_builtin: This is the main unset builtin function. It iterates through the
 	argsgiven after unset. For each valid name(using is_valid_identifier) calls
 	remove_env_entry. Displays an error message if the identifier is invalid.

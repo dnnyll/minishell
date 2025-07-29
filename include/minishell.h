@@ -15,14 +15,14 @@
 # include <stdbool.h>
 
 //	personal library/header files
-# include "data.h"
-# include "tokens.h"
+# include "../include/data.h"
+# include "../include/tokens.h"
 # include "../lib/Libft/libft.h"
-# include "lexer.h"
-# include "executor.h"
-# include "parser.h"
-# include "environment_management.h"
-# include "heredoc.h"
+# include "../include/lexer.h"
+# include "../include/executor.h"
+# include "../include/parser.h"
+# include "../include/environment_management.h"
+# include "../include/heredoc.h"
 
 //	init_data.c
 t_data		*init_data(void);
@@ -41,7 +41,7 @@ void	debug_parser_output(t_data *data);
 void	print_commands(t_command *cmd);
 void	print_env_list(t_env *env);
 void	print_data_debug(t_data *data);
-void	debug_environment_printer(t_data *data);
+void	debug_environment_variables_printer(t_data *data);
 void 	print_heredoc(t_heredoc *heredoc);
 
 //	utility_functions

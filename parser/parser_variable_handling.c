@@ -247,7 +247,7 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 
 char	*expand_variables(const char *input, t_data *data)
 {
-	int	i;
+	int		i;
 	char	*result;
 	char	*temp;
 
@@ -292,7 +292,7 @@ char	*expand_variables(const char *input, t_data *data)
 			i++;
 		}
 	}
-	return(result);
+	return (result);
 }
 
 int	isexpandable_variable(const char *str)
