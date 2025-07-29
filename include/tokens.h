@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/22 14:43:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/29 14:47:57 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ t_token		*create_token(const char *value, t_token_type type);
 void		free_token_list(t_token *token);
 
 //	tokens_expand
-void	expand_token_values(t_token *tokens, t_data *data);
+void		expand_token_values(t_token *tokens, t_data *data);
 
 #endif

@@ -1,21 +1,20 @@
-#include "minishell.h"
 
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-typedef	struct s_redir
+typedef struct s_redir
 {
 	int	heredoc_count;
-} t_redir;
+}	t_redir;
 
-typedef	struct s_heredoc
+typedef struct s_heredoc
 {
 	char			*filename;
 	int				fd;
 	int				counter;
 	pid_t			pid;
 	t_redir			*redir_head;
-} t_heredoc;
+}	t_heredoc;
 
 //	heredoc_temp.c
 t_heredoc	*init_heredoc(int counter);	//removed argument: count , need info
@@ -25,9 +24,9 @@ int			write_line_to_heredoc(int fd, char *line);
 int			fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data);
 void		heredoc_cleanup(t_heredoc *heredoc);
 int			launch_heredoc(t_data *data);
-int	process_heredocs(t_data *data);
+int			process_heredocs(t_data *data);
 
-# endif
+#endif
 
 
 //	need to count how many heredocs in the parsing and store thme in heredoc struct
