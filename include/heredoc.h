@@ -25,7 +25,7 @@ int			fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data);
 void		heredoc_cleanup(t_heredoc *heredoc);
 int			process_heredocs(t_data *data);
 
-//	heredoc_signals
+//	heredoc_signal.c
 int		manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc);
 void	handle_heredoc_sigint(int sig);
 
