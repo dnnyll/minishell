@@ -179,13 +179,11 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
 
 	if (!heredoc || !command || !command->heredoc_delim)
 		return (-1);
-
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
-
+			break ;
 		if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
 			&& line[ft_strlen(command->heredoc_delim)] == '\0')
 		{
@@ -265,3 +263,4 @@ int	process_heredocs(t_data *data)
 	}
 	return (0);
 }
+

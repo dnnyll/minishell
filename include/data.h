@@ -18,9 +18,9 @@ typedef struct s_data
 	t_heredoc		*heredoc_head;
 	t_redir			*redir_head;
 	t_env			*env_head;	
-	char			**environment_var;//	stores a copy of the environment
+	char			**environment_var;		//	stores a copy of the environment
 	int				last_exit_code_status;	//	tracks the return code of each command 
-										//	it's used to track and support '$?'
+											//	it's used to track and support '$?'
 	int				pipe_count;				// new - temporary
 	int				command_count;			// new - temporary
 }	t_data;

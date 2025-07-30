@@ -6,13 +6,49 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/17 16:28:26 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:01:21 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
+
+
+int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
+{
+	pid_t pid = fork();
+	int status;
+
+	if (pid < 0)
+		return (perror("fork"), -1);
+	if (pid == 0)
+	{
+		signal(SIGINT, handle_heredoc_sigint); // custom handler: writes \n and exits(130)
+		if (fill_heredoc(heredoc, cmd, data) == -1)
+			exit(1);
+		exit(0);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			g_signal_status = 130;
+			return (1); // signal received — cancel execution
+		}
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			return (1); // fill_heredoc failed
+	}
+	return (0);
+}
+
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	exit(130);
+}
 
 void	handle_sigint(int sig)
 {
