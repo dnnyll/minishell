@@ -73,7 +73,7 @@ void	*lexer(t_data *data, const char *input)
 		}
 		if (result.token)
 		{
-			printf("token\n");
+			//printf("token\n");
 			add_token(&data->token_head, result.token);		// Add token to the list
 		}
 		if (result.index <= i)

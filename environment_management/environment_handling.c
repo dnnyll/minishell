@@ -267,13 +267,13 @@ char	*search_env_value(t_data *data, const char *variable_name)
 		return (perror("Error: empty data or name @ search_env_value\n"), NULL);
 	while(data->environment_var[i])
 	{
-		printf("Checking env[%d]: %s\n", i, data->environment_var[i]);
+		//printf("Checking env[%d]: %s\n", i, data->environment_var[i]);
 		// Compare the variable name with the beginning of the environment_var string
 		if (ft_strncmp(data->environment_var[i], variable_name, variable_length) == 0
 			&& data->environment_var[i][variable_length] == '=')
 			{
-				printf("Match found: %s\n", data->environment_var[i]);
-				printf("Returning value: %s\n", data->environment_var[i] + variable_length + 1);
+				//printf("Match found: %s\n", data->environment_var[i]);
+				//printf("Returning value: %s\n", data->environment_var[i] + variable_length + 1);
 				// Return a copy of the value part (after the '=' sign)
 				return (ft_strdup(data->environment_var[i] + variable_length + 1));
 			}

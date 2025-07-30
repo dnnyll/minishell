@@ -11,9 +11,9 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
-		write(2, "minishell: command not found: ", 30);
-		write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-		write(2, "\n", 1);
+		print_error(cmd->argv[0],": command not found\n", NULL);
+		// write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
+		// write(2, ": command not found\n", 21);
 		exit(127);
 	}
 	execve(path, cmd->argv, data->environment_var);

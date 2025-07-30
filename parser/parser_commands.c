@@ -43,11 +43,11 @@ void	parse_commands(t_data *data, t_token *tokens)
 		}
 		current = current->next;
 	}
-	printf("After loop, segment_start = %p\n", (void *)segment_start);
+	//printf("After loop, segment_start = %p\n", (void *)segment_start);
 	// Handle the final segment (after last pipe or if no pipes)
 	if (segment_start)
 	{
-		printf("Initiating segment_start condition\n");
+		//printf("Initiating segment_start condition\n");
 		t_command *command = init_command();
 		if (!command)
 		{
@@ -58,6 +58,6 @@ void	parse_commands(t_data *data, t_token *tokens)
 		fill_command_segment(command, segment_start, NULL);
 		add_command_to_data(&data->command_head, command);
 		data->command_count++;
-		printf("Added final command\n");
+		//printf("Added final command\n");
 	}
 }

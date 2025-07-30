@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/27 11:53:52 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 19:27:55 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	cd_builtin(char **args, t_data *data)
 		args_count++;
 	if (args_count > 2)
 	{
-		write(2, "cd: too many arguments\n", 24);
+		data->last_exit_code_status = 1;
+		print_error("minishell: cd: ", NULL, "too many arguments\n");
 		return (1);
 	}
 	dir = get_cd_target(args, data);
@@ -86,8 +87,8 @@ int	cd_builtin(char **args, t_data *data)
 	$HOME, if cd - -> calls handle_cd_dash to return $OLDPWD, else -> returns the
 	arg given (args[1]).
 **cd_builtin: This is the main function of the cd builtin, gets the target
-	directory using get_cd_target, uses chdir() to change directories and displays
-	an error message if the operation fails.
+	directory using get_cd_target, uses chdir() to change directories and
+	displays an error message if the operation fails.
 ** cd cmds : cd → doit te ramener dans le HOME ($HOME).
 			cd ~ → équivalent à cd (HOME).
 			cd . → reste dans le dossier actuel.

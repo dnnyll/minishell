@@ -50,7 +50,7 @@ char	*search_list_env_value(t_env *env_head, const char *name)
 	printf("DEBUG: search_env_value called with name: [%s]\n", name);
 	while (current)
 	{
-		printf("DEBUG: checking env key: [%s]\n", current->key);
+		//printf("DEBUG: checking env key: [%s]\n", current->key);
 		if (strcmp(current->key, name) == 0)
 		{
 			printf("DEBUG: found match! value = [%s]\n", current->value);

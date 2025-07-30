@@ -49,7 +49,7 @@ void	process_input(char *line, t_data *data)
 	if (!validate_syntax(tokens))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
-	debug_parser_output(data);
+	//debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 		return (free_tokens(data), free(line));
 	execute_commands(data->command_head, data);

@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/29 10:24:37 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 11:39:14 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ int	pwd_builtin(char **args)
 {
 	char	*cwd;
 
-	if (args[1])
-	{
-		printf("pwd: too many arguments\n");
-		return (1);
-	}
+	(void)args;
+	// if (args[1])
+	// {
+	// 	printf("pwd: too many arguments\n");
+	// 	return (1);
+	// }
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
