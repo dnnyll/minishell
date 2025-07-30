@@ -64,7 +64,8 @@ int	verify_pipes(t_token *tokens)
 		// 2. Check if next is a redirection token after pipe (invalid)
 		if (current->next->type == REDIR_IN || current->next->type == REDIR_OUT
 			|| current->next->type == HEREDOC || current->next->type == APPEND)
-			return (printf("ERROR: redirection after pipe\n"), 1);
+			//return (printf("ERROR: redirection after pipe\n"), 1);
+			return (1);
 			// fprintf(stderr, minishell: syntax error near unexpected token `>'\n);
 		current = current->next;
 	}
