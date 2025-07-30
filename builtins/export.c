@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/27 14:49:45 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 12:25:48 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	no_args_export(t_data *data)
 		if (equal_sign)
 		{
 			name_len = equal_sign - data->environment_var[i];
-			printf("declare -x %.*s=\"%s\"\n", name_len, data->environment_var[i],
-				equal_sign + 1);
+			printf("declare -x %.*s=\"%s\"\n", name_len,
+				data->environment_var[i], equal_sign + 1);
 		}
 		else
 			printf("declare -x %s\n", data->environment_var[i]);
@@ -93,12 +93,15 @@ int	export_builtin(char **args, t_data *data)
 {
 	int	i;
 
+	if (!args[1])
+		return (no_args_export(data));
 	i = 1;
 	while (args[i])
 	{
 		if (!is_valid_identifier(args[i]))
 		{
-			printf("export: '%s': not a valid identifier\n", args[i]);
+			printf("minishell: export: '%s': not a valid identifier\n",
+				args[i]);
 			return (1);
 		}
 		else

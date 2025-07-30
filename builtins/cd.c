@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/27 11:53:52 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 11:53:17 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	cd_builtin(char **args, t_data *data)
 		args_count++;
 	if (args_count > 2)
 	{
-		write(2, "cd: too many arguments\n", 24);
+		//printf("minishell: cd: too many arguments\n");
+		write(2, "minishell: cd: too many arguments\n", 35);
 		return (1);
 	}
 	dir = get_cd_target(args, data);

@@ -76,7 +76,7 @@ static int	is_numeric(const char *str)
 
 int	exit_builtin(char **args, t_data *data)
 {
-	int	exit_code;
+	int	exit_status;
 
 	(void)data;
 	write(2, "exit\n", 5);
@@ -84,19 +84,21 @@ int	exit_builtin(char **args, t_data *data)
 		exit(0);
 	if (!is_numeric(args[1]))
 	{
-		write(2, "exit: numeric argument required\n", 32);
+		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+		//write(2, "exit: numeric argument required\n", 32);
 		exit(2);
 	}
 	if (args[2])
 	{
-		write(2, "exit: too many arguments\n", 25);
+		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
-	exit_code = ft_atoi(args[1]) % 256;
-	if (exit_code < 0)
-		exit_code += 256;
+	exit_status = ft_atoi(args[1]) % 256;
+	if (exit_status < 0)
+		exit_status += 256;
+	data->last_exit_code_status = exit_status;
 	free_on_exit(data);
-	exit(exit_code);
+	exit(exit_status);
 }
 
 /*

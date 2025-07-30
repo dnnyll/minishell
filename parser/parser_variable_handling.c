@@ -297,7 +297,7 @@ char	*expand_variables(const char *input, t_data *data)
 
 int	isexpandable_variable(const char *str)
 {
-	printf("isexpandable_variable @parser_variable_handling.c\n");
+	//printf("isexpandable_variable @parser_variable_handling.c\n");
 	int	i;
 
 	i = 0;
@@ -306,8 +306,8 @@ int	isexpandable_variable(const char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			if (str[i] == '\0')
-				return (printf("Error: $ followed by nothing\n"), 1); // $ at end, no variable
+			// if (str[i] == '\0')
+			// 	return (printf("Error: $ followed by nothing\n"), 1); // $ at end, no variable
 			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
 				return (1); // Valid variable name or special
 		}
@@ -340,7 +340,7 @@ int	isexpandable_variable(const char *str)
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variables(t_token *tokens)
 {
-	printf("handle_variables\n");
+	//printf("handle_variables\n");
 	t_token	*current = tokens;
 	while (current)
 	{
@@ -348,11 +348,11 @@ void	handle_variables(t_token *tokens)
 			current->expandable = 1;
 		else
 			current->expandable = 0;
-		printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
-			current->value,
-			token_type_str(current->type),
-			quote_type_str(current->quote),
-			current->expandable ? "Yes" : "No");
+		//printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
+			// current->value,
+			// token_type_str(current->type),
+			// quote_type_str(current->quote),
+			// current->expandable ? "Yes" : "No");
 		current = current->next;
 	}
 }
@@ -363,10 +363,10 @@ char	*process_variables(const char *input, t_data *data, t_token *tokens)
 	char *expanded;
 
 	//	Marks which tokens are expandable
-	printf("handle_variables @ process_variables\n");
+	//printf("handle_variables @ process_variables\n");
 	handle_variables(current);
 	//	Expands variables in the input string using tokens and data
-	printf("expand_variables @ process_variables\n");
+	//printf("expand_variables @ process_variables\n");
 	expanded = expand_variables(input, data);
 	return (expanded);
 }
