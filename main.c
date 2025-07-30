@@ -25,12 +25,12 @@ void	handle_exit(t_data *data)
 
 bool	should_skip_line(char *line)
 {
-	if (g_signal_status == SIGINT)
-	{
-		g_signal_status = 0;
-		free(line);
-		return (true);
-	}
+	// if (g_signal_status == SIGINT)
+	// {
+	// 	g_signal_status = 0;
+	// 	free(line);
+	// 	return (true);
+	// }
 	if (line[0] == '\0')
 	{
 		free(line);
@@ -51,7 +51,7 @@ void	process_input(char *line, t_data *data)
 	parse_commands(data, tokens);
 	//debug_parser_output(data);
 	if (process_heredocs(data) == -1)
-		return (perror("heredoc"), free_tokens(data), free(line));
+		return (free_tokens(data), free(line));
 	execute_commands(data->command_head, data);
 	free_tokens(data);
 	free_commands(data);

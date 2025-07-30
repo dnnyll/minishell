@@ -9,10 +9,10 @@ typedef struct s_redir
 
 typedef struct s_heredoc
 {
-	char			*filename;
-	int				fd;
-	int				counter;
-	pid_t			pid;
+	char	*filename;  // Path to the temporary file
+	int		fd;         // File descriptor opened on that file
+	int		counter;    // Used for unique filename generation (e.g. heredoc_0, heredoc_1...)
+	pid_t	pid;        // PID of the child that handled the heredoc input (if used)
 	t_redir			*redir_head;
 }	t_heredoc;
 
@@ -23,8 +23,11 @@ int			open_heredoc_filename(t_heredoc *heredoc);
 int			write_line_to_heredoc(int fd, char *line);
 int			fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data);
 void		heredoc_cleanup(t_heredoc *heredoc);
-int			launch_heredoc(t_data *data);
 int			process_heredocs(t_data *data);
+
+//	heredoc_signal.c
+int		manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc);
+void	handle_heredoc_sigint(int sig);
 
 #endif
 

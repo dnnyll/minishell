@@ -11,7 +11,7 @@ INCLUDES	= include
  		builtins/builtins_utils.c builtins/cd.c builtins/echo_env_exit.c builtins/export.c builtins/pwd_unset.c \
  		environment_management/environment_handling.c environment_management/environment_parsing.c \
  		executor/check_commands.c executor/executor.c executor/heredoc.c executor/path_utils.c executor/pipe.c executor/redirections.c executor/signals.c \
- 		heredoc/heredoc_temp.c \
+ 		heredoc/heredoc_temp.c heredoc/heredoc_signal.c \
  		initialization/init_data.c \
  		lexer/extract_operator.c lexer/extract_quoted.c lexer/extract_word.c lexer/lexer.c \
  		memory_management/free_exit.c memory_management/free_functions.c \

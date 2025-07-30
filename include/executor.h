@@ -1,28 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 18:51:17 by mrosset          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
+//redirections
+int		setup_redirection(t_command *command);
+int		open_input_redir(t_command *command);
+int		open_output_redir(t_command *command);
+void	close_redirections(t_command *command);
+
 //pipe utils
 int		ft_pipe(t_command *cmd, int *fd);
 int		ft_fork(pid_t *pid, int prev_fd, int *fd);
-void	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
+int		edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
 
 //execution
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);
 int		parent_process(int prev_fd, int *fd, pid_t pid, t_data *data);
+void	execute_single_builtin(t_command *cmd, t_data *data);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);
@@ -39,12 +35,12 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //heredoc
-char	*expand_line(char *line, t_command *cmd, t_data *data);
-void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data);
-void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid);
-void	handle_heredoc_sigint(int sig);
-void	handle_heredoc(t_command *cmd, t_data *data);
-int		check_heredoc(t_command *cmd_list, t_data *data);
+// char	*expand_line(char *line, t_command *cmd, t_data *data);
+// void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data);
+// void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid);
+// void	handle_heredoc_sigint(int sig);
+// void	handle_heredoc(t_command *cmd, t_data *data);
+// int		check_heredoc(t_command *cmd_list, t_data *data);
 
 //signals
 extern volatile sig_atomic_t	g_signal_status;

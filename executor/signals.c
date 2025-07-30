@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/17 16:28:26 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:36:45 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_sigint(int sig)
 	write(1, "\n", 1);		// print a newline to stdout (file descriptor 1)
 	rl_on_new_line();		// tell readline library that we are on a new line
 	rl_replace_line("", 0);	// clear the current input line
-	rl_redisplay();			// redraw the prompt and input line
+	rl_redisplay();			// redraw the prompt and input line is no longer necessary
 }
 
 

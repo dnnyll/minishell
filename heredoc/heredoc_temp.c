@@ -179,13 +179,11 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
 
 	if (!heredoc || !command || !command->heredoc_delim)
 		return (-1);
-
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
-
+			break ;
 		if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
 			&& line[ft_strlen(command->heredoc_delim)] == '\0')
 		{
@@ -238,8 +236,10 @@ void	heredoc_cleanup(t_heredoc *heredoc)
 int	process_heredocs(t_data *data)
 {
 	t_command *cmd = data->command_head;
-	int	id = 0;
+	int	id;
+	int	result;
 
+	id = 0;
 	while (cmd)
 	{
 		if (cmd->heredoc_delim)
@@ -250,18 +250,26 @@ int	process_heredocs(t_data *data)
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
-			if (fill_heredoc(heredoc, cmd, data) == -1)
+			result = manage_heredoc(cmd, data, heredoc);
+			if (result == 130)
+			{
+				heredoc_cleanup(heredoc);
+				// unlink(heredoc->filename);	//???????????
+				return (130); // Stop execution
+			}
+			else if (result == -1 || result == 1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
 			close(heredoc->fd);
-			heredoc->fd = -1;
-			cmd->infile = strdup(heredoc->filename); // cmd takes ownership
-			heredoc_cleanup(heredoc); // or store for unlinking later
+			cmd->infile = strdup(heredoc->filename);
+			heredoc_cleanup(heredoc);
 			id++;
 		}
 		cmd = cmd->next;
 	}
 	return (0);
 }
+
+
