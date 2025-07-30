@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/06/25 12:04:02 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 18:50:50 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ int	is_valid_identifier(const char *str)
 	return (1);
 }
 
+bool	is_n_flag(char *arg)
+{
+	int	i;
+
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
+		return (false);
+	i = 2;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	is_builtin(t_command **argv)
 {
 	if (!argv || !*argv || !(*argv)->argv || !(*argv)->argv[0])
@@ -59,6 +75,16 @@ bool	is_builtin(t_command **argv)
 	if (ft_strncmp((*argv)->argv[0], "exit", 5) == 0)
 		return (true);
 	return (false);
+}
+
+void	print_error(char *prefix, char *arg, char *suffix)
+{
+	if (prefix)
+		ft_putstr_fd(prefix, 2);
+	if (arg)
+		ft_putstr_fd(arg, 2);
+	if (suffix)
+		ft_putstr_fd(suffix, 2);
 }
 
 /*

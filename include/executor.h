@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/27 14:42:37 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 18:51:17 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	child_exit_code(int status, t_data *data);
 //builtins
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
+bool	is_n_flag(char *arg);
 bool	is_builtin(t_command **argv);
+void	print_error(char *prefix, char *arg, char *suffix);
 int		cd_builtin(char **args, t_data *data);
 int		echo_builtin(char **args);
 int		env_builtin(t_data *data);

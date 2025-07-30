@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 12:25:48 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/07/30 19:22:17 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ int	export_builtin(char **args, t_data *data)
 	{
 		if (!is_valid_identifier(args[i]))
 		{
-			printf("minishell: export: '%s': not a valid identifier\n",
-				args[i]);
+			data->last_exit_code_status = 1;
+			print_error("minishell: export: '", args[1],
+				"': not a valid identifier\n");
 			return (1);
 		}
 		else

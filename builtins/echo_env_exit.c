@@ -1,22 +1,6 @@
 
 #include "minishell.h"
 
-static bool	is_n_flag(char *arg)
-{
-	int	i;
-
-	if (!arg || arg[0] != '-' || arg[1] != 'n')
-		return (false);
-	i = 2;
-	while (arg[i])
-	{
-		if (arg[i] != 'n')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 int	echo_builtin(char **args)
 {
 	int		i;
@@ -76,30 +60,59 @@ static int	is_numeric(const char *str)
 
 int	exit_builtin(char **args, t_data *data)
 {
-	int	exit_status;
+	long	exit_code;
 
-	(void)data;
 	write(2, "exit\n", 5);
 	if (!args[1])
-		exit(0);
+	{
+		free_on_exit(data);
+		exit(data->last_exit_code_status);
+	}
 	if (!is_numeric(args[1]))
 	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-		//write(2, "exit: numeric argument required\n", 32);
+		print_error("minishell: exit:", args[1],
+			": numeric argument required\n");
+		free_on_exit(data);
 		exit(2);
 	}
 	if (args[2])
 	{
-		write(2, "minishell: exit: too many arguments\n", 36);
+		print_error("minishell: exit: too many arguments\n", NULL, NULL);
 		return (1);
 	}
-	exit_status = ft_atoi(args[1]) % 256;
-	if (exit_status < 0)
-		exit_status += 256;
-	data->last_exit_code_status = exit_status;
+	exit_code = ft_atoi(args[1]) % 256;
+	if (exit_code < 0)
+		exit_code += 256;
 	free_on_exit(data);
-	exit(exit_status);
+	exit(exit_code);
 }
+
+
+// int	exit_builtin(char **args, t_data *data)
+// {
+// 	int	exit_status;
+
+// 	(void)data;
+// 	write(2, "exit\n", 5);
+// 	if (!args[1])
+// 		exit(0);
+// 	if (!is_numeric(args[1]))
+// 	{
+// 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+// 		exit(2);
+// 	}
+// 	if (args[2])
+// 	{
+// 		write(2, "minishell: exit: too many arguments\n", 36);
+// 		return (1);
+// 	}
+// 	exit_status = ft_atoi(args[1]) % 256;
+// 	if (exit_status < 0)
+// 		exit_status += 256;
+// 	data->last_exit_code_status = exit_status;
+// 	free_on_exit(data);
+// 	exit(exit_status);
+// }
 
 /*
 **bool: is easier to read with true of false
