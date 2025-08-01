@@ -21,9 +21,11 @@ t_heredoc	*init_heredoc(int counter);	//removed argument: count , need info
 char		*create_heredoc_filename(int id);
 int			open_heredoc_filename(t_heredoc *heredoc);
 int			write_line_to_heredoc(int fd, char *line);
-int			fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data);
 void		heredoc_cleanup(t_heredoc *heredoc);
 int			process_heredocs(t_data *data);
+
+//	heredoc_fill.c
+int			fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data);
 
 //	heredoc_signal.c
 int		manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc);

@@ -49,23 +49,19 @@ t_lexer_result	extract_quoted(const char *input, int i)
 		fprintf(stderr, "syntax error: unterminated quote\n");
 		return ((t_lexer_result){NULL, -1});		// Abort lexer
 	}
-
 	token_value = ft_substr(input, i + 1, len);		// Copy string between quotes
 	if (!token_value)
 		return ((t_lexer_result){NULL, i});
 
 	token = create_token(token_value, WORD);	// Create token object
 	free (token_value);								// Free temporary buffer after use
-
 	if (!token)
 		return ((t_lexer_result){NULL, i});
-
 	// Save quote type info for later use (e.g., expansion rules)
 	if (quote == '\'')
 		token->quote = SINGLE_QUOTE;
 	else
 		token->quote = DOUBLE_QUOTE;
-
 	res.token = token;
 	res.index = i + len + 2;					// Move index past both quotes
 	return (res);

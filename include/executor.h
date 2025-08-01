@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:48:45 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 17:03:28 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:04:26 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_split(char **tab);
 // int		check_heredoc(t_command *cmd_list, t_data *data);
 
 //signals
-extern volatile sig_atomic_t	g_signal_status;
+// extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);
