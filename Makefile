@@ -8,15 +8,38 @@ INCLUDES	= include
 # === Sources & Objects ===
 #SRCS		:= $(shell find . -name "*.c" ! -path "./lib/Libft/*")
  SRCS = main.c \
- 		builtins/builtins_utils.c builtins/cd.c builtins/echo_env_exit.c builtins/export.c builtins/pwd_unset.c \
- 		environment_management/environment_handling.c environment_management/environment_parsing.c \
- 		executor/check_commands.c executor/executor.c executor/heredoc.c executor/path_utils.c executor/pipe.c executor/redirections.c executor/signals.c \
- 		heredoc/heredoc_temp.c heredoc/heredoc_signal.c \
+ 		builtins/builtins_utils.c \
+		builtins/cd.c \
+		builtins/echo_env_exit.c \
+		builtins/export.c \
+		builtins/pwd_unset.c \
+ 		environment_management/environment_handling.c \
+		environment_management/environment_parsing.c \
+ 		executor/check_commands.c \
+		executor/executor.c executor/heredoc.c \
+		executor/path_utils.c \
+		executor/pipe.c executor/redirections.c \
+		executor/signals.c \
+ 		heredoc/heredoc_temp.c \
+		heredoc/heredoc_signal.c \
  		initialization/init_data.c \
- 		lexer/extract_operator.c lexer/extract_quoted.c lexer/extract_word.c lexer/lexer.c \
- 		memory_management/free_exit.c memory_management/free_functions.c \
- 		parser/parser_commands.c parser/parser_fill_commands.c parser/parser_pipe_handling.c parser/parser_redirect_handling.c parser/parser_validate_syntax.c parser/parser_variable_handling.c \
- 		tokens/tokens_expand.c tokens/tokens.c \
+ 		lexer/extract_operator.c \
+		lexer/extract_quoted.c \
+		lexer/extract_word.c \
+		lexer/lexer_utils.c \
+		lexer/lexer.c \
+ 		memory_management/free_exit.c \
+		memory_management/free_functions.c \
+		memory_management/free_lexer.c \
+ 		parser/parser_commands.c \
+		parser/parser_fill_commands.c \
+		parser/parser_pipe_handling.c \
+		parser/parser_redirect_handling.c \
+		parser/parser_validate_syntax.c \
+		parser/parser_variable_handling.c \
+ 		printers/printers.c \
+ 		tokens/tokens_expand.c \
+		tokens/tokens.c \
 
 OBJS		:= $(SRCS:.c=.o)
 
