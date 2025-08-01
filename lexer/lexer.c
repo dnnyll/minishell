@@ -1,89 +1,114 @@
 #include "minishell.h"
 
-//	Purpose: Checks if a character is a whitespace (tabs, spaces, etc.).
-int	ft_isspace(int c)
+t_lexer_result extract_token(const char *input, int i)
 {
-	if ((c >= 7 && c <= 13) || (c == 32))	// Matches tabs, newlines, space
-		return (1);
-	return (0);
-}
+	// int		start = i;
+	int		j = i;
+	int		len = 0;
+	char	buffer[4096]; // adjust if needed
+	char	quote;
+	t_token	*token;
 
-//	Purpose: Checks if the character is a quote (' or ").
-int	is_quote(char c)
-{
-	return (c == '\'' || c == '"');
-}
-
-//	Purpose: Checks if the character is a shell operator (|, <, >, $).
-int	is_operator_start(char c)
-{
-	return (c == '|' || c == '<' || c == '>');	// $ sign might not need to be here!
-}
-
-//	Purpose: Decides how to extract the token based on the current character.
-t_lexer_result	extract_token(const char *input, int i)
-{
-	if (is_quote(input[i]))						// Quoted string → special extract
-		return (extract_quoted(input, i));
-	else if (is_operator_start(input[i]))		// Shell operator → handled separately
-		return (extract_operator(input, i));
-	else										// Regular word
-		return (extract_word(input, i));
-}
-
-void	free_lexer_result(t_lexer_result *result)
-{
-	if (!result)
-		return;
-	if (result->token)
-		free(result->token);
-	free(result);
-}
-
-void	free_single_token(t_token *token)
-{
+	while (input[j] && !ft_isspace(input[j]) && !is_operator_start(input[j]))
+	{
+		if (is_quote(input[j]))
+		{
+			quote = input[j++];
+			while (input[j] && input[j] != quote)
+				buffer[len++] = input[j++];
+			if (input[j] != quote)
+			{
+				t_lexer_result err = { NULL, -1 };
+				return (err); // unmatched quote
+			}
+			j++; // skip closing quote
+		}
+		else
+			buffer[len++] = input[j++];
+	}
+	buffer[len] = '\0';
+	token = create_token(buffer, WORD);
 	if (!token)
-		return;
-	if (token->value)
-		free(token->value);
-	free(token);
+	{
+		t_lexer_result err = { NULL, -1 };
+		return (err);
+	}
+	t_lexer_result result = { token, j };
+	return (result);
 }
 
-//	Purpose: Main lexer function: loops through the input and builds a list of tokens.
+// Handles shell operators like >, >>, <, <<, |
+int	handle_operator(t_data *data, const char *input, int *i)
+{
+	char			op[3] = {0};
+	t_token_type	type;
+	t_token			*token;
+	int				len;
+
+	len = verify_operator_type(input, *i, &type);
+	if (!len)
+	{
+		printf("Unknown operator: %c\n", input[*i]);
+		return (0);
+	}
+	op[0] = input[*i];
+	op[1] = input[*i + 1];
+	token = create_token(op, type);
+	if (!token)
+	{
+		free_token_list(data->token_head);
+		return (0);
+	}
+	add_token(&data->token_head, token);
+	*i += len;
+	return (1);
+}
+
+// Handles word/quoted tokens using extract_token()
+int	handle_token(t_data *data, const char *input, int *i)
+{
+	t_lexer_result	result;
+
+	result = extract_token(input, *i);
+	if (result.index == -1)
+	{
+		printf("DEBBUG: index == -1 @ lexer\n");
+		if (result.token)
+			free_single_token(result.token);
+		free_token_list(data->token_head);
+		return (0);
+	}
+	if (result.token)
+	{
+		printf("token: %s\n", result.token->value);
+		add_token(&data->token_head, result.token);
+	}
+	*i = result.index;
+	return (1);
+}
+
+
+// main lexer loop
 void	*lexer(t_data *data, const char *input)
 {
 	data->token_head = NULL;
-	int		i;
+	int		i = 0;
 
-	i = 0;
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
-			i++;											// Skip all whitespace
+			i++;
 		if (input[i] == '\0')
-			break ;											// End of input
-		t_lexer_result result = extract_token(input, i);	// Extract next token
-		if (result.index == -1)								// Syntax error occurred (e.g., unmatched quote)
+			break;
+		if (is_operator_start(input[i]))
 		{
-			printf("Info: index == -1\n");
-			if (result.token)
-				free_single_token(result.token);
-			free_token_list(data->token_head);
-			return (NULL);									// Abort and clean up
+			if (!handle_operator(data, input, &i))
+				return (NULL);
+			continue;
 		}
-		if (result.token)
-		{
-			printf("token\n");
-			add_token(&data->token_head, result.token);		// Add token to the list
-		}
-		if (result.index <= i)
-		{
-			printf("ERROR: extract_token didn't advance input at i = %d\n", i);
-			if (result.token)
-				free_single_token(result.token);
-			break; // prevent infinite loop
-		}
-		i = result.index;									// Move index past the token
+		if (!handle_token(data, input, &i))
+			return (NULL);
 	}
 	return (data->token_head);
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/07/29 14:47:57 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/01 14:38:56 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ typedef enum e_token_type
 	REDIR_OUT,				// Output redirection: '>'
 	APPEND,					// Append output: '>>'
 	HEREDOC,				// Heredoc input: '<<'
-	T_EOF,					// end of input (optional)
 	ERROR,					// for syntax errors or invalid tokens
-	ENV
 }	t_token_type;
 
 //	contains information after lexer has been applied
@@ -43,7 +41,6 @@ typedef struct s_token
 	t_token_type	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
 	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
 	int				expandable;		// Determines if it will be submited to environament expansion
-	// struct s_token	*previous;		// Pointer to the previous token node
 	struct s_token	*next;			// Pointer to the next token node
 }	t_token;
 
