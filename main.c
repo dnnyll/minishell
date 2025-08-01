@@ -7,9 +7,9 @@ t_data	*initialize_minishell(char **envp)
 	data = init_data();
 	if (!data)
 		return (NULL);
-	data->redir_head = init_redir();
-	if (!data->redir_head)
-		return (printf("redir init failed\n"), NULL);
+	// data->redir_head = init_redir();
+	// if (!data->redir_head)
+	// 	return (printf("redir init failed\n"), NULL);
 	data->environment_var = copy_environment(envp);
 	data->env_head = build_env_list(data->environment_var);
 	return (data);

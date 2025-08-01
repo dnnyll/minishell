@@ -20,6 +20,7 @@ INCLUDES	= include
 		executor/path_utils.c \
 		executor/pipe.c executor/redirections.c \
 		executor/signals.c \
+		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
  		initialization/init_data.c \
@@ -28,6 +29,7 @@ INCLUDES	= include
 		lexer/extract_word.c \
 		lexer/lexer_utils.c \
 		lexer/lexer.c \
+		memory_management/free_commands.c \
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
 		memory_management/free_lexer.c \

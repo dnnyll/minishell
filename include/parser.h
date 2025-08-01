@@ -25,12 +25,13 @@ typedef struct s_command
 	int					append;				// 1 if '>>' (append mode), 0 if '>' (truncate)
 	char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
 	int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
+	int					heredoc_count;
 	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
 	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
 	struct s_command	*prev;
 	t_token_type		type;
-	t_redir				*redir_head;
+	// t_redir				*redir_head;
 }	t_command;
 
 /*
@@ -50,9 +51,9 @@ Purpose: stores the arguments that will be passed to execve().
 */
 
 //	parse_commands
-void		parse_commands(t_data *data, t_token *tokens);
 t_command	*init_command(void);
 void		add_command_to_data(t_command **head, t_command *init_command);
+void		parse_segment_and_add_command(t_data *data, t_token *start, t_token *end);
 void		parse_commands(t_data *data, t_token *tokens);
 
 //	parser_fill_commands

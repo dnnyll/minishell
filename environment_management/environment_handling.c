@@ -233,7 +233,6 @@ typedef struct s_variables
 // }
 //	used to search the environemnt varibles name wihtin the copy of the environment
 
-
 char	**copy_environment(char **envp)
 {
 	int		i;
