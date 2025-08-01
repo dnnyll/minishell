@@ -138,6 +138,7 @@ int	verify_redirections(t_token *tokens)
 */
 int	validate_syntax(t_token *tokens)
 {
+	printf("entered validade_syntax\n");
 	t_token	*last_token;
 
 	if (!tokens)

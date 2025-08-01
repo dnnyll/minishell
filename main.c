@@ -46,12 +46,16 @@ void	process_input(char *line, t_data *data)
 
 	tokens = lexer(data, line);
 	expand_token_values(tokens, data);
-	if (!validate_syntax(tokens))
+	if (validate_syntax(tokens))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
 	debug_parser_output(data);
 	if (process_heredocs(data) == -1)
+	{
+		heredoc_cleanup(data->heredoc_head);
+		free_commands(data);
 		return (free_tokens(data), free(line));
+	}
 	execute_commands(data->command_head, data);
 	free_tokens(data);
 	free_commands(data);

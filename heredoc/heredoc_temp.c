@@ -183,8 +183,13 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
 	{
 		line = readline("> ");
 		if (!line)
+		{
+			write(2, "minishell: warning: here-document delimited by end-of-file (wanted `", 66);
+			write(2, command->heredoc_delim, ft_strlen(command->heredoc_delim));
+			write(2, "`)\n", 3);
 			break ;
-		if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
+		}
+			if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
 			&& line[ft_strlen(command->heredoc_delim)] == '\0')
 		{
 			free(line);
@@ -221,13 +226,18 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
 
 void	heredoc_cleanup(t_heredoc *heredoc)
 {
+	printf("heredoc_cleanup\n");
 	if (!heredoc)
+	{
+		printf("!heredoc\n");
 		return;
+	}
 	if (heredoc->filename)
 	{
 		printf("Leaving heredoc file intact for now: %s\n", heredoc->filename);
-		// unlink(heredoc->filename);  this has to be added in the execution phase
+		// unlink(heredoc->filename);
 		free(heredoc->filename);
+		
 		heredoc->filename = NULL;
 	}
 	free(heredoc);
@@ -251,13 +261,14 @@ int	process_heredocs(t_data *data)
 				return (-1);
 			}
 			result = manage_heredoc(cmd, data, heredoc);
-			if (result == 130)
-			{
-				heredoc_cleanup(heredoc);
-				// unlink(heredoc->filename);	//???????????
-				return (130); // Stop execution
-			}
-			else if (result == -1 || result == 1)
+			printf("THIS IS THE RESULT= %d\n\n\n", result);
+			// if (result == 130)
+			// {
+			// 	heredoc_cleanup(heredoc);
+			// 	unlink(heredoc->filename);
+			// 	return (130); // Stop execution
+			// }
+			if (result == -1 || result == 1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
@@ -265,6 +276,7 @@ int	process_heredocs(t_data *data)
 			close(heredoc->fd);
 			cmd->infile = strdup(heredoc->filename);
 			heredoc_cleanup(heredoc);
+			unlink(heredoc->filename);
 			id++;
 		}
 		cmd = cmd->next;
