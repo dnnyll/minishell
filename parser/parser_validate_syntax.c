@@ -62,8 +62,9 @@ int	verify_pipes(t_token *tokens)
 			return (printf("ERROR: two pipes in a row\n"), 1);
 			// fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
 		// 2. Check if next is a redirection token after pipe (invalid)
-		if (current->next->type == REDIR_IN || current->next->type == REDIR_OUT
-			|| current->next->type == HEREDOC || current->next->type == APPEND)
+		if (current->type == PIPE &&
+			(current->next->type == REDIR_IN || current->next->type == REDIR_OUT
+			|| current->next->type == HEREDOC || current->next->type == APPEND))
 			return (printf("ERROR: redirection after pipe\n"), 1);
 			// fprintf(stderr, minishell: syntax error near unexpected token `>'\n);
 		current = current->next;
@@ -106,19 +107,19 @@ int	verify_redirections(t_token *tokens)
 			if (!current->next)
 			{
 				printf("minishell: syntax error near unexpected token `newline'\n");
-				return (0);
+				return (1);
 			}
 			// Case 2: redirection is followed by something that's not a WORD
 			if (current->next->type != WORD)
 			{
 				unexpected = current->next->value;
 				printf("minishell: syntax error near unexpected token `%s'\n", unexpected);
-				return (0);
+				return (1);
 			}
 		}
 		current = current->next; // move to the next token
 	}
-	return (1); // Success: redirections are valid
+	return (0); // Success: redirections are valid
 }
 
 /*
@@ -138,6 +139,7 @@ int	verify_redirections(t_token *tokens)
 */
 int	validate_syntax(t_token *tokens)
 {
+	printf("entered validade_syntax\n");
 	t_token	*last_token;
 
 	if (!tokens)
@@ -156,6 +158,5 @@ int	validate_syntax(t_token *tokens)
 	// Run redirection checks
 	if (verify_redirections(tokens))
 		return (1);
-
 	return (0);
 }

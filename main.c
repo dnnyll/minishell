@@ -45,13 +45,24 @@ void	process_input(char *line, t_data *data)
 	t_token	*tokens;
 
 	tokens = lexer(data, line);
+	if(!tokens)
+	{
+		printf("Lexer returned NULL — likely due to unmatched quotes or syntax error.\n");
+		return ;
+	}
+	printf("DEBUG: process_input post tokens = lexer\n\n\n");
 	expand_token_values(tokens, data);
-	if (!validate_syntax(tokens))
+	printf("DEBUG: process_input post expand_values\n\n\n");
+	if (validate_syntax(tokens))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
 	//debug_parser_output(data);
 	if (process_heredocs(data) == -1)
+	{
+		heredoc_cleanup(data->heredoc_head);
+		free_commands(data);
 		return (free_tokens(data), free(line));
+	}
 	execute_commands(data->command_head, data);
 	free_tokens(data);
 	free_commands(data);
