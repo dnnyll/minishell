@@ -153,10 +153,10 @@ int	validate_syntax(t_token *tokens)
 		return (1);
 	}
 	// Run pipe checks
-	if (verify_pipes(tokens))
+	if (verify_pipes(tokens) == 1)
 		return (1);
 	// Run redirection checks
-	if (verify_redirections(tokens))
+	if (verify_redirections(tokens) == 1)
 		return (1);
 	return (0);
 }
