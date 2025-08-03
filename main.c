@@ -50,12 +50,12 @@ void	process_input(char *line, t_data *data)
 		printf("Lexer returned NULL — likely due to unmatched quotes or syntax error.\n");
 		return ;
 	}
-	printf("DEBUG: process_input post tokens = lexer\n\n\n");
+	//printf("DEBUG: process_input post tokens = lexer\n\n\n");
 	expand_token_values(tokens, data);
-	printf("DEBUG: process_input post expand_values\n\n\n");
+	//printf("DEBUG: process_input post expand_values\n\n\n");
 	if (validate_syntax(tokens))
 		return (free_tokens(data), free(line));
-	printf("what seems o be the officer problem??\n\n");
+	//printf("what seems o be the officer problem??\n\n");
 	parse_commands(data, tokens);
 	//debug_parser_output(data);
 	if (process_heredocs(data) == -1)
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
-		printf("here is the prompt printing\n");
+		//printf("here is the prompt printing\n");
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);

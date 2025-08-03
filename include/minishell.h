@@ -13,6 +13,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <stdbool.h>
+# include <limits.h>
 
 //	personal library/header files
 # include "../include/data.h"

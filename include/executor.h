@@ -4,16 +4,16 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-//redirections
+//redirections and pipe
 int		setup_redirection(t_command *command);
 int		open_input_redir(t_command *command);
 int		open_output_redir(t_command *command);
 void	close_redirections(t_command *command);
-
-//pipe utils
 int		ft_pipe(t_command *cmd, int *fd);
 int		ft_fork(pid_t *pid, int prev_fd, int *fd);
 int		edit_pipe_fd(t_command *cmd, int prev_fd, int *fd);
+int		handle_input_redirs(t_command *cmd, int prev_fd);
+int		handle_output_redirs(t_command	*cmd, int *fd);
 
 //execution
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);

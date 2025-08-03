@@ -62,7 +62,7 @@ int	exit_builtin(char **args, t_data *data)
 {
 	long	exit_code;
 
-	write(2, "exit\n", 5);
+	write(1, "exit\n", 5);
 	if (!args[1])
 	{
 		free_on_exit(data);
@@ -70,7 +70,7 @@ int	exit_builtin(char **args, t_data *data)
 	}
 	if (!is_numeric(args[1]))
 	{
-		print_error("minishell: exit:", args[1],
+		print_error("minishell: exit: ", args[1],
 			": numeric argument required\n");
 		free_on_exit(data);
 		exit(2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:26:50 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 14:39:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/03 13:41:35 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,20 @@ int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 
 int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 {
+	if (handle_input_redirs(cmd, prev_fd) != 0)
+		return (1);
+	if (handle_output_redirs(cmd, fd) != 0)
+		return (1);
+	if (fd[0] != -1)
+		close(fd[0]);
+	return (0);
+}
+
+int	handle_input_redirs(t_command *cmd, int prev_fd)
+{
 	if ((cmd->heredoc_head && cmd->heredoc_head->filename) || cmd->infile)
 	{
 		if (open_input_redir(cmd) != 0)
-			return (1);
-	}
-	if (cmd->outfile)
-	{
-		if (open_output_redir(cmd) != 0)
 			return (1);
 	}
 	if (cmd->fd_in != STDIN_FILENO)
@@ -75,6 +81,16 @@ int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 		}
 		close(prev_fd);
 	}
+	return (0);
+}
+
+int	handle_output_redirs(t_command	*cmd, int *fd)
+{
+	if (cmd->outfile)
+	{
+		if (open_output_redir(cmd) != 0)
+			return (1);
+	}
 	if (cmd->fd_out != STDOUT_FILENO)
 	{
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
@@ -93,11 +109,62 @@ int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
 		}
 		close(fd[1]);
 	}
-	if (fd[0] != -1)
-		close(fd[0]);
-
 	return (0);
 }
+
+// DANIEFE2 __VERSION__int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
+// {
+// 	if ((cmd->heredoc_head && cmd->heredoc_head->filename) || cmd->infile)
+// 	{
+// 		if (open_input_redir(cmd) != 0)
+// 			return (1);
+// 	}
+// 	if (cmd->outfile)
+// 	{
+// 		if (open_output_redir(cmd) != 0)
+// 			return (1);
+// 	}
+// 	if (cmd->fd_in != STDIN_FILENO)
+// 	{
+// 		if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
+// 		{
+// 			perror("dup2 input");
+// 			return (1);
+// 		}
+// 		close(cmd->fd_in);
+// 	}
+// 	else if (prev_fd != -1)
+// 	{
+// 		if (dup2(prev_fd, STDIN_FILENO) == -1)
+// 		{
+// 			perror("dup2 prev_fd");
+// 			return (1);
+// 		}
+// 		close(prev_fd);
+// 	}
+// 	if (cmd->fd_out != STDOUT_FILENO)
+// 	{
+// 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
+// 		{
+// 			perror("dup2 output");
+// 			return (1);
+// 		}
+// 		close(cmd->fd_out);
+// 	}
+// 	else if (fd[1] != -1)
+// 	{
+// 		if (dup2(fd[1], STDOUT_FILENO) == -1)
+// 		{
+// 			perror("dup2 pipe write end");
+// 			return (1);
+// 		}
+// 		close(fd[1]);
+// 	}
+// 	if (fd[0] != -1)
+// 		close(fd[0]);
+
+// 	return (0);
+// }
 
 //DEBUG VERSION:
 // int edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)

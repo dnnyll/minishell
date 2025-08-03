@@ -80,7 +80,7 @@ int	handle_token(t_data *data, const char *input, int *i)
 	}
 	if (result.token)
 	{
-		printf("token: %s\n", result.token->value);
+		//printf("token: %s\n", result.token->value);
 		add_token(&data->token_head, result.token);
 	}
 	*i = result.index;
