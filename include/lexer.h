@@ -1,4 +1,3 @@
-
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -36,15 +35,9 @@ int				ft_isspace(int c);
 int				is_quote(char c);
 int				is_operator_start(char c);
 t_lexer_result	extract_token(const char *input, int i);
+int				verify_operator_type(const char *input, int i, t_token_type *type);
+int				handle_operator(t_data *data, const char *input, int *i);
+int				handle_token(t_data *data, const char *input, int *i);
 void			*lexer(t_data *data, const char *input);
-
-
-
-
-
-void			free_lexer_result(t_lexer_result *result);
-void			free_single_token(t_token *token);
-
-
 
 #endif

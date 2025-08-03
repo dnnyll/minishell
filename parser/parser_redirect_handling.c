@@ -111,7 +111,7 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 {
 	t_token	*current = start;
 
-	command->redir_head->heredoc_count = 0;
+	command->heredoc_count = 0;
 	while (current && current != end)
 	{
 		if (current->next && current->next->type == WORD)
@@ -124,7 +124,7 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 				set_redir_out(command, current, 1);
 			else if (current->type == HEREDOC)
 			{
-				command->redir_head->heredoc_count++;
+				command->heredoc_count++;
 				set_heredoc(command, current);
 			}
 			current = current->next;

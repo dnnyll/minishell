@@ -3,9 +3,10 @@
 // Frees all tokens from data->token_head
 void	free_tokens(t_data *data)
 {
-	t_token	*token = data->token_head;
+	t_token	*token;
 	t_token	*next;
 
+	token = data->token_head;
 	while (token)
 	{
 		next = token->next;
@@ -16,7 +17,7 @@ void	free_tokens(t_data *data)
 	data->token_head = NULL; // Clear reference in data
 }
 
-const char *token_type_str(t_token_type type)
+const	char *token_type_str(t_token_type type)
 {
 	if (type == CMD) return "COMMAND";
 	if (type == WORD) return "WORD";
@@ -25,9 +26,9 @@ const char *token_type_str(t_token_type type)
 	if (type == REDIR_OUT) return "REDIR_OUT";
 	if (type == HEREDOC) return "HEREDOC";
 	if (type == APPEND) return "APPEND";
-	if (type == T_EOF) return "EOF";
 	if (type == ERROR) return "ERROR";
-	if (type == ENV) return "ENV";
+	// if (type == T_EOF) return "EOF";
+	// if (type == ENV) return "ENV";
 	return ("UNKNOWN");
 }
 
@@ -35,18 +36,15 @@ const char *token_type_str(t_token_type type)
 void	add_token(t_token **list, t_token *new_token)
 {
 	if (!list || !new_token)
-		return ; // Do nothing if input is invalid
-
+		return ; // Do nothing if input is invali
 	if (*list == NULL)
 	{
 		*list = new_token; // List is empty → set head to new token
 		return ;
 	}
-
 	t_token *current = *list;
 	while (current->next)
 		current = current->next; // Traverse to the last token
-
 	current->next = new_token; // Append new token to the end
 }
 

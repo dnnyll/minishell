@@ -23,11 +23,12 @@
 # include "../include/parser.h"
 # include "../include/environment_management.h"
 # include "../include/heredoc.h"
+# include "../include/memory_management.h"
 
 //	init_data.c
 t_data		*init_data(void);
 t_command	*init_command(void);
-t_redir		*init_redir(void);
+// t_redir		*init_redir(void);
 t_heredoc	*init_heredoc(int counter);
 
 
@@ -43,12 +44,6 @@ void	print_env_list(t_env *env);
 void	print_data_debug(t_data *data);
 void	debug_environment_variables_printer(t_data *data);
 void 	print_heredoc(t_heredoc *heredoc);
-
-//	utility_functions
-void	free_char_array(char **array);
-
-//	memory_management
-void	free_on_exit(t_data *data);
 
 //	prompt default
 # define PROMPT "minishell$ "

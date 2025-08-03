@@ -1,101 +1,4 @@
 #include "minishell.h"
-/*
-+----------------------------------------------------------+
-|                     HEREDOC FLOW OVERVIEW                |
-+----------------------------------------------------------+
-|                                                          |
-| 1) Check each command if heredoc is needed                |
-|    - Function: check_heredoc(command_list, data)              |
-|    - Iterates through command_list                             |
-|                                                          |
-| 2) For each heredoc command:                               |
-|    -> Create a temporary file for heredoc input           |
-|       - Function: create_heredoc_tempfile()                |
-|       - Returns open fd and filename                        |
-|                                                          |
-| 3) Fork a child process                                    |
-|    - In child:                                             |
-|      * Read user lines with readline("> ")                |
-|      * Expand variables if not quoted                      |
-|        - Function: expand_line(line, command, data)            |
-|      * Write each line + newline into tempfile             |
-|      * Close write fd, exit                                |
-|      - Function: child_heredoc(command, fd, data)              |
-|                                                          |
-|    - In parent:                                            |
-|      * Wait for child to finish                            |
-|      * Close write fd                                      |
-|      * Reopen tempfile for reading (O_RDONLY)              |
-|      * Set command->fd_in = read fd for later input redirection|
-|      - Function: parent_heredoc(command, fd, pid)               |
-|                                                          |
-| 4) During command execution:                               |
-|    - Use command->fd_in as input (dup2 to STDIN)               |
-|    - Continue with execve for command                      |
-|                                                          |
-| 5) Cleanup (optionally):                                   |
-|    - Delete tempfile after command done                    |
-|                                                          |
-+----------------------------------------------------------+
-|                        SUMMARY                            |
-|                                                          |
-| [check_heredoc]      -> scans commands for heredoc       |
-| [create_heredoc_tempfile] -> safely creates temp file     |
-| [child_heredoc]      -> reads user input, writes to file  |
-| [parent_heredoc]     -> waits, reopens file for reading   |
-| [expand_line]        -> expands variables in heredoc line |
-| command->fd_in           -> input fd for command execution    |
-+----------------------------------------------------------+
-*/
-
-/*
-What have we done so far:
-
-    We discussed creating a struct to hold heredoc info (filename, delimiter, quoted or not, fd).
-
-    You want to generate the heredoc filename dynamically.
-
-    You want to write heredoc lines into this temporary file.
-
-    We decided to fork a child process to read lines with readline, do expansions if necessary, and write them to the temp file.
-
-    The parent process waits for the child and then will use the temp file as input.
-
-Next steps:
-
-    Create the temporary file with a unique name. <++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    Fork the child process to read and write heredoc lines to that file.
-
-    Close the write end and open the file for reading in the parent.
-
-    Assign the file descriptor to the command’s fd_in to redirect input late
-*/
-
-/*+-----------------------------------------------+
-|               Heredoc Filename Setup          |
-+-----------------------------------------------+
-|                                               |
-|  [int_to_str(int n)]                           |
-|       Converts integer to string               |
-|                                               |
-|  [get_pid_str()]                              |
-|       - Calls getpid()                         |
-|       - Returns pid as string (via int_to_str)|
-|                                               |
-|  [get_counter_str(int counter)]                |
-|       - Converts counter to string             |
-|                                               |
-|  [generate_heredoc_filename(int counter)]     |
-|       - Calls get_pid_str()                    |
-|       - Calls get_counter_str(counter)         |
-|       - Concatenates:                          |
-|         "/tmp/.heredoc_" + pid_str + "_" +    |
-|          counter_str                           |
-|       - Frees pid_str & counter_str            |
-|       - Returns full filename string           |
-+-----------------------------------------------+
-*/
 
 char	*create_heredoc_filename(int id)
 {
@@ -171,63 +74,21 @@ int	write_line_to_heredoc(int fd, char *line)
 	printf("Wrote line to heredoc\n");
 	return (0);
 }
-int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
-{
-	char	*line;
-	char	*expanded_line;
-	int		should_free;
-
-	if (!heredoc || !command || !command->heredoc_delim)
-		return (-1);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
-			&& line[ft_strlen(command->heredoc_delim)] == '\0')
-		{
-			free(line);
-			break;
-		}
-		if (command->heredoc_quoted == 0)
-		{
-			expanded_line = expand_variables(line, data);
-			free(line);
-			if (!expanded_line)
-				return (-1);
-			should_free = 1;
-		}
-		else
-		{
-			expanded_line = line;
-			should_free = 0;
-		}
-		if (write_line_to_heredoc(heredoc->fd, expanded_line) == -1)
-		{
-			if (should_free)
-				free(expanded_line);
-			else
-				free(line);
-			return (-1);
-		}
-		if (should_free)
-			free(expanded_line);
-		else
-			free(line);
-	}
-	return (0);
-}
 
 void	heredoc_cleanup(t_heredoc *heredoc)
 {
+	printf("heredoc_cleanup\n");
 	if (!heredoc)
+	{
+		printf("!heredoc\n");
 		return;
+	}
 	if (heredoc->filename)
 	{
 		printf("Leaving heredoc file intact for now: %s\n", heredoc->filename);
-		// unlink(heredoc->filename);  this has to be added in the execution phase
+		// unlink(heredoc->filename);
 		free(heredoc->filename);
+		
 		heredoc->filename = NULL;
 	}
 	free(heredoc);
@@ -251,13 +112,14 @@ int	process_heredocs(t_data *data)
 				return (-1);
 			}
 			result = manage_heredoc(cmd, data, heredoc);
-			if (result == 130)
-			{
-				heredoc_cleanup(heredoc);
-				// unlink(heredoc->filename);	//???????????
-				return (130); // Stop execution
-			}
-			else if (result == -1 || result == 1)
+			printf("THIS IS THE RESULT= %d\n\n\n", result);
+			// if (result == 130)
+			// {
+			// 	heredoc_cleanup(heredoc);
+			// 	unlink(heredoc->filename);
+			// 	return (130); // Stop execution
+			// }
+			if (result == -1 || result == 1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
@@ -265,6 +127,7 @@ int	process_heredocs(t_data *data)
 			close(heredoc->fd);
 			cmd->infile = strdup(heredoc->filename);
 			heredoc_cleanup(heredoc);
+			unlink(heredoc->filename);
 			id++;
 		}
 		cmd = cmd->next;
