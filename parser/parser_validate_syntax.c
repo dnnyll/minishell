@@ -46,35 +46,29 @@ t_token	*get_last_token(t_token *head)
 */
 int	verify_pipes(t_token *tokens)
 {
-	// printf("verify_pipes\n");
 	t_token	*current = tokens;
 
 	if (!current)
-		return (1); // empty input is technically valid
+		return (1);
 	// 1. Check first token
 	if (current->type == PIPE)
-		return (printf("ERROR: pipe at beginning\n"), 1);
-		// fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
+		return (print_error("syntax error near unexpected token `|'\n", NULL, NULL), 1);
 	while (current && current->next)
 	{
 		// 2. Check for double pipes (e.g., | |)
 		if (current->type == PIPE && current->next->type == PIPE)
-			return (printf("ERROR: two pipes in a row\n"), 1);
-			// fprintf(stderr, "minishell: syntax error near unexpected token `|'\n");
+			return (print_error("minishell :syntax error near unexpected token `|'\n", NULL, NULL), 1);
 		// 2. Check if next is a redirection token after pipe (invalid)
 		if (current->type == PIPE &&
 			(current->next->type == REDIR_IN || current->next->type == REDIR_OUT
 			|| current->next->type == HEREDOC || current->next->type == APPEND))
-			//return (printf("ERROR: redirection after pipe\n"), 1);
-			return (1);
-			// fprintf(stderr, minishell: syntax error near unexpected token `>'\n);
+			return (print_error("minishell: syntax error near unexpected token `newline'\n", NULL, NULL), 1);
 		current = current->next;
 	}
 	// 3. After the loop, current is the last token
 	if (current->type == PIPE)
-		return (printf("ERROR: pipe at the end\n"), 1);
-		// fprintf(stderr, "minishell: syntax error near unexpected token `newline'\n");
-	return (0); // Success: pipe usage is valid
+		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL), 1);
+	return (0);
 }
 
 /*
@@ -94,7 +88,6 @@ int	verify_pipes(t_token *tokens)
 */
 int	verify_redirections(t_token *tokens)
 {
-	// printf("verify_redirections\n");
 	t_token		*current = tokens;
 	const char	*unexpected;
 
@@ -106,21 +99,19 @@ int	verify_redirections(t_token *tokens)
 		{
 			// Case 1: redirection is the last token (no target)
 			if (!current->next)
-			{
-				printf("minishell: syntax error near unexpected token `newline'\n");
-				return (1);
-			}
+				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);
 			// Case 2: redirection is followed by something that's not a WORD
 			if (current->next->type != WORD)
 			{
 				unexpected = current->next->value;
-				printf("minishell: syntax error near unexpected token `%s'\n", unexpected);
+				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);	//?????????????
+				printf("minishell: syntax error near unexpected token `%s'\n", unexpected);				//?????????????
 				return (1);
 			}
 		}
-		current = current->next; // move to the next token
+		current = current->next;
 	}
-	return (0); // Success: redirections are valid
+	return (0);
 }
 
 /*
@@ -149,10 +140,7 @@ int	validate_syntax(t_token *tokens)
 
 	// Check if the first or last token is a pipe
 	if (tokens->type == PIPE || last_token->type == PIPE)
-	{
-		printf("minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
+		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL), 1);
 	// Run pipe checks
 	if (verify_pipes(tokens) == 1)
 		return (1);
