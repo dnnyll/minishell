@@ -74,58 +74,6 @@ int	write_line_to_heredoc(int fd, char *line)
 	printf("Wrote line to heredoc\n");
 	return (0);
 }
-// int	fill_heredoc(t_heredoc *heredoc, t_command *command, t_data *data)
-// {
-// 	char	*line;
-// 	char	*expanded_line;
-// 	int		should_free;
-
-// 	if (!heredoc || !command || !command->heredoc_delim)
-// 		return (-1);
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 		{
-// 			write(2, "minishell: warning: here-document delimited by end-of-file (wanted `", 66);
-// 			write(2, command->heredoc_delim, ft_strlen(command->heredoc_delim));
-// 			write(2, "`)\n", 3);
-// 			break ;
-// 		}
-// 			if (ft_strncmp(line, command->heredoc_delim, ft_strlen(command->heredoc_delim)) == 0
-// 			&& line[ft_strlen(command->heredoc_delim)] == '\0')
-// 		{
-// 			free(line);
-// 			break;
-// 		}
-// 		if (command->heredoc_quoted == 0)
-// 		{
-// 			expanded_line = expand_variables(line, data);
-// 			free(line);
-// 			if (!expanded_line)
-// 				return (-1);
-// 			should_free = 1;
-// 		}
-// 		else
-// 		{
-// 			expanded_line = line;
-// 			should_free = 0;
-// 		}
-// 		if (write_line_to_heredoc(heredoc->fd, expanded_line) == -1)
-// 		{
-// 			if (should_free)
-// 				free(expanded_line);
-// 			else
-// 				free(line);
-// 			return (-1);
-// 		}
-// 		if (should_free)
-// 			free(expanded_line);
-// 		else
-// 			free(line);
-// 	}
-// 	return (0);
-// }
 
 void	heredoc_cleanup(t_heredoc *heredoc)
 {

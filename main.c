@@ -82,6 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
+		printf("here is the prompt printing\n");
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);
