@@ -2,16 +2,20 @@
 
 const char *quote_type_str(t_quote_type quote)
 {
-	if (quote == NO_QUOTE) return "None";
-	if (quote == SINGLE_QUOTE) return "Single";
-	if (quote == DOUBLE_QUOTE) return "Double";
+	if (quote == NO_QUOTE)
+		return ("None");
+	if (quote == SINGLE_QUOTE)
+		return("Single");
+	if (quote == DOUBLE_QUOTE)
+		return ("Double");
 	return ("Unknown");
 }
 //	Purpose: Finds the length of a quoted string, stopping at the matching closing quote.
 int	get_quoted_length(const char *input, char quote_char)
 {
-	int	len = 0;
-
+	int	len;
+	
+	len = 0;
 	while (input[len])					// Loop until null terminator
 	{
 		if (input[len] == quote_char)	// Found matching quote
@@ -43,29 +47,23 @@ t_lexer_result	extract_quoted(const char *input, int i)
 	int				len;
 
 	quote = input[i];								// Save which quote character started this
+	printf("quote = %c\n\n\n", quote);
 	len = get_quoted_length(input + i + 1, quote);	// Find closing quote
 	if (len == -1)
 	{
 		fprintf(stderr, "syntax error: unterminated quote\n");
 		return ((t_lexer_result){NULL, -1});		// Abort lexer
 	}
-
 	token_value = ft_substr(input, i + 1, len);		// Copy string between quotes
 	if (!token_value)
 		return ((t_lexer_result){NULL, i});
-
-	token = create_token(token_value, WORD);	// Create token object
-	free (token_value);								// Free temporary buffer after use
-
+	token = create_token(token_value, WORD);
 	if (!token)
 		return ((t_lexer_result){NULL, i});
-
-	// Save quote type info for later use (e.g., expansion rules)
 	if (quote == '\'')
 		token->quote = SINGLE_QUOTE;
 	else
 		token->quote = DOUBLE_QUOTE;
-
 	res.token = token;
 	res.index = i + len + 2;					// Move index past both quotes
 	return (res);
