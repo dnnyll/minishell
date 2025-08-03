@@ -52,10 +52,7 @@ void	process_input(char *line, t_data *data)
 	}
 	printf("DEBUG: process_input post tokens = lexer\n\n\n");
 	expand_token_values(tokens, data);
-<<<<<<< HEAD
 	printf("DEBUG: process_input post expand_values\n\n\n");
-=======
->>>>>>> 5629773 (fixing errors of syntax validation)
 	if (validate_syntax(tokens))
 		return (free_tokens(data), free(line));
 	printf("what seems o be the officer problem??\n\n");
