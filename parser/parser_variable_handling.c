@@ -348,11 +348,6 @@ void	handle_variables(t_token *tokens)
 			current->expandable = 1;
 		else
 			current->expandable = 0;
-		//printf("Value: %-20s | Type: %-10s | Quote: %-7s | Expandable: %s\n",
-			// current->value,
-			// token_type_str(current->type),
-			// quote_type_str(current->quote),
-			// current->expandable ? "Yes" : "No");
 		current = current->next;
 	}
 }
