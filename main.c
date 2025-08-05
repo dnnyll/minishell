@@ -88,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_input(input_line, data);
 	}
+	free_char_array(data->environment_var);
 	return (0);
 }
 // int	main(int argc, char **argv, char **envp)

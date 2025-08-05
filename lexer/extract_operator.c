@@ -25,34 +25,34 @@ t_token_type	get_operator_type(const char *input)
 		return (REDIR_OUT);
 	return (ERROR);
 }
-t_lexer_result extract_operator(const char *input, int i)
-{
-	// printf("extract_operator\n");
-	t_lexer_result	result;
-	t_token_type	type;
-	int				len;
-	char			op[3];
+// t_lexer_result extract_operator(const char *input, int i)
+// {
+// 	t_lexer_result	result;
+// 	t_token_type	type;
+// 	int				len;
+// 	char			op[3];
 
-	type = get_operator_type(&input[i]);
-	if (type == ERROR)
-	{
-		// Extract the invalid operator char anyway, so the lexer keeps moving
-		op[0] = input[i];
-		op[1] = '\0';
-		result.token = create_token(op, ERROR);
-		result.index = i + 1;
-		return (result);
-	}
-	len = get_operator_length(type);
-	op[0] = input[i];
-	op[1] = '\0';
-	op[2] = '\0';
-	if (len == 2)
-		op[1] = input[i + 1];
-	result.token = create_token(op, type);
-	if (result.token)
-		result.index = i + len;
-	else
-		result.index = i + len; // still move forward to avoid infinite loop
-	return (result);
-}
+// 	type = get_operator_type(&input[i]);
+// 	if (type == ERROR)
+// 	{
+// 		// Extract the invalid operator char anyway, so the lexer keeps moving
+// 		op[0] = input[i];
+// 		op[1] = '\0';
+// 		result.token = create_token(op, ERROR);
+// 		result.index = i + 1;
+// 		return (result);
+// 	}
+// 	len = get_operator_length(type);
+// 	op[0] = input[i];
+// 	op[1] = '\0';
+// 	op[2] = '\0';
+// 	printf("================================len = %d\n", len);
+// 	if (len == 2)
+// 		op[1] = input[i + 1];
+// 	result.token = create_token(op, type);
+// 	if (result.token)
+// 		result.index = i + len;
+// 	else
+// 		result.index = i + len; // still move forward to avoid infinite loop
+// 	return (result);
+// }
