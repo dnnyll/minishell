@@ -34,7 +34,6 @@ int	open_input_redir(t_command *command, t_data *data)
 		write(2, filename, ft_strlen(filename));
 		write(2, ": ", 2);
 		perror(NULL);
-		//write(2, "\n", 1);
 		return (1);
 	}
 	if (command->fd_in != STDIN_FILENO)
@@ -57,7 +56,8 @@ int	open_output_redir(t_command *command, t_data *data)
 	fd = open(command->outfile, flags, 0644);
 	if (fd == -1)
 	{
-		perror("open outfile");
+		print_error("minishell: ", command->outfile, ": ");
+		perror(NULL);
 		data->last_exit_code_status = 1;
 		return (1);
 	}
