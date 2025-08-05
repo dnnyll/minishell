@@ -50,6 +50,8 @@ void	process_input(char *line, t_data *data)
 	print_tokens(data);
 	printf("DEBUG: process_input post tokens = lexer\n\n\n");
 	expand_token_values(tokens, data);
+	//printf("DEBUG: process_input post expand_values\n\n\n");
+	if (validate_syntax(tokens, data))
 	printf("DEBUG: process_input post expand_values\n\n\n");
 	if (validate_syntax(tokens))
 		return (free_tokens(data), free(line));

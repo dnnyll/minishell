@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 12:26:50 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/03 13:41:35 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/05 16:13:27 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ int	ft_fork(pid_t *pid, int prev_fd, int *fd)
 	return (0);
 }
 
-int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd)
+int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
-	if (handle_input_redirs(cmd, prev_fd) != 0)
+	if (handle_input_redirs(cmd, prev_fd, data) != 0)
 		return (1);
-	if (handle_output_redirs(cmd, fd) != 0)
+	if (handle_output_redirs(cmd, fd, data) != 0)
 		return (1);
 	if (fd[0] != -1)
 		close(fd[0]);
 	return (0);
 }
 
-int	handle_input_redirs(t_command *cmd, int prev_fd)
+int	handle_input_redirs(t_command *cmd, int prev_fd, t_data *data)
 {
 	if ((cmd->heredoc_head && cmd->heredoc_head->filename) || cmd->infile)
 	{
-		if (open_input_redir(cmd) != 0)
+		if (open_input_redir(cmd, data) != 0)
 			return (1);
 	}
 	if (cmd->fd_in != STDIN_FILENO)
@@ -84,11 +84,11 @@ int	handle_input_redirs(t_command *cmd, int prev_fd)
 	return (0);
 }
 
-int	handle_output_redirs(t_command	*cmd, int *fd)
+int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
 {
 	if (cmd->outfile)
 	{
-		if (open_output_redir(cmd) != 0)
+		if (open_output_redir(cmd, data) != 0)
 			return (1);
 	}
 	if (cmd->fd_out != STDOUT_FILENO)

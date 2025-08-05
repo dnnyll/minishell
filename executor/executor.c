@@ -5,8 +5,8 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	char	*path;
 
 	//printf("edit_pipe_fd: setting up fds for command: %s\n", cmd->argv[0]);
-	if (edit_pipe_fd(cmd, prev_fd, fd) != 0)
-		exit(1);
+	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
+		exit(data->last_exit_code_status);
 	setup_child_signals();
 	if (is_builtin(&cmd))
 	{
@@ -16,9 +16,7 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
-		print_error(cmd->argv[0],": command not found\n", NULL);
-		// write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-		// write(2, ": command not found\n", 21);
+		print_error(cmd->argv[0], ": command not found\n", NULL);
 		exit(127);
 	}
 	execve(path, cmd->argv, data->environment_var);
@@ -41,7 +39,7 @@ int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 	}
 	return (fd[0]);
 }
-/*
+
 void	execute_single_builtin(t_command *cmd, t_data *data)
 {
 	int	std_in;
@@ -50,7 +48,7 @@ void	execute_single_builtin(t_command *cmd, t_data *data)
 	std_in = dup(STDIN_FILENO);
 	std_out = dup(STDOUT_FILENO);
 
-	if (edit_pipe_fd(cmd, -1, (int[2]){-1, -1}) != 0)
+	if (edit_pipe_fd(cmd, -1, (int[2]) {-1, -1}, data) != 0)
 	{
 		dup2(std_in, STDIN_FILENO);
 		dup2(std_out, STDOUT_FILENO);
@@ -66,7 +64,6 @@ void	execute_single_builtin(t_command *cmd, t_data *data)
 	close(std_in);
 	close(std_out);
 }
-*/
 
 void	execute_buitlins(t_command *cmd, t_data *data)
 {
@@ -99,11 +96,48 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		return ;
 	// if (check_heredoc(cmd_list, data))
 	// 	return ;
+	// if (!cmd_list->next && is_builtin(&cmd_list))
+	// 	execute_buitlins(cmd_list, data);
+	// else if ()
+	// 	execute_single_builtin(cmd_list, data);
+	// else
+	// 	execute_pipeline(cmd_list, data);
 	if (!cmd_list->next && is_builtin(&cmd_list))
-		execute_buitlins(cmd_list, data);
+	{
+		if (cmd_list->infile || cmd_list->outfile || cmd_list->heredoc_head)
+			execute_single_builtin(cmd_list, data);
+		else
+			execute_buitlins(cmd_list, data);
+	}
 	else
 		execute_pipeline(cmd_list, data);
 }
+
+// void	execute_pipeline(t_command *cmd_list, t_data *data)
+// {
+// 	t_command	*cmd;
+// 	int			fd[2];
+// 	int			prev_fd;
+// 	pid_t		pid;
+// 	int			status;
+
+// 	cmd = cmd_list;
+// 	prev_fd = -1;
+// 	while (cmd)
+// 	{
+// 		if (ft_pipe(cmd, fd))
+// 			return ;
+// 		if (ft_fork(&pid, prev_fd, fd))
+// 			return ;
+// 		if (pid == 0)
+// 			child_process(cmd, prev_fd, fd, data);
+// 		prev_fd = parent_process(prev_fd, fd, pid, data);
+// 		cmd = cmd->next;
+// 	}
+// 	pid = wait(&status);
+// 	while (pid > 0)
+// 		pid = wait(&status);
+// }
 
 void	execute_pipeline(t_command *cmd_list, t_data *data)
 {
@@ -112,6 +146,7 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 	int			prev_fd;
 	pid_t		pid;
 	int			status;
+	pid_t		last_pid;
 
 	cmd = cmd_list;
 	prev_fd = -1;
@@ -123,13 +158,22 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 			return ;
 		if (pid == 0)
 			child_process(cmd, prev_fd, fd, data);
+		last_pid = pid;
 		prev_fd = parent_process(prev_fd, fd, pid, data);
 		cmd = cmd->next;
 	}
-	pid = wait(&status);
-	while (pid > 0)
-		pid = wait(&status);
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				data->last_exit_code_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				data->last_exit_code_status = 128 + WTERMSIG(status);
+		}
+	}
 }
+
 
 /*
 ** child_process : prepare the redirection in/out and replace the actual
