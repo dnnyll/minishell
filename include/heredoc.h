@@ -2,18 +2,15 @@
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
-// typedef struct s_redir
-// {
-// 	int	heredoc_count;
-// }	t_redir;
-
 typedef struct s_heredoc
 {
 	char	*filename;  // Path to the temporary file
+	char	*delimiter;
+	int		quoted;
 	int		fd;         // File descriptor opened on that file
 	int		counter;    // Used for unique filename generation (e.g. heredoc_0, heredoc_1...)
 	pid_t	pid;        // PID of the child that handled the heredoc input (if used)
-	// t_redir			*redir_head;
+	struct s_heredoc	*next;
 }	t_heredoc;
 
 //	heredoc_temp.c

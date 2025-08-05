@@ -46,6 +46,7 @@ void	print_data_debug(t_data *data);
 void	debug_environment_variables_printer(t_data *data);
 void 	print_heredoc(t_heredoc *heredoc);
 
+
 //	prompt default
 # define PROMPT "minishell$ "
 

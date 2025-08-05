@@ -121,7 +121,6 @@ int	verify_pipes(t_token *tokens, t_data *data)
 int	verify_redirections(t_token *tokens, t_data	*data)
 {
 	t_token		*current = tokens;
-	const char	*unexpected;
 
 	if (!current)
 		return (1);
@@ -140,9 +139,8 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 			// Case 2: redirection is followed by something that's not a WORD
 			if (current->next->type != WORD)
 			{
-				unexpected = current->next->value;
 				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);	//?????????????
-				printf("minishell: syntax error near unexpected token `%s'\n", unexpected);				//?????????????
+				// printf("minishell: syntax error near unexpected token `%s'\n", unexpected);				//?????????????
 				return (1);
 			}
 		}

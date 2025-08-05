@@ -80,13 +80,28 @@ static void	set_redir_out(t_command *command, t_token *current, int append)
 
 	this allows later logic to process heredoc input correctly.
 */
-static void	set_heredoc(t_command *command, t_token *current)
+static void	set_heredoc(t_command *cmd, t_token *current)
 {
-	if (command->heredoc_delim)
-		free(command->heredoc_delim);
-	command->heredoc_delim = ft_strdup(current->next->value);
-	command->heredoc_quoted = (current->next->quote != NO_QUOTE);
+	t_heredoc *new = init_heredoc(cmd->heredoc_count); // pass counter
+	printf("heredoc_count = %d\n", cmd->heredoc_count);
+	if (!new)
+		return; // handle allocation failure
+
+	new->delimiter = ft_strdup(current->next->value);
+	new->quoted = (current->next->quote != NO_QUOTE);
+
+	// Append to linked list
+	if (!cmd->heredoc_head)
+		cmd->heredoc_head = new;
+	else
+	{
+		t_heredoc *tmp = cmd->heredoc_head;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }
+
 
 /*
 	information concerning: handle_redirections

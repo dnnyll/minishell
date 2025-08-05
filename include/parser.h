@@ -23,15 +23,14 @@ typedef struct s_command
 	char				*path;
 	char				*value;
 	int					append;				// 1 if '>>' (append mode), 0 if '>' (truncate)
-	char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
-	int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
+	// char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
+	// int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
 	int					heredoc_count;
 	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
 	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
 	struct s_command	*next;				// Pointer to the next command (for pipelines)
-	struct s_command	*prev;
+	// struct s_command	*prev;
 	t_token_type		type;
-	// t_redir				*redir_head;
 }	t_command;
 
 /*

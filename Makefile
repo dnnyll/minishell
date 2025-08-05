@@ -33,6 +33,7 @@ INCLUDES	= include
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
 		memory_management/free_lexer.c \
+		memory_management/free_tokens.c \
  		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \

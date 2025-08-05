@@ -27,7 +27,7 @@ t_token_type	get_operator_type(const char *input)
 }
 t_lexer_result extract_operator(const char *input, int i)
 {
-	printf("extract_operator\n");
+	// printf("extract_operator\n");
 	t_lexer_result	result;
 	t_token_type	type;
 	int				len;
@@ -56,4 +56,3 @@ t_lexer_result extract_operator(const char *input, int i)
 		result.index = i + len; // still move forward to avoid infinite loop
 	return (result);
 }
-

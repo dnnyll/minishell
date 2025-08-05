@@ -32,14 +32,12 @@ t_command	*init_command(void)
 	command->path = NULL;
 	command->value = NULL;
 	command->append = 0;
-	command->heredoc_delim = NULL;
-	command->heredoc_quoted = 0;
+	// command->heredoc_delim = NULL;
+	// command->heredoc_quoted = 0;
 	command->heredoc_count = 0;
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
 	command->next = NULL;
-	command->prev = NULL;
-	// command->redir_head = NULL;
 	return (command);
 }
 t_heredoc	*init_heredoc(int	counter)
@@ -50,19 +48,10 @@ t_heredoc	*init_heredoc(int	counter)
 	if (!heredoc)
 		return (NULL);
 	heredoc->filename = NULL;
+	heredoc->delimiter = NULL;
+	heredoc->quoted = 0;
 	heredoc->counter = counter;
 	heredoc->pid = getpid();
-	// heredoc->redir_head = NULL;
+	heredoc->next = NULL;
 	return (heredoc);
 }
-
-// t_redir	*init_redir(void)
-// {
-// 	t_redir	*redir;
-
-// 	redir = malloc(sizeof(t_redir));
-// 	if (!redir)
-// 		return (NULL);
-// 	redir->heredoc_count = 0;
-// 	return(redir);
-// }

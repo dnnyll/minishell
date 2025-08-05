@@ -30,6 +30,8 @@ int	open_input_redir(t_command *command, t_data *data)
 	if (fd == -1)
 	{
 		data->last_exit_code_status = 1;
+
+		// write(2, "AHHHHHHHH", 8);
 		write(2, "minishell: ", 11);
 		write(2, filename, ft_strlen(filename));
 		write(2, ": ", 2);

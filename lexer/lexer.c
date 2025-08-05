@@ -2,24 +2,26 @@
 
 t_lexer_result extract_token(const char *input, int i)
 {
-	// int		start = i;
 	int		j = i;
 	int		len = 0;
 	char	buffer[4096]; // adjust if needed
-	char	quote;
+	char	quote = 0;
+	int		quoted = 0;
 	t_token	*token;
 
 	while (input[j] && !ft_isspace(input[j]) && !is_operator_start(input[j]))
 	{
 		if (is_quote(input[j]))
 		{
-			quote = input[j++];
+			quoted = 1;
+			quote = input[j];
+			j++; // skip opening quote
 			while (input[j] && input[j] != quote)
 				buffer[len++] = input[j++];
 			if (input[j] != quote)
 			{
 				t_lexer_result err = { NULL, -1 };
-				return (err); // unmatched quote
+				return err; // unmatched quote <----------------------------------- ?
 			}
 			j++; // skip closing quote
 		}
@@ -31,7 +33,20 @@ t_lexer_result extract_token(const char *input, int i)
 	if (!token)
 	{
 		t_lexer_result err = { NULL, -1 };
-		return (err);
+		return err; //	<------------------------------------------ ?
+	}
+	if (quoted)
+	{
+		if (quote == '\'')
+			token->quote = SINGLE_QUOTE;
+		else if (quote == '"')
+			token->quote = DOUBLE_QUOTE;
+		else
+			token->quote = NO_QUOTE;
+	}
+	else
+	{
+		token->quote = NO_QUOTE;
 	}
 	t_lexer_result result = { token, j };
 	return (result);
@@ -86,7 +101,6 @@ int	handle_token(t_data *data, const char *input, int *i)
 	*i = result.index;
 	return (1);
 }
-
 
 // main lexer loop
 void	*lexer(t_data *data, const char *input)

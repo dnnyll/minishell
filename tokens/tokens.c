@@ -1,21 +1,7 @@
 #include "minishell.h"
 
 // Frees all tokens from data->token_head
-void	free_tokens(t_data *data)
-{
-	t_token	*token;
-	t_token	*next;
 
-	token = data->token_head;
-	while (token)
-	{
-		next = token->next;
-		free(token->value);
-		free(token);
-		token = next;
-	}
-	data->token_head = NULL; // Clear reference in data
-}
 
 const	char *token_type_str(t_token_type type)
 {
@@ -27,8 +13,6 @@ const	char *token_type_str(t_token_type type)
 	if (type == HEREDOC) return "HEREDOC";
 	if (type == APPEND) return "APPEND";
 	if (type == ERROR) return "ERROR";
-	// if (type == T_EOF) return "EOF";
-	// if (type == ENV) return "ENV";
 	return ("UNKNOWN");
 }
 
