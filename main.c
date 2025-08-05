@@ -7,9 +7,6 @@ t_data	*initialize_minishell(char **envp)
 	data = init_data();
 	if (!data)
 		return (NULL);
-	// data->redir_head = init_redir();
-	// if (!data->redir_head)
-	// 	return (printf("redir init failed\n"), NULL);
 	data->environment_var = copy_environment(envp);
 	data->env_head = build_env_list(data->environment_var);
 	return (data);
@@ -23,22 +20,22 @@ void	handle_exit(t_data *data)
 	free_char_array(data->environment_var);
 }
 
-bool	should_skip_line(char *line)
-{
-	// if (g_signal_status == SIGINT)
-	// {
-	// 	g_signal_status = 0;
-	// 	free(line);
-	// 	return (true);
-	// }
-	if (line[0] == '\0')
-	{
-		free(line);
-		return (true);
-	}
-	add_history(line);
-	return (false);
-}
+// bool	should_skip_line(char *line)
+// {
+// 	if (g_signal_status == SIGINT)
+// 	{
+// 		g_signal_status = 0;
+// 		free(line);
+// 		return (true);
+// 	}
+// 	if (line[0] == '\0')
+// 	{
+// 		free(line);
+// 		return (true);
+// 	}
+// 	add_history(line);
+// 	return (false);
+// }
 
 void	process_input(char *line, t_data *data)
 {
@@ -88,8 +85,8 @@ int	main(int argc, char **argv, char **envp)
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);
-		if (should_skip_line(input_line))
-			continue ;
+		// if (should_skip_line(input_line))
+		// 	continue ;
 		process_input(input_line, data);
 	}
 	return (0);
