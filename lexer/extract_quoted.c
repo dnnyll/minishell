@@ -37,8 +37,8 @@ t_lexer_result	extract_quoted(const char *input, int i)
 	int				len;
 
 	quote_start = input[i];								// Save which quote character started this
-	printf("quote_start = %c\n\n\n", quote);
-	len = get_quoted_length(input + i + 1, quote);	// Find closing quote
+	printf("quote_start = %c\n\n\n", quote_start);
+	len = get_quoted_length(input + i + 1, quote_start);	// Find closing quote
 	if (len == -1)
 	{
 		print_error("minishell: unmatched quote\n", NULL, NULL);

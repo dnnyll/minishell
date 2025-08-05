@@ -16,7 +16,6 @@ typedef struct s_data
 	t_command		*command_head;			//	parser output (head of list of commands)
 	t_variables		*variables_head;		//	for new variable assignment ($MYVAR=cake)
 	t_heredoc		*heredoc_head;
-	// t_redir			*redir_head;
 	t_env			*env_head;	
 	char			**environment_var;		//	stores a copy of the environment
 	int				last_exit_code_status;	//	tracks the return code of each command 

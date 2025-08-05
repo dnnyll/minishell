@@ -21,7 +21,7 @@ t_lexer_result extract_token(const char *input, int i)
 			if (input[j] != quote)
 			{
 				t_lexer_result err = { NULL, -1 };
-				return err; // unmatched quote
+				return err; // unmatched quote <----------------------------------- ?
 			}
 			j++; // skip closing quote
 		}
@@ -33,7 +33,7 @@ t_lexer_result extract_token(const char *input, int i)
 	if (!token)
 	{
 		t_lexer_result err = { NULL, -1 };
-		return err;
+		return err; //	<------------------------------------------ ?
 	}
 	if (quoted)
 	{
@@ -49,9 +49,8 @@ t_lexer_result extract_token(const char *input, int i)
 		token->quote = NO_QUOTE;
 	}
 	t_lexer_result result = { token, j };
-	return result;
+	return (result);
 }
-
 
 // Handles shell operators like >, >>, <, <<, |
 int	handle_operator(t_data *data, const char *input, int *i)

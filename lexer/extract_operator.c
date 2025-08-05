@@ -56,4 +56,3 @@ t_lexer_result extract_operator(const char *input, int i)
 		result.index = i + len; // still move forward to avoid infinite loop
 	return (result);
 }
-
