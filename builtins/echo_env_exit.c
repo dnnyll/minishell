@@ -87,33 +87,6 @@ int	exit_builtin(char **args, t_data *data)
 	exit(exit_code);
 }
 
-
-// int	exit_builtin(char **args, t_data *data)
-// {
-// 	int	exit_status;
-
-// 	(void)data;
-// 	write(2, "exit\n", 5);
-// 	if (!args[1])
-// 		exit(0);
-// 	if (!is_numeric(args[1]))
-// 	{
-// 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
-// 		exit(2);
-// 	}
-// 	if (args[2])
-// 	{
-// 		write(2, "minishell: exit: too many arguments\n", 36);
-// 		return (1);
-// 	}
-// 	exit_status = ft_atoi(args[1]) % 256;
-// 	if (exit_status < 0)
-// 		exit_status += 256;
-// 	data->last_exit_code_status = exit_status;
-// 	free_on_exit(data);
-// 	exit(exit_status);
-// }
-
 /*
 **bool: is easier to read with true of false
 **is_n_flag: check if the string start with a '-' and a 'n' and if the

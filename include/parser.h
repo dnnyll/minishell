@@ -81,8 +81,8 @@ char		*process_variables(const char *input, t_data *data, t_token *tokens);
 
 //	parser_syntax
 t_token		*get_last_token(t_token *head);
-int			verify_pipes(t_token *tokens);
-int			verify_redirections(t_token *tokens);
-int			validate_syntax(t_token *tokens);
+int			verify_pipes(t_token *tokens, t_data *data);
+int			verify_redirections(t_token *tokens, t_data *data);
+int			validate_syntax(t_token *tokens, t_data *data);
 
 #endif

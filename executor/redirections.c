@@ -1,21 +1,21 @@
 #include "minishell.h"
 
-int	setup_redirection(t_command *command)
+int	setup_redirection(t_command *command, t_data *data)
 {
 	if (command->infile || command->heredoc_head->filename)
 	{
-		if (open_input_redir(command) != 0)
+		if (open_input_redir(command, data) != 0)
 			return (1);
 	}
 	if (command->outfile)
 	{
-		if (open_output_redir(command) != 0)
+		if (open_output_redir(command, data) != 0)
 			return (1);
 	}
 	return (0);
 }
 
-int	open_input_redir(t_command *command)
+int	open_input_redir(t_command *command, t_data *data)
 {
 	int		fd = -1;
 	char	*filename = NULL;
@@ -29,10 +29,12 @@ int	open_input_redir(t_command *command)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
+		data->last_exit_code_status = 1;
 		write(2, "minishell: ", 11);
 		write(2, filename, ft_strlen(filename));
 		write(2, ": ", 2);
 		perror(NULL);
+		//write(2, "\n", 1);
 		return (1);
 	}
 	if (command->fd_in != STDIN_FILENO)
@@ -41,7 +43,7 @@ int	open_input_redir(t_command *command)
 	return (0);
 }
 
-int	open_output_redir(t_command *command)
+int	open_output_redir(t_command *command, t_data *data)
 {
 	int	fd;
 	int	flags;
@@ -49,13 +51,14 @@ int	open_output_redir(t_command *command)
 	if (!command->outfile)
 		return (0);
 	if (command->append)
-		flags = O_WRONLY | O_CREAT | O_APPEND; 
+		flags = O_WRONLY | O_CREAT | O_APPEND;
 	else
 		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	fd = open(command->outfile, flags, 0644);
 	if (fd == -1)
 	{
 		perror("open outfile");
+		data->last_exit_code_status = 1;
 		return (1);
 	}
 	if (command->fd_out != STDOUT_FILENO)

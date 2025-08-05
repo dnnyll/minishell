@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:43:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/03 14:21:28 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/05 13:56:54 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,6 @@ char	**remove_env_entry(char **environment, char *var_name)
 	free_tab(environment, -1);
 	return (new_env);
 }
-
-// int	unset_builtin(char **args, t_data *data)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	while (args[i])
-// 	{
-// 		if (!is_valid_identifier(args[i]))
-// 			printf("unset: '%s': not a valid identifier\n", args[i]);
-// 		else
-// 			data->environment_var = remove_env_entry(data->environment_var,
-// 					args[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 int	unset_builtin(char **args, t_data *data)
 {
