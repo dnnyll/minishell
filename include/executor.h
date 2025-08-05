@@ -18,7 +18,7 @@ int		handle_output_redirs(t_command	*cmd, int *fd);
 //execution
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data);
 int		parent_process(int prev_fd, int *fd, pid_t pid, t_data *data);
-void	execute_single_builtin(t_command *cmd, t_data *data);
+//void	execute_single_builtin(t_command *cmd, t_data *data);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);

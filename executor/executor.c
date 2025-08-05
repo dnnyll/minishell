@@ -8,6 +8,11 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	if (edit_pipe_fd(cmd, prev_fd, fd) != 0)
 		exit(1);
 	setup_child_signals();
+	if (is_builtin(&cmd))
+	{
+		execute_buitlins(cmd, data);
+		exit(data->last_exit_code_status);
+	}
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
@@ -23,19 +28,20 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 
 int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 {
-	int	status;
-
+	//int	status;
+	(void) data; // To avoid unused variable warning
 	if (prev_fd != -1)
 		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
 	if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
-		child_exit_code(status, data);
+		//waitpid(pid, &status, 0);
+		//child_exit_code(status, data);
 	}
 	return (fd[0]);
 }
+/*
 void	execute_single_builtin(t_command *cmd, t_data *data)
 {
 	int	std_in;
@@ -60,6 +66,7 @@ void	execute_single_builtin(t_command *cmd, t_data *data)
 	close(std_in);
 	close(std_out);
 }
+*/
 
 void	execute_buitlins(t_command *cmd, t_data *data)
 {
@@ -93,7 +100,7 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 	// if (check_heredoc(cmd_list, data))
 	// 	return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
-		execute_single_builtin(cmd_list, data);
+		execute_buitlins(cmd_list, data);
 	else
 		execute_pipeline(cmd_list, data);
 }

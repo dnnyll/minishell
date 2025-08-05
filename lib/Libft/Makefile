@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: daniefe2 <daniefe2@student.42lausanne.c    +#+  +:+       +#+         #
+#    By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/28 10:01:49 by daniefe2          #+#    #+#              #
-#    Updated: 2025/05/28 10:01:56 by daniefe2         ###   ########.fr        #
+#    Updated: 2025/08/05 11:12:19 by marjorie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ $(NAME): $(OBJECT)
 	$(AR) $(NAME) $(OBJECT)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -g -c $< -o $@
 
 clean:
 	$(RM) $(OBJECT)
