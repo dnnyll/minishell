@@ -1,20 +1,31 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
 
 #ifndef HEREDOC_H
 # define HEREDOC_H
 
 typedef struct s_heredoc
 {
-	char	*filename;  // Path to the temporary file
-	char	*delimiter;
-	int		quoted;
-	int		fd;         // File descriptor opened on that file
-	int		counter;    // Used for unique filename generation (e.g. heredoc_0, heredoc_1...)
-	pid_t	pid;        // PID of the child that handled the heredoc input (if used)
+	char				*filename;
+	char				*delimiter;
+	int					quoted;
+	int					fd;
+	int					counter;
+	pid_t				pid;
 	struct s_heredoc	*next;
 }	t_heredoc;
 
 //	heredoc_temp.c
-t_heredoc	*init_heredoc(int counter);	//removed argument: count , need info
+t_heredoc	*init_heredoc(int counter);
 char		*create_heredoc_filename(int id);
 int			open_heredoc_filename(t_heredoc *heredoc);
 int			write_line_to_heredoc(int fd, char *line);

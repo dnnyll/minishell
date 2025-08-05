@@ -1,3 +1,15 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -10,8 +22,8 @@
 */
 typedef struct s_lexer_result
 {
-	t_token	*token;		//	the string is stored in tokens.h's structure
-	int		index;		//	the index position of the input string's end
+	t_token	*token;
+	int		index;
 }	t_lexer_result;
 
 //	extract_word.c

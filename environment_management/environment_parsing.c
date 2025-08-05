@@ -1,56 +1,22 @@
-// +------------------------------------+
-// |            USES OF t_env           |
-// +------------------------------------+
-// | 1. Shell Startup:                  |
-// |    - Parse envp into linked list  |
-// +------------------------------------+
-// | 2. Input Processing:               |
-// |    - Expand variables ($VAR)       |
-// |    - Handle heredoc expansions     |
-
-// When does heredoc expansion happen?
-
-//     During parsing, you recognize the heredoc syntax (<< EOF) and read the heredoc content from the user input.
-
-//     But the actual variable expansion inside heredoc happens right after reading the heredoc content but before command execution.
-
-// Summary flow:
-//     Parsing phase:
-//         Detect << delimiter
-//         Read heredoc content lines until delimiter
-//         Store raw heredoc content
-
-//     Pre-execution phase:
-//         Check if delimiter was quoted
-//         If no quoting → expand variables inside heredoc content using your t_env linked list
-//         If quoted → leave as-is (no expansion)
-
-//     Execution phase:
-//         Pass expanded heredoc content as stdin for command
-
-// +------------------------------------+
-// | 3. Command Execution:              |
-// |    - Provide env for execve()      |
-// +------------------------------------+
-// | 4. Builtin Commands:               |
-// |    - export (add/update vars)      |
-// |    - unset (remove vars)            |
-// |    - env (print environment)       |
-// +------------------------------------+
-// | 5. Shell Exit:                    |
-// |    - Free linked list memory       |
-// +------------------------------------+
-
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
 
 #include "minishell.h"
 
 char	*search_list_env_value(t_env *env_head, const char *name)
 	{
 	t_env *current = env_head;
-	printf("DEBUG: search_env_value called with name: [%s]\n", name);
 	while (current)
 	{
-		//printf("DEBUG: checking env key: [%s]\n", current->key);
 		if (strcmp(current->key, name) == 0)
 		{
 			printf("DEBUG: found match! value = [%s]\n", current->value);
@@ -58,7 +24,6 @@ char	*search_list_env_value(t_env *env_head, const char *name)
 		}
 		current = current->next;
 	}
-	printf("DEBUG: no match found for [%s]\n", name);
 	return (NULL);
 }
 
