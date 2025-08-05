@@ -29,6 +29,7 @@ int	open_input_redir(t_command *command)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
+		// write(2, "AHHHHHHHH", 8);
 		write(2, "minishell: ", 11);
 		write(2, filename, ft_strlen(filename));
 		write(2, ": ", 2);

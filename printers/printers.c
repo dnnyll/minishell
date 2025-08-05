@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-// void print_redirections(t_redirect *redir, const char *label)
-// {
-// 	while (redir)
-// 	{
-// 		printf("  %s: file='%s', type=%d\n", label, redir->file, redir->type);
-// 		redir = redir->next;
-// 	}
-// }
-
 // void print_commands(t_data *data)
 // {
 // 	t_command	*cmd = data->command_head;
@@ -65,10 +56,11 @@
 //         printf("heredoc_delim: %s\n", cmd->heredoc_delim);
 //     printf("append: %d\n", cmd->append);
 // }
+
 void print_data(t_data *data)
 {
-    printf("==== Parser Output ====\n");
-    print_commands(data->command_head);
+	printf("==== Parser Output ====\n");
+	print_commands(data->command_head);
 }
 const char *quote_type_str(t_quote_type quote)
 {
@@ -124,13 +116,10 @@ void print_commands(t_command *cmd)
         }
         else
             printf("  (null)\n");
-
         // Print redirections and flags
         printf("infile:         %s\n", cmd->infile ? cmd->infile : "(none)");
         printf("outfile:        %s\n", cmd->outfile ? cmd->outfile : "(none)");
         printf("append:         %s\n", cmd->append ? "true" : "false");
-        printf("heredoc_delim:  %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "(none)");
-        printf("heredoc_quoted: %s\n", cmd->heredoc_quoted ? "true" : "false");
 
         // Print file descriptors
         printf("fd_in:          %d %s\n", cmd->fd_in,
@@ -144,9 +133,6 @@ void print_commands(t_command *cmd)
 
         // Print token type (you may want to adapt this based on your enum)
         printf("type:           %d\n", cmd->type);
-
-        // Print if prev exists (for debugging double linked list)
-        printf("prev:           %s\n", cmd->prev ? "(exists)" : "(null)");
 
         // Pipe connection visualization
         if (cmd->next)
@@ -191,7 +177,7 @@ void print_env_list(t_env *env)
 	if (i == 1)
 		printf("  (empty)\n");
 }
-void print_heredoc(t_heredoc *heredoc)
+void    print_heredoc(t_heredoc *heredoc)
 {
 	if (!heredoc)
 	{
@@ -256,6 +242,9 @@ void debug_parser_output(t_data *data)
 
     // Print environment variables (linked list + array + counters)
     // print_data_debug(data);
+
+    // Print heredoc list
+    // print_heredoc(data->heredoc_head);
 
     // Print counters (already handled inside print_data_debug, optional if you want redundancy)
     printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);

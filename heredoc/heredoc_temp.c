@@ -85,10 +85,7 @@ void	heredoc_cleanup(t_heredoc *heredoc)
 	}
 	if (heredoc->filename)
 	{
-		printf("Leaving heredoc file intact for now: %s\n", heredoc->filename);
-		// unlink(heredoc->filename);
 		free(heredoc->filename);
-		
 		heredoc->filename = NULL;
 	}
 	free(heredoc);
@@ -97,39 +94,39 @@ void	heredoc_cleanup(t_heredoc *heredoc)
 int	process_heredocs(t_data *data)
 {
 	t_command *cmd = data->command_head;
-	int	id;
 	int	result;
 
-	id = 0;
 	while (cmd)
 	{
-		if (cmd->heredoc_delim)
+		t_heredoc *heredoc = cmd->heredoc_head;
+		while (heredoc && cmd->heredoc_count != 0)
 		{
-			t_heredoc *heredoc = init_heredoc(id);
-			if (!heredoc || open_heredoc_filename(heredoc) == -1)
+			printf("Processing heredoc: %s\n", heredoc->delimiter);
+			if (!heredoc->delimiter)
+			{
+				heredoc = heredoc->next;
+				continue ;
+			}
+			if (open_heredoc_filename(heredoc) == -1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
 			result = manage_heredoc(cmd, data, heredoc);
-			printf("THIS IS THE RESULT= %d\n\n\n", result);
-			// if (result == 130)
-			// {
-			// 	heredoc_cleanup(heredoc);
-			// 	unlink(heredoc->filename);
-			// 	return (130); // Stop execution
-			// }
 			if (result == -1 || result == 1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
 			close(heredoc->fd);
+			// Use last heredoc as the command's input file
+			if (cmd->infile)
+				free(cmd->infile);
 			cmd->infile = strdup(heredoc->filename);
-			heredoc_cleanup(heredoc);
-			unlink(heredoc->filename);
-			id++;
+			unlink(heredoc->filename); // optional: delete temp file
+			heredoc = heredoc->next;
 		}
+		cmd->heredoc_count--;
 		cmd = cmd->next;
 	}
 	return (0);

@@ -36,16 +36,16 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 	char	*expanded;
 	int		should_free;
 
-	if (!heredoc || !cmd || !cmd->heredoc_delim)
+	if (!heredoc || !cmd || !heredoc->delimiter)
 		return (-1);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (print_heredoc_warning(cmd->heredoc_delim), 0);
-		if (is_delimiter_match(line, cmd->heredoc_delim))
+			return (print_heredoc_warning(heredoc->delimiter), 0);
+		if (is_delimiter_match(line, heredoc->delimiter))
 			return (free(line), 0);
-		if (cmd->heredoc_quoted)
+		if (heredoc->quoted)
 			expanded = line, should_free = 0;
 		else
 		{
