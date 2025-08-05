@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 18:50:50 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/03 15:07:29 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,6 @@ bool	is_builtin(t_command **argv)
 	if (ft_strncmp((*argv)->argv[0], "exit", 5) == 0)
 		return (true);
 	return (false);
-}
-
-void	print_error(char *prefix, char *arg, char *suffix)
-{
-	if (prefix)
-		ft_putstr_fd(prefix, 2);
-	if (arg)
-		ft_putstr_fd(arg, 2);
-	if (suffix)
-		ft_putstr_fd(suffix, 2);
 }
 
 /*

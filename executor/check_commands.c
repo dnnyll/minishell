@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:11:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/27 14:42:27 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/03 15:07:38 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,14 @@ void	child_exit_code(int status, t_data *data)
 			write(1, "Quit (core dumped)\n", 19);
 		data->last_exit_code_status = 128 + sig;
 	}
+}
+
+void	print_error(char *prefix, char *arg, char *suffix)
+{
+	if (prefix)
+		ft_putstr_fd(prefix, 2);
+	if (arg)
+		ft_putstr_fd(arg, 2);
+	if (suffix)
+		ft_putstr_fd(suffix, 2);
 }

@@ -2,7 +2,7 @@ NAME		:= minishell
 
 # === Compilation ===
 CC			:= gcc
-CFLAGS		:= -Wall -Wextra -Werror -I -g3
+CFLAGS		:= -Wall -Wextra -Werror -I. -g
 INCLUDES	= include
 
 # === Sources & Objects ===
@@ -59,7 +59,7 @@ $(LIBFT_A):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_A) -lreadline
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_A) -lreadline
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
