@@ -1,30 +1,30 @@
-#include "minishell.h"
+// #include "minishell.h"
 
-int	get_operator_length(t_token_type type)
-{
-	// printf("get_operator_length\n");
-	if (type == HEREDOC || type == APPEND)
-		return (2);
-	return (1);
-}
+// int	get_operator_length(t_token_type type)
+// {
+// 	// printf("get_operator_length\n");
+// 	if (type == HEREDOC || type == APPEND)
+// 		return (2);
+// 	return (1);
+// }
 
-t_token_type	get_operator_type(const char *input)
-{
-	// printf("get_operator_type\n");
-	if (input[0] == '|')
-		return (PIPE);
-	if (input[0] == '|' && input[1] == '|')
-		return (PIPE);
-	if (input[0] == '<' && input[1] == '<')
-		return (HEREDOC);
-	if (input[0] == '<')
-		return (REDIR_IN);
-	if (input[0] == '>' && input[1] == '>')
-		return (APPEND);
-	if (input[0] == '>')
-		return (REDIR_OUT);
-	return (ERROR);
-}
+// t_token_type	get_operator_type(const char *input)
+// {
+// 	// printf("get_operator_type\n");
+// 	if (input[0] == '|')
+// 		return (PIPE);
+// 	if (input[0] == '|' && input[1] == '|')
+// 		return (PIPE);
+// 	if (input[0] == '<' && input[1] == '<')
+// 		return (HEREDOC);
+// 	if (input[0] == '<')
+// 		return (REDIR_IN);
+// 	if (input[0] == '>' && input[1] == '>')
+// 		return (APPEND);
+// 	if (input[0] == '>')
+// 		return (REDIR_OUT);
+// 	return (ERROR);
+// }
 // t_lexer_result extract_operator(const char *input, int i)
 // {
 // 	t_lexer_result	result;

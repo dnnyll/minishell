@@ -1,67 +1,20 @@
 #include "minishell.h"
 
-// void print_commands(t_data *data)
-// {
-// 	t_command	*cmd = data->command_head;
-// 	int			i;
-// 	int			cmd_num = 1;
 
-// 	if (!cmd)
-// 	{
-// 		printf("No commands to print.\n");
-// 		return;
-// 	}
-// 	while (cmd)
-// 	{
-// 		printf("=== Command #%d ===\n", cmd_num++);
-// 		i = 0;
-// 		while (cmd->argv && cmd->argv[i])
-// 		{
-// 			printf("  argv[%d]: %s\n", i, cmd->argv[i]);
-// 			i++;
-// 		}
-// 		print_redirections(cmd->redir_in, "Input Redirection");
-// 		print_redirections(cmd->redir_out, "Output Redirection");
-// 		cmd = cmd->next;
-// 	}
-// }
-// void print_commands(t_command *cmd_list)
-// {
-// 	int cmd_num = 1;
-// 	while (cmd_list)
-// 	{
-// 		printf("---- Command %d ----\n", cmd_num);
-// 		print_single_command(cmd_list);
-// 		cmd_list = cmd_list->next;
-// 		cmd_num++;
-// 	}
-// }
-
-// void print_single_command(t_command *cmd)
-// {
-//     // Print argv
-//     printf("argv:\n");
-//     if (cmd->argv)
-//     {
-//         for (int i = 0; cmd->argv[i]; i++)
-//             printf("  argv[%d]: %s\n", i, cmd->argv[i]);
-//     }
-
-//     // Print redirections
-//     if (cmd->infile)
-//         printf("infile: %s\n", cmd->infile);
-//     if (cmd->outfile)
-//         printf("outfile: %s\n", cmd->outfile);
-//     if (cmd->heredoc_delim)
-//         printf("heredoc_delim: %s\n", cmd->heredoc_delim);
-//     printf("append: %d\n", cmd->append);
-// }
-
-void print_data(t_data *data)
+// TEMPORARY FUNCTIONS FOR DEBUGGING TOKENS
+const	char *token_type_str(t_token_type type)
 {
-	printf("==== Parser Output ====\n");
-	print_commands(data->command_head);
+	if (type == CMD) return "COMMAND";
+	if (type == WORD) return "WORD";
+	if (type == PIPE) return "PIPE";
+	if (type == REDIR_IN) return "REDIR_IN";
+	if (type == REDIR_OUT) return "REDIR_OUT";
+	if (type == HEREDOC) return "HEREDOC";
+	if (type == APPEND) return "APPEND";
+	if (type == ERROR) return "ERROR";
+	return ("UNKNOWN");
 }
+
 const char *quote_type_str(t_quote_type quote)
 {
 	if (quote == NO_QUOTE)
@@ -72,6 +25,13 @@ const char *quote_type_str(t_quote_type quote)
 		return ("Double");
 	return ("Unknown");
 }
+
+void print_data(t_data *data)
+{
+	printf("==== Parser Output ====\n");
+	print_commands(data->command_head);
+}
+
 void    print_tokens(t_data *data)
 {
     t_token	*tokens = data->token_head;

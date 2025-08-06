@@ -19,6 +19,8 @@
 		"tokens.h": "c",
 		"lexer.h": "c",
 		"executor.h": "c",
-		"heredoc.h": "c"
+		"heredoc.h": "c",
+		"string_view": "c",
+		"ranges": "c"
 	}
 }

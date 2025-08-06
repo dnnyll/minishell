@@ -1,20 +1,16 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #include "minishell.h"
-
-// Frees all tokens from data->token_head
-
-
-const	char *token_type_str(t_token_type type)
-{
-	if (type == CMD) return "COMMAND";
-	if (type == WORD) return "WORD";
-	if (type == PIPE) return "PIPE";
-	if (type == REDIR_IN) return "REDIR_IN";
-	if (type == REDIR_OUT) return "REDIR_OUT";
-	if (type == HEREDOC) return "HEREDOC";
-	if (type == APPEND) return "APPEND";
-	if (type == ERROR) return "ERROR";
-	return ("UNKNOWN");
-}
 
 //	Purpose: Adds a new token to the end of the token list.
 void	add_token(t_token **list, t_token *new_token)

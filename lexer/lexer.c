@@ -1,55 +1,56 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #include "minishell.h"
 
-t_lexer_result extract_token(const char *input, int i)
+int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 {
-	int		j = i;
-	int		len = 0;
-	char	buffer[4096]; // adjust if needed
-	char	quote = 0;
-	int		quoted = 0;
-	t_token	*token;
+	int	len;
 
-	while (input[j] && !ft_isspace(input[j]) && !is_operator_start(input[j]))
+	len = 0;
+	while (input[*j] && !ft_isspace(input[*j]) && !is_operator_start(input[*j]))
 	{
-		if (is_quote(input[j]))
+		if (is_quote(input[*j]))
 		{
-			quoted = 1;
-			quote = input[j];
-			j++; // skip opening quote
-			while (input[j] && input[j] != quote)
-				buffer[len++] = input[j++];
-			if (input[j] != quote)
-			{
-				t_lexer_result err = { NULL, -1 };
-				return err; // unmatched quote <----------------------------------- ?
-			}
-			j++; // skip closing quote
+			if (!handle_quote(input, j, buffer, &len, q))
+				return (0);
 		}
 		else
-			buffer[len++] = input[j++];
+		{
+			buffer[len] = input[*j];
+			len++;
+			(*j)++;
+		}
 	}
 	buffer[len] = '\0';
+	return (1);
+}
+
+t_lexer_result	extract_token(const char *input, int i)
+{
+	int		j;
+	char	buffer[4096];
+	t_token	*token;
+	t_quote	q;
+
+	j = i;
+	init_quote(&q);
+	if (!fill_token_buffer(input, &j, buffer, &q))
+		return ((t_lexer_result){NULL, -1});
 	token = create_token(buffer, WORD);
 	if (!token)
-	{
-		t_lexer_result err = { NULL, -1 };
-		return err; //	<------------------------------------------ ?
-	}
-	if (quoted)
-	{
-		if (quote == '\'')
-			token->quote = SINGLE_QUOTE;
-		else if (quote == '"')
-			token->quote = DOUBLE_QUOTE;
-		else
-			token->quote = NO_QUOTE;
-	}
-	else
-	{
-		token->quote = NO_QUOTE;
-	}
-	t_lexer_result result = { token, j };
-	return (result);
+		return ((t_lexer_result){NULL, -1});
+	set_token_quote(token, &q);
+	return ((t_lexer_result){token, j});
 }
 
 // Handles shell operators like >, >>, <, <<, |
@@ -125,4 +126,75 @@ void	*lexer(t_data *data, const char *input)
 	}
 	return (data->token_head);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+t_lexer_result extract_token(const char *input, int i)
+{
+	int		j = i;
+	int		len = 0;
+	char	buffer[4096]; // adjust if needed
+	char	quote = 0;
+	int		quoted = 0;
+	t_token	*token;
+
+	while (input[j] && !ft_isspace(input[j]) && !is_operator_start(input[j]))
+	{
+		if (is_quote(input[j]))
+		{
+			quoted = 1;
+			quote = input[j];
+			j++; // skip opening quote
+			while (input[j] && input[j] != quote)
+				buffer[len++] = input[j++];
+			if (input[j] != quote)
+			{
+				t_lexer_result err = { NULL, -1 };
+				return err; // unmatched quote <----------------------------------- ?
+			}
+			j++; // skip closing quote
+		}
+		else
+			buffer[len++] = input[j++];
+	}
+	buffer[len] = '\0';
+	token = create_token(buffer, WORD);
+	if (!token)
+	{
+		t_lexer_result err = { NULL, -1 };
+		return err; //	<------------------------------------------ ?
+	}
+	if (quoted)
+	{
+		if (quote == '\'')
+			token->quote = SINGLE_QUOTE;
+		else if (quote == '"')
+			token->quote = DOUBLE_QUOTE;
+		else
+			token->quote = NO_QUOTE;
+	}
+	else
+	{
+		token->quote = NO_QUOTE;
+	}
+	t_lexer_result result = { token, j };
+	return (result);
+}
+*/
 
