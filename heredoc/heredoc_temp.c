@@ -12,35 +12,35 @@
 
 #include "minishell.h"
 
-char	*create_heredoc_filename(int id)
+char	*create_heredoc_filename(int pid, int index)
 {
 	char	*filename;
-	char	*id_str;
-	const	char *base;
-	size_t	base_len;
-	size_t	id_len;
+	char	*pid_str;
+	char	*index_str;
+	const char *base;
+	size_t	total_len;
 
 	base = "/tmp/.heredoc_";
-	id_str = ft_itoa(id);
-	if (!id_str)
-		return (NULL);
-	base_len = ft_strlen(base);
-	id_len = ft_strlen(id_str);
-	filename = malloc(base_len + id_len + 1);
+	pid_str = ft_itoa(pid);
+	index_str = ft_itoa(index);
+	if (!pid_str || !index_str)
+		return (free(pid_str), free(index_str), NULL);
+	total_len = ft_strlen(base) + ft_strlen(pid_str) + 1 + ft_strlen(index_str);
+	filename = malloc(total_len + 1); // +1 for null terminator
 	if (!filename)
-	{
-		free(id_str);
-		return NULL;
-	}
-	ft_strlcpy(filename, base, (base_len + id_len + 1));
-	ft_strlcpy(filename + base_len, id_str, (base_len + id_len + 1));
-	free(id_str);
+		return (free(pid_str), free(index_str), NULL);
+	ft_strlcpy(filename, base, total_len + 1);
+	ft_strlcat(filename, pid_str, total_len + 1);
+	ft_strlcat(filename, "_", total_len + 1);
+	ft_strlcat(filename, index_str, total_len + 1);
+	free(pid_str);
+	free(index_str);
 	return (filename);
 }
 
 int	open_heredoc_filename(t_heredoc *heredoc)
 {
-	heredoc->filename = create_heredoc_filename(heredoc->pid);
+heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
 	if (!heredoc->filename)
 		return (-1);
 	heredoc->fd = open(heredoc->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -91,10 +91,7 @@ void	heredoc_cleanup(t_heredoc *heredoc)
 {
 	printf("heredoc_cleanup\n");
 	if (!heredoc)
-	{
-		printf("!heredoc\n");
-		return;
-	}
+		return ;
 	if (heredoc->filename)
 	{
 		free(heredoc->filename);
@@ -103,39 +100,46 @@ void	heredoc_cleanup(t_heredoc *heredoc)
 	free(heredoc);
 }
 
-int	process_heredocs(t_data *data)
+int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 {
-	t_command *cmd = data->command_head;
 	int	result;
 
+	printf("Processing heredoc: %s\n", heredoc->delimiter);
+	if (!heredoc->delimiter)
+		return (0);
+	if (open_heredoc_filename(heredoc) == -1)
+		return (-1);
+	result = manage_heredoc(cmd, data, heredoc);
+	if (result == -1 || result == 1)
+		return (-1);
+	close(heredoc->fd);
+	if (cmd->infile)
+	{
+		printf("Freeing old infile: %s\n", cmd->infile);
+		free(cmd->infile);
+	}
+	cmd->infile = strdup(heredoc->filename);
+	return (0);
+}
+
+int	process_heredocs(t_data *data)
+{
+	t_command	*cmd = data->command_head;
+	t_heredoc	*heredoc;
+	int			heredoc_index;
+
+	heredoc_index = 0; // used only for assigning to heredoc->index
 	while (cmd)
 	{
-		t_heredoc *heredoc = cmd->heredoc_head;
-		while (heredoc && cmd->heredoc_count != 0)
+		heredoc = cmd->heredoc_head;
+		while (heredoc && cmd->heredoc_count > 0)
 		{
-			printf("Processing heredoc: %s\n", heredoc->delimiter);
-			if (!heredoc->delimiter)
-			{
-				heredoc = heredoc->next;
-				continue ;
-			}
-			if (open_heredoc_filename(heredoc) == -1)
+			heredoc->index = heredoc_index++;  // use struct's index field
+			if (process_single_heredoc(cmd, data, heredoc) == -1)
 			{
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
-			result = manage_heredoc(cmd, data, heredoc);
-			if (result == -1 || result == 1)
-			{
-				heredoc_cleanup(heredoc);
-				return (-1);
-			}
-			close(heredoc->fd);
-			// Use last heredoc as the command's input file
-			if (cmd->infile)
-				free(cmd->infile);
-			cmd->infile = strdup(heredoc->filename);
-			unlink(heredoc->filename); // optional: delete temp file
 			heredoc = heredoc->next;
 		}
 		cmd->heredoc_count--;
@@ -143,5 +147,3 @@ int	process_heredocs(t_data *data)
 	}
 	return (0);
 }
-
-
