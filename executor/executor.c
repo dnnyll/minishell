@@ -99,11 +99,20 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		return ;
 	// if (check_heredoc(cmd_list, data))
 	// 	return ;
+	// if (!cmd_list->next && is_builtin(&cmd_list))
+	// 	execute_buitlins(cmd_list, data);
+	// else if ()
+	// 	execute_single_builtin(cmd_list, data);
+	// else
+	// 	execute_pipeline(cmd_list, data);
 	if (!cmd_list->next && is_builtin(&cmd_list))
-		execute_single_builtin(cmd_list, data);
-		// execute_buitlins(cmd_list, data);
+	{
+		if (cmd_list->infile || cmd_list->outfile || cmd_list->heredoc_head)
+			execute_single_builtin(cmd_list, data);
+		else
+			execute_buitlins(cmd_list, data);
+	}
 	else
-		// execute_single_builtin(cmd_list, data);
 		execute_pipeline(cmd_list, data);
 }
 
