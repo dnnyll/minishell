@@ -30,6 +30,7 @@ INCLUDES	= include
 		lexer/lexer.c \
 		memory_management/free_commands.c \
 		memory_management/free_data.c \
+		memory_management/free_env.c \
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
 		memory_management/free_heredocs.c \

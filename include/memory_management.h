@@ -15,6 +15,10 @@ void	free_commands(t_data *data);
 //	free_data.c
 void	free_data_list(t_data *data);
 
+//	free_env.c
+void	free_env_node(t_env *env);
+void	free_env_list(t_env *env);
+
 //	free_exit.c
 void	free_on_exit(t_data *data);
 

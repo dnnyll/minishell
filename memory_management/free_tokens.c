@@ -20,9 +20,9 @@ void	free_tokens(t_data *data)
 void	free_single_token(t_token *token)
 {
 	if (!token)
-	return ;
+		return ;
 	if (token->value)
-	free(token->value);
+		free(token->value);
 	free(token);
 }
 

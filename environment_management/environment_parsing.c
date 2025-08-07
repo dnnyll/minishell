@@ -42,24 +42,11 @@ void	add_env_node(t_env **head, t_env *new_node)
 	current->next = new_node;
 }
 
-void	free_env_list(t_env *env)
-{
-	t_env	*next;
-	
-	while (env)
-	{
-		next = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
-		env = next;
-	}
-}
 
 t_env	*create_node(const char *env_var_line)
 {
 	int	equal_pos;
-	t_env *env = malloc(sizeof(t_env));
+	t_env *env = init_env_node();
 
 	if (!env)
 		return (NULL);
@@ -74,14 +61,12 @@ t_env	*create_node(const char *env_var_line)
 	else
 	{
 		env->key = ft_substr(env_var_line, 0, equal_pos);
-		env->value = ft_substr(env_var_line, equal_pos + 1, ft_strlen(env_var_line));
+		env->value = ft_substr(env_var_line, equal_pos + 1, ft_strlen(env_var_line) - (equal_pos + 1));
 	}
 	if (!env->key || !env->value)
 	{
-		free(env->key);
-		free(env->value);
-		free(env);
-		return NULL;
+		free_env_node(env);
+		return (NULL);
 	}
 	env->next = NULL;
 	return (env);
@@ -90,20 +75,22 @@ t_env	*create_node(const char *env_var_line)
 t_env *build_env_list(char **environment_var)
 {
 	t_env *head = NULL;
-	int i = 0;
+	int	i;
 	t_env *node;
 
+	i = 0;
 	while (environment_var[i])
 	{
+		printf("DEBUG: Creating node from: %s\n", environment_var[i]); // Debug print
 		node = create_node(environment_var[i]);
 		if (!node)
 		{
 			free_env_list(head);  // Clean up on failure
-			return NULL;
+			return (NULL);
 		}
 		add_env_node(&head, node);
 		i++;
 	}
-	return head;
+	return (head);
 }
 

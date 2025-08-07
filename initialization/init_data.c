@@ -51,3 +51,15 @@ t_heredoc	*init_heredoc(int	counter)
 	heredoc->next = NULL;
 	return (heredoc);
 }
+
+t_env	*init_env_node(void)
+{
+	t_env *node = malloc(sizeof(t_env));
+	if (!node)
+		return NULL;
+	node->key = NULL;
+	node->value = NULL;
+	node->next = NULL;
+	return node;
+}
+

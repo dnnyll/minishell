@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 //	Purpose: Adds a new token to the end of the token list.
@@ -26,20 +14,6 @@ void	add_token(t_token **list, t_token *new_token)
 	while (current->next)
 		current = current->next; // Traverse to the last token
 	current->next = new_token; // Append new token to the end
-}
-
-//	Purpose: Frees all memory allocated for the token list.
-void	free_token_list(t_token *token)
-{
-	t_token *next;
-
-	while (token)
-	{
-		next = token->next;				// Save pointer to the next token
-		free(token->value);				// Free the string inside the token
-		free(token);					// Free the token itself
-		token = next;					// Move to the next token
-	}
 }
 
 //	Purpose: Creates and initializes a new token with the given value and type.
