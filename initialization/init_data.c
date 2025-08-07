@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 t_data	*init_data(void)
@@ -20,7 +8,6 @@ t_data	*init_data(void)
 		return (NULL);
 	data->token_head = NULL;
 	data->command_head = NULL;
-	data->variables_head = NULL;
 	data->heredoc_head = NULL;
 	data->env_head = NULL;
 	data->last_exit_code_status = 0;
