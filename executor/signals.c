@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 19:36:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:31:29 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	setup_child_signals(void)
 	it with an empty string " ".
 **rl_redisplay() : redesplay the shell command, use it after rl_replace_line.
 **SIGINT : signal of interrruption, send by ctrl+c
-**SIGQUIT : siganl of quit send by ctrl+\
+**SIGQUIT : signal of quit send by ctrl+\
 **SIG_DFL : this is the default value of a signal
 **SIG_IGN : "signal ignore"
 **handle_sigint : this function execute in the parent shell when the user do

@@ -19,7 +19,7 @@ INCLUDES	= include
 		executor/executor.c executor/heredoc.c \
 		executor/path_utils.c \
 		executor/pipe.c executor/redirections.c \
-		executor/signals.c \
+		executor/signals.c executor/executor_utils.c\
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
