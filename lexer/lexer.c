@@ -1,14 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
 
 #include "minishell.h"
 
@@ -53,7 +42,6 @@ t_lexer_result	extract_token(const char *input, int i)
 	return ((t_lexer_result){token, j});
 }
 
-// Handles shell operators like >, >>, <, <<, |
 int	handle_operator(t_data *data, const char *input, int *i)
 {
 	char			op[3] = {0};
@@ -80,7 +68,6 @@ int	handle_operator(t_data *data, const char *input, int *i)
 	return (1);
 }
 
-// Handles word/quoted tokens using extract_token()
 int	handle_token(t_data *data, const char *input, int *i)
 {
 	t_lexer_result	result;
@@ -95,20 +82,17 @@ int	handle_token(t_data *data, const char *input, int *i)
 		return (0);
 	}
 	if (result.token)
-	{
-		//printf("token: %s\n", result.token->value);
 		add_token(&data->token_head, result.token);
-	}
 	*i = result.index;
 	return (1);
 }
 
-// main lexer loop
 void	*lexer(t_data *data, const char *input)
 {
 	data->token_head = NULL;
-	int		i = 0;
-
+	int		i;
+	
+	i = 0;
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
@@ -119,30 +103,13 @@ void	*lexer(t_data *data, const char *input)
 		{
 			if (!handle_operator(data, input, &i))
 				return (NULL);
-			continue;
+			continue ;
 		}
 		if (!handle_token(data, input, &i))
 			return (NULL);
 	}
 	return (data->token_head);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 t_lexer_result extract_token(const char *input, int i)

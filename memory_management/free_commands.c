@@ -17,7 +17,6 @@ void	free_command_fields(t_command *cmd)
 	free(cmd->outfile);
 	free(cmd->path);
 	free(cmd->value);
-	// free(cmd->heredoc_delim);
 }
 
 void	free_commands(t_data *data)
