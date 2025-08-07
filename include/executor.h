@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 13:56:18 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/07 13:56:21 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -31,7 +42,6 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //signals
-extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);

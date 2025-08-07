@@ -15,8 +15,7 @@ INCLUDES	= include
 		builtins/pwd_unset.c \
  		environment_management/environment_handling.c \
 		environment_management/environment_parsing.c \
- 		executor/check_commands.c \
-		executor/executor.c executor/heredoc.c \
+		executor/executor.c \
 		executor/path_utils.c \
 		executor/pipe.c executor/redirections.c \
 		executor/signals.c executor/executor_utils.c\
