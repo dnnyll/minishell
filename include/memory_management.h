@@ -12,12 +12,18 @@ void	free_command_node(t_command *cmd);
 void	*get_next_command(void *node);
 void	free_commands(t_data *data);
 
+//	free_data.c
+void	free_data_list(t_data *data);
+
 //	free_exit.c
 void	free_on_exit(t_data *data);
 
 //	free_functions.c
 void	free_char_array(char **array);
 void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *));
+
+//	free_heredocs.c
+void free_heredoc_list(t_heredoc *heredoc);
 
 //	free_tokens.c
 void	free_token_node(t_token *token);

@@ -26,6 +26,7 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 
 int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 {
+	(void) pid;
 	(void) data;
 	if (prev_fd != -1)
 		close(prev_fd);

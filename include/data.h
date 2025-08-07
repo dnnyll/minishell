@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #ifndef DATA_H
 # define DATA_H
 
@@ -24,7 +12,6 @@ typedef struct s_data
 {
 	t_token			*token_head;
 	t_command		*command_head;
-	t_variables		*variables_head;
 	t_heredoc		*heredoc_head;
 	t_env			*env_head;
 	char			**environment_var;
