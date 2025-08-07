@@ -7,6 +7,7 @@ void	free_command_node(t_command *cmd)
 	free(cmd->outfile);
 	free(cmd->path);
 	free(cmd->value);
+	free(cmd);
 }
 
 void	*get_next_command(void *node)

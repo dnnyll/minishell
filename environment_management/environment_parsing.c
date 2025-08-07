@@ -42,7 +42,6 @@ void	add_env_node(t_env **head, t_env *new_node)
 	current->next = new_node;
 }
 
-
 t_env	*create_node(const char *env_var_line)
 {
 	int	equal_pos;
