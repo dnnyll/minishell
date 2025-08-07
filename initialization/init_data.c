@@ -1,3 +1,15 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #include "minishell.h"
 
 t_data	*init_data(void)
@@ -6,12 +18,10 @@ t_data	*init_data(void)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	// ft_bzero(&data, sizeof(t_data));
 	data->token_head = NULL;
 	data->command_head = NULL;
 	data->variables_head = NULL;
 	data->heredoc_head = NULL;
-	// data->redir_head = init_redir();
 	data->env_head = NULL;
 	data->last_exit_code_status = 0;
 	data->pipe_count = 0;
@@ -32,8 +42,6 @@ t_command	*init_command(void)
 	command->path = NULL;
 	command->value = NULL;
 	command->append = 0;
-	// command->heredoc_delim = NULL;
-	// command->heredoc_quoted = 0;
 	command->heredoc_count = 0;
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
@@ -49,6 +57,7 @@ t_heredoc	*init_heredoc(int	counter)
 		return (NULL);
 	heredoc->filename = NULL;
 	heredoc->delimiter = NULL;
+	heredoc->index = 0;
 	heredoc->quoted = 0;
 	heredoc->counter = counter;
 	heredoc->pid = getpid();

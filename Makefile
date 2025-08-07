@@ -24,16 +24,14 @@ INCLUDES	= include
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
  		initialization/init_data.c \
- 		lexer/extract_operator.c \
-		lexer/extract_quoted.c \
-		lexer/extract_word.c \
+		lexer/lexer_quotes.c \
 		lexer/lexer_utils.c \
 		lexer/lexer.c \
 		memory_management/free_commands.c \
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
-		memory_management/free_lexer.c \
 		memory_management/free_tokens.c \
+		memory_management/free_utils.c \
  		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \

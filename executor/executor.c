@@ -40,6 +40,7 @@ int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 	return (fd[0]);
 }
 
+
 void	execute_single_builtin(t_command *cmd, t_data *data)
 {
 	int	std_in;
@@ -96,6 +97,12 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		return ;
 	// if (check_heredoc(cmd_list, data))
 	// 	return ;
+	// if (!cmd_list->next && is_builtin(&cmd_list))
+	// 	execute_buitlins(cmd_list, data);
+	// else if ()
+	// 	execute_single_builtin(cmd_list, data);
+	// else
+	// 	execute_pipeline(cmd_list, data);
 	// if (!cmd_list->next && is_builtin(&cmd_list))
 	// 	execute_buitlins(cmd_list, data);
 	// else if ()

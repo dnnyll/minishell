@@ -89,7 +89,6 @@ void	parse_commands(t_data *data, t_token *tokens)
 		}
 		current = current->next;
 	}
-
 	if (segment_start)
 		parse_segment_and_add_command(data, segment_start, NULL);
 }

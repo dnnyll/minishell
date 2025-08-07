@@ -1,0 +1,6 @@
+unset PATH
+ls
+
+bash: ls: No such file or directory < ------------ error message needs to be changed
+
+echo command needs to be handled -e

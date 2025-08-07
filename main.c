@@ -1,3 +1,15 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #include "minishell.h"
 
 t_data	*initialize_minishell(char **envp)
@@ -53,7 +65,7 @@ void	process_input(char *line, t_data *data)
 	//printf("DEBUG: process_input post expand_values\n\n\n");
 	if (validate_syntax(tokens, data))
 	printf("DEBUG: process_input post expand_values\n\n\n");
-	if (validate_syntax(tokens))
+	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
 	debug_parser_output(data);
@@ -90,6 +102,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_input(input_line, data);
 	}
+	// free_ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl
+	free_char_array(data->environment_var);
 	return (0);
 }
 // int	main(int argc, char **argv, char **envp)

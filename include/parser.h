@@ -6,48 +6,21 @@ typedef struct s_redir t_redir;      // Forward declaration
 typedef struct s_heredoc t_heredoc;  // Forward declaration
 typedef enum e_token_type t_token_type; // Forward declaration if it's an enum
 
-
-// typedef struct s_redirect
-// {
-// 	char 				*file;		//	rederection target (filename)
-// 	int					type;		//	type: REDIR_IN/OUT, append, heredoc
-// 	struct s_redirect	*next;		//	for multiple redirections
-// } t_redirect;
-
 typedef struct s_command
 {
-	t_heredoc			*heredoc_head;		// <--- Link to heredoc manager
-	char				**argv;				// NULL-terminated array of arguments (argv[0] = command)
-	char				*infile;			// Input redirection file (for '<')
-	char				*outfile;			// Output redirection file (for '>' or '>>')
+	t_heredoc			*heredoc_head;
+	char				**argv;
+	char				*infile;
+	char				*outfile;
 	char				*path;
 	char				*value;
-	int					append;				// 1 if '>>' (append mode), 0 if '>' (truncate)
-	// char				*heredoc_delim;		// Delimiter for heredoc (if '<<' is used)
-	// int					heredoc_quoted;		// Flags heredoc if between single/double quotes.  (<< "EOF" or << 'EOF')
+	int					append;
 	int					heredoc_count;
-	int					fd_in;				// File descriptor for input (defaults to STDIN_FILENO)
-	int					fd_out;				// File descriptor for output (defaults to STDOUT_FILENO)
-	struct s_command	*next;				// Pointer to the next command (for pipelines)
-	// struct s_command	*prev;
+	int					fd_in;
+	int					fd_out;
+	struct s_command	*next;
 	t_token_type		type;
 }	t_command;
-
-/*
-information concerning: command
-
-Purpose: stores the arguments that will be passed to execve().
-
-	For: echo hello
-
-	argv = ["echo", "hello", NULL]
-
-	Without this, you cannot run the command.
-	The execve() system call literally receives argv as input.
-
-	That's why you collect tokens from `segment_start` to the PIPE position.
-	Everything before the pipe belongs to this command.
-*/
 
 //	parse_commands
 t_command	*init_command(void);

@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokens.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 16:03:43 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/01 14:38:56 by daniefe2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef TOKENS_H
 # define TOKENS_H
@@ -31,9 +20,6 @@ typedef enum e_token_type
 	HEREDOC,				// Heredoc input: '<<'
 	ERROR,					// for syntax errors or invalid tokens
 }	t_token_type;
-
-//	contains information after lexer has been applied
-//	we will use this for the parsing part
 
 typedef struct s_token 
 {

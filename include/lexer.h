@@ -1,3 +1,15 @@
+/* **************************************************************************** */
+/*                                                                              */
+/*                                                                              */
+/*                                                                              */
+/*                           DEAD INSIDE                                        */
+/*                                                                              */
+/*                                                                              */
+/*                                       MROSSET & DANIEFE2                     */
+/*                                                                              */
+/*                                                                              */
+/* **************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -10,34 +22,34 @@
 */
 typedef struct s_lexer_result
 {
-	t_token	*token;		//	the string is stored in tokens.h's structure
-	int		index;		//	the index position of the input string's end
+	t_token	*token;
+	int		index;
 }	t_lexer_result;
+
+typedef struct s_quote
+{
+	char	value;
+	int		is_quoted;
+}	t_quote;
 
 //	extract_word.c
 const char 		*quote_type_str(t_quote_type quote);
-int				is_operator_char(char c);
-int				get_word_length(const char *input);
-t_lexer_result	extract_word(const char *input, int i);
-
-//	extract_quoted.c
-int				get_quoted_length(const char *input, char quote_char);
-char			*extract_quoted_value(const char *input, int len);
-t_lexer_result	extract_quoted(const char *input, int i);
-
-//	extract_operator.c
-int				get_operator_length(t_token_type type);
-t_token_type	get_operator_type(const char *input);
-t_lexer_result	extract_operator(const char *input, int i);
+//	lexer_quotes.c
+void			init_quote(t_quote *q);
+int				handle_quote(const char *input, int *j, char *buffer, int *len, t_quote *q);
+void			set_token_quote(t_token *token, t_quote *q);
 
 //	lexer.c
-int				ft_isspace(int c);
-int				is_quote(char c);
-int				is_operator_start(char c);
+int				fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q);
 t_lexer_result	extract_token(const char *input, int i);
-int				verify_operator_type(const char *input, int i, t_token_type *type);
 int				handle_operator(t_data *data, const char *input, int *i);
 int				handle_token(t_data *data, const char *input, int *i);
 void			*lexer(t_data *data, const char *input);
+
+//	lexer_utils.c
+int				ft_isspace(int c);
+int				is_quote(char c);
+int				is_operator_start(char c);
+int	verify_operator_type(const char *input, int i, t_token_type *type);
 
 #endif

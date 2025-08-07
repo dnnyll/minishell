@@ -34,14 +34,6 @@ char	*try_paths(char **paths, char *cmd_name);
 char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
-//heredoc
-// char	*expand_line(char *line, t_command *cmd, t_data *data);
-// void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data);
-// void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid);
-// void	handle_heredoc_sigint(int sig);
-// void	handle_heredoc(t_command *cmd, t_data *data);
-// int		check_heredoc(t_command *cmd_list, t_data *data);
-
 //signals
 extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);

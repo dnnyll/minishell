@@ -20,10 +20,10 @@ int	open_input_redir(t_command *command, t_data *data)
 	int		fd = -1;
 	char	*filename = NULL;
 
-	if (command->heredoc_head && command->heredoc_head->filename)
-		filename = command->heredoc_head->filename;
-	else if (command->infile)
+	if (command->infile)
 		filename = command->infile;
+	else if (command->heredoc_head && command->heredoc_head->filename)
+		filename = command->heredoc_head->filename;
 	else
 		return (0);
 	fd = open(filename, O_RDONLY);
