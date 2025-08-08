@@ -11,6 +11,7 @@ typedef enum e_quote_type
 
 typedef enum e_token_type
 {
+	UNASSIGNED,
 	WORD,					// general word or command name (before parsing)
 	CMD,					//	comands: echo, ls, etc
 	PIPE,					// The pipe character '|'

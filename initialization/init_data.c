@@ -63,3 +63,15 @@ t_env	*init_env_node(void)
 	return node;
 }
 
+t_token	*init_token(void)
+{
+	t_token *token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = NULL;
+	token->type = UNASSIGNED;
+	token->quote = NO_QUOTE;
+	token->expandable = 0;
+	token->next = NULL;
+	return (token);
+}

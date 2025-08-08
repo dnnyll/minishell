@@ -19,7 +19,8 @@ void	add_token(t_token **list, t_token *new_token)
 //	Purpose: Creates and initializes a new token with the given value and type.
 t_token	*create_token(const char *value, t_token_type type)
 {
-	t_token *token = malloc(sizeof(t_token));	// Allocate memory for token
+	t_token *token = init_token();
+	// t_token *token = malloc(sizeof(t_token));	// Allocate memory for token
 	if (!token)
 		return (NULL);
 	token->value = ft_strdup(value);			// Duplicate the string
@@ -28,8 +29,9 @@ t_token	*create_token(const char *value, t_token_type type)
 		free(token);							// Clean up if strdup fails
 		return (NULL);
 	}
-	token->type = type;							// Set token type (e.g., WORD)
-	token->quote = NO_QUOTE;					// Default quote type
-	token->next = NULL;							// No next token yet
+	token->type = type;
+	// token->quote = NO_QUOTE;
+	// token->expandable = 0;
+	// token->next = NULL;
 	return (token);
 }

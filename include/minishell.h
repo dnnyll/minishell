@@ -41,7 +41,8 @@
 t_data		*init_data(void);
 t_command	*init_command(void);
 t_heredoc	*init_heredoc(int counter);
-t_env	*init_env_node(void);
+t_env		*init_env_node(void);
+t_token		*init_token(void);
 
 //	printers.c
 void	print_commands(t_command *cmd_list);

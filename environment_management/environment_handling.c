@@ -40,5 +40,6 @@ char	*search_env_value(t_data *data, const char *variable_name)
 				return (ft_strdup(data->environment_var[i] + variable_length + 1));
 			i++;
 	}
+	//this might be a problem, maybe i should do a return (ft_strdup("")); instead
 	return("");
 }
