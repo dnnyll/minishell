@@ -15,9 +15,7 @@ void	free_env_list(t_env *env)
 	while (env)
 	{
 		next = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
+		free_env_node(env);
 		env = next;
 	}
 }
