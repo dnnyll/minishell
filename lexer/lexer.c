@@ -39,6 +39,8 @@ t_lexer_result	extract_token(const char *input, int i)
 	if (!token)
 		return ((t_lexer_result){NULL, -1});
 	set_token_quote(token, &q);
+	//	this line was handled to assign token expandable status before calling the variable handling
+	token->expandable = ft_strchr(token->value, '$') != NULL && token->quote != SINGLE_QUOTE;
 	return ((t_lexer_result){token, j});
 }
 

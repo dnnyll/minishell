@@ -34,7 +34,7 @@ void print_data(t_data *data)
 
 void    print_tokens(t_data *data)
 {
-    t_token	*tokens = data->token_head;
+    t_token *tokens = data->token_head;
 
     if (!tokens)
     {
@@ -45,14 +45,17 @@ void    print_tokens(t_data *data)
     printf("\n--- Token List ---\n");
     while (tokens)
     {
-        printf("Value: %-20s | Type: %-10s | Quote: %s\n",
+        printf("Value: %-20s | Type: %-10s | Quote: %-6s | Expandable: %s\n",
             tokens->value,
             token_type_str(tokens->type),
-            quote_type_str(tokens->quote));
+            quote_type_str(tokens->quote),
+            tokens->expandable ? "Yes" : "No");
         tokens = tokens->next;
     }
     printf("-------------------\n\n");
 }
+
+
 
 void print_commands(t_command *cmd)
 {

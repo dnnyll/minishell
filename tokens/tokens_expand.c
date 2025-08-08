@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 /*
@@ -31,11 +19,14 @@ void	expand_token_values(t_token *tokens, t_data *data)
 	t_token	*current = tokens;
 	char	*expanded;
 
-	expanded = process_variables(current->value, data, current);
+	if(!tokens)
+		return ;
+	// expanded = process_variables(current->value, data, current);
 	while (current)
 	{
 		if (current->expandable)
 		{
+			printf("Expanding: value='%s'\n", current->value);
 			expanded = process_variables(current->value, data, current);
 			free (current->value);
 			current->value = expanded;  // replace with expanded value

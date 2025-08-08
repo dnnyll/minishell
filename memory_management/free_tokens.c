@@ -14,7 +14,7 @@ void	*get_next_token(void *node)
 void	free_tokens(t_data *data)
 {
 	free_list(data->token_head, get_next_token, (void (*)(void *))free_token_node);
-	data->command_head = NULL;
+	data->token_head = NULL;
 }
 
 void	free_single_token(t_token *token)

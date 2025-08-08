@@ -18,10 +18,7 @@ char	*search_list_env_value(t_env *env_head, const char *name)
 	while (current)
 	{
 		if (strcmp(current->key, name) == 0)
-		{
-			printf("DEBUG: found match! value = [%s]\n", current->value);
 			return current->value;
-		}
 		current = current->next;
 	}
 	return (NULL);
@@ -80,7 +77,6 @@ t_env *build_env_list(char **environment_var)
 	i = 0;
 	while (environment_var[i])
 	{
-		printf("DEBUG: Creating node from: %s\n", environment_var[i]); // Debug print
 		node = create_node(environment_var[i]);
 		if (!node)
 		{

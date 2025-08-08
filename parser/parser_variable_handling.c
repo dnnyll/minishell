@@ -200,8 +200,8 @@ char	*ft_strjoin_char(char *input, char c)
 	result = malloc(sizeof(char) * len + 2);
 	if (!result)
 	{
-		printf("ft_strloin_char messed up\n");
-		free(result);
+		perror("alloc at ft_strjoin_char failed\n");
+		// free(result);
 	}
 	while (i < len)
 	{
@@ -242,6 +242,7 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 		return (printf("Error: search_env_value not found for the input\n"), NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
+	free(value);
 	return (new_result);
 }
 
@@ -288,7 +289,6 @@ char	*expand_variables(const char *input, t_data *data)
 			temp = ft_strjoin_char(result, input[i]);
 			free (result);
 			result = temp;
-			// free(temp);
 			i++;
 		}
 	}
