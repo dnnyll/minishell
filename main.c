@@ -42,7 +42,7 @@ void	process_input(char *line, t_data *data)
 	t_token	*tokens;
 
 	tokens = lexer(data, line);
-	if(!tokens)
+	if (!tokens)
 	{
 		printf("Lexer returned NULL — likely due to unmatched quotes or syntax error.\n");
 		return ;
@@ -51,7 +51,6 @@ void	process_input(char *line, t_data *data)
 	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
-	// debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
 		heredoc_cleanup(data->heredoc_head);
@@ -90,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	free_data_list(data);
 	return (0);
 }
+
 // int	main(int argc, char **argv, char **envp)
 // {
 // 	(void)argc;
@@ -127,7 +127,6 @@ int	main(int argc, char **argv, char **envp)
 
 
 // 		//	lexing % tokenizing
-		
 // 		t_token *tokens = lexer(data, input_line);
 // 		printf("calling lexer(data, input_line) @ main.c\n");
 

@@ -224,7 +224,8 @@ char	*handle_exit_code(t_data *data, char *input)
 	return (result);
 }
 
-char	*handle_environment_variables(const char *input, int *i, t_data *data, char * result)
+char	*handle_environment_variables(const char *input, int *i, t_data *data,
+			char *result)
 {
 	int		start;
 	char	*variable_name;
@@ -297,7 +298,6 @@ char	*expand_variables(const char *input, t_data *data)
 
 int	isexpandable_variable(const char *str)
 {
-	//printf("isexpandable_variable @parser_variable_handling.c\n");
 	int	i;
 
 	i = 0;
