@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 t_data	*initialize_minishell(char **envp)
@@ -59,16 +47,11 @@ void	process_input(char *line, t_data *data)
 		printf("Lexer returned NULL — likely due to unmatched quotes or syntax error.\n");
 		return ;
 	}
-	print_tokens(data);
-	printf("DEBUG: process_input post tokens = lexer\n\n\n");
 	expand_token_values(tokens, data);
-	//printf("DEBUG: process_input post expand_values\n\n\n");
-	if (validate_syntax(tokens, data))
-	printf("DEBUG: process_input post expand_values\n\n\n");
 	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
-	debug_parser_output(data);
+	// debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
 		heredoc_cleanup(data->heredoc_head);
@@ -79,6 +62,9 @@ void	process_input(char *line, t_data *data)
 	free_tokens(data);
 	free_commands(data);
 	free(line);
+	//note: this will result in heredoc segfault
+	// free_heredoc_list(data->heredoc_head);
+	// free_env_list(data->env_head);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -94,7 +80,6 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
-		//printf("here is the prompt printing\n");
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);
@@ -102,8 +87,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_input(input_line, data);
 	}
-	// free_ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl
-	free_char_array(data->environment_var);
+	free_data_list(data);
 	return (0);
 }
 // int	main(int argc, char **argv, char **envp)

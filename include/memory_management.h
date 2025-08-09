@@ -8,18 +8,32 @@ typedef struct s_token t_token;
 typedef struct s_lexer_result t_lexer_result;
 
 //	free_commands.c
-void	free_string(char **str);
-void	free_command_fields(t_command *cmd);
+void	free_command_node(t_command *cmd);
+void	*get_next_command(void *node);
 void	free_commands(t_data *data);
+
+//	free_data.c
+void	free_data_list(t_data *data);
+
+//	free_env.c
+void	free_env_node(t_env *env);
+void	free_env_list(t_env *env);
 
 //	free_exit.c
 void	free_on_exit(t_data *data);
 
 //	free_functions.c
 void	free_char_array(char **array);
+void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *));
 
-//	free_lexer.c
-void	free_lexer_result(t_lexer_result *result);
+//	free_heredocs.c
+void free_heredoc_list(t_heredoc *heredoc);
+
+//	free_tokens.c
+void	free_token_node(t_token *token);
+void	*get_next_token(void *node);
+void	free_tokens(t_data *data);
 void	free_single_token(t_token *token);
+void	free_lexer_result(t_lexer_result *result);
 
 #endif

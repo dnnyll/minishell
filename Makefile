@@ -17,8 +17,10 @@ INCLUDES	= include
 		environment_management/environment_parsing.c \
 		executor/executor.c \
 		executor/path_utils.c \
-		executor/pipe.c executor/redirections.c \
-		executor/signals.c executor/executor_utils.c\
+		executor/pipe.c \
+		executor/redirections.c \
+		executor/signals.c \
+		executor/executor_utils.c\
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
@@ -27,11 +29,13 @@ INCLUDES	= include
 		lexer/lexer_utils.c \
 		lexer/lexer.c \
 		memory_management/free_commands.c \
+		memory_management/free_data.c \
+		memory_management/free_env.c \
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
+		memory_management/free_heredocs.c \
 		memory_management/free_tokens.c \
-		memory_management/free_utils.c \
- 		parser/parser_commands.c \
+		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \
 		parser/parser_redirect_handling.c \

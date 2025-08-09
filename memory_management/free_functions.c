@@ -1,18 +1,5 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
 
 #include "minishell.h"
-
-//	function to free char ** arrays
 
 void	free_char_array(char **array)
 {
@@ -28,3 +15,16 @@ void	free_char_array(char **array)
 	}
 	free(array);
 }
+
+void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *))
+{
+	void *next;
+
+	while (head)
+	{
+		next = get_next(head);
+		free_node(head);
+		head = next;
+	}
+}
+
