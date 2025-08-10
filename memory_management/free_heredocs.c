@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void free_heredoc_list(t_heredoc *heredoc)
+void	free_heredoc_list(t_heredoc *heredoc)
 {
-	t_heredoc *next;
+	t_heredoc	*next;
 
 	while (heredoc)
 	{
