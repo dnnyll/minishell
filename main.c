@@ -62,6 +62,7 @@ void	process_input(char *line, t_data *data)
 	execute_commands(data->command_head, data);
 	free_tokens(data);
 	free_commands(data);
+	//
 	// free(line);
 	//note: this will result in heredoc segfault
 	// free_heredoc_list(data->heredoc_head);
