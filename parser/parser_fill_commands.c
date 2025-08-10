@@ -25,8 +25,8 @@ char	**allocate_command_argv(int argc)
 	argv = malloc(sizeof(char *) * (argc + 1));
 	if (!argv)
 	{
-		printf("Error allocating memory for command->argv at
-			fill_command_segment\n");
+		printf("Error allocating memory for command->argv at"
+			"fill_command_segment\n");
 		return (NULL);
 	}
 	argv[argc] = '\0';
