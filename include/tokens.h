@@ -1,4 +1,3 @@
-
 #ifndef TOKENS_H
 # define TOKENS_H
 
@@ -11,23 +10,23 @@ typedef enum e_quote_type
 
 typedef enum e_token_type
 {
-	WORD,					// general word or command name (before parsing)
-	CMD,					//	comands: echo, ls, etc
-	PIPE,					// The pipe character '|'
-	REDIR_IN,				// Input redirection: '<'
-	REDIR_OUT,				// Output redirection: '>'
-	APPEND,					// Append output: '>>'
-	HEREDOC,				// Heredoc input: '<<'
-	ERROR,					// for syntax errors or invalid tokens
+	WORD,
+	CMD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
+	HEREDOC,
+	ERROR,
 }	t_token_type;
 
-typedef struct s_token 
+typedef struct s_token
 {
-	char			*value;			// Actual text (e.g., "echo", "|", "file")
-	t_token_type	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
-	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
-	int				expandable;		// Determines if it will be submited to environament expansion
-	struct s_token	*next;			// Pointer to the next token node
+	char			*value;
+	t_token_type	type;
+	t_quote_type	quote;
+	int				expandable;
+	struct s_token	*next;
 }	t_token;
 
 //	tokens
@@ -41,3 +40,25 @@ void		free_token_list(t_token *token);
 void		expand_token_values(t_token *tokens, t_data *data);
 
 #endif
+
+/*
+typedef enum e_token_type
+{
+	WORD,					// general word or command name (before parsing)
+	CMD,					//	comands: echo, ls, etc
+	PIPE,					// The pipe character '|'
+	REDIR_IN,				// Input redirection: '<'
+	REDIR_OUT,				// Output redirection: '>'
+	APPEND,					// Append output: '>>'
+	HEREDOC,				// Heredoc input: '<<'
+	ERROR,					// for syntax errors or invalid tokens
+}	t_token_type;
+
+typedef struct s_token
+{
+	*value;			// Actual text (e.g., "echo", "|", "file")
+	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
+	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
+	expandable;	// Determines if it will be submited to environament expansion
+	*next;			// Pointer to the next token node
+*/

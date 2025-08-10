@@ -20,7 +20,7 @@ const char *quote_type_str(t_quote_type quote)
 	if (quote == NO_QUOTE)
 		return ("None");
 	if (quote == SINGLE_QUOTE)
-		return("Single");
+		return ("Single");
 	if (quote == DOUBLE_QUOTE)
 		return ("Double");
 	return ("Unknown");
@@ -142,7 +142,7 @@ void    print_heredoc(t_heredoc *heredoc)
 	if (!heredoc)
 	{
 		printf("\n\033[1;31m[HEREDOC] (null pointer)\033[0m\n");
-		return;
+		return ;
 	}
 
 	printf("\n\033[1;35m---- Heredoc Debug ----\033[0m\n");

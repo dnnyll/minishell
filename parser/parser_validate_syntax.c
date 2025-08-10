@@ -87,9 +87,10 @@ int	verify_pipes(t_token *tokens, t_data *data)
 		if (current->type == PIPE && current->next->type == PIPE)
 			return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
 				data->last_exit_code_status = 2, 1);
-		if (current->type == PIPE
-			&& (current->next->type == REDIR_IN || current->next->type == REDIR_OUT
-			|| current->next->type == HEREDOC || current->next->type == APPEND))
+		if (current->type == PIPE && (current->next->type == REDIR_IN
+				|| current->next->type == REDIR_OUT
+				|| current->next->type == HEREDOC
+				|| current->next->type == APPEND))
 			return (print_error("minishell: syntax error near unexpected token `newline'\n", NULL, NULL),
 				data->last_exit_code_status = 2, 1);
 		current = current->next;
@@ -101,7 +102,6 @@ int	verify_pipes(t_token *tokens, t_data *data)
 
 	return (0);
 }
-
 
 /*
 	information concerning: verify_redirections
@@ -128,7 +128,6 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 	{
 		if (is_redirection(current->type))
 		{
-			// Case 1: redirection is the last token (no target)
 			if (!current->next)
 			{
 				data->last_exit_code_status = 2;
@@ -136,11 +135,9 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 					NULL, NULL);
 				return (1);
 			}
-			// Case 2: redirection is followed by something that's not a WORD
 			if (current->next->type != WORD)
 			{
-				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);	//?????????????
-				// printf("minishell: syntax error near unexpected token `%s'\n", unexpected);				//?????????????
+				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);
 				return (1);
 			}
 		}
@@ -191,12 +188,10 @@ int	validate_syntax(t_token *tokens, t_data *data)
 
 	if (!tokens)
 		return (data->last_exit_code_status = 2, printf("Error: no tokens @ validate_syntax\n"), 1);
-
 	last_token = get_last_token(tokens);
 	if (tokens->type == PIPE || last_token->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
 			data->last_exit_code_status = 2, 1);
-
 	if (verify_pipes(tokens, data))
 		return (1);
 	if (verify_redirections(tokens, data))

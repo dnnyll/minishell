@@ -3,7 +3,8 @@
 /*
 	information concerning: add_command_to_data
 
-	purpose: adds a new command node to the end of the command list in the data structure.
+	purpose: adds a new command node to the end of the command list in the
+	data structure.
 
 	for: managing a linked list of commands parsed from the input.
 
@@ -24,7 +25,7 @@ void	add_command_to_data(t_command **head, t_command *init_command)
 	}
 	// Otherwise, find the last command in the list
 	t_command *temp = *head;
-	while (temp->next)			// Traverse until the last node (where next is NULL)
+	while (temp->next)	// Traverse until the last node (where next is NULL)
 		temp = temp->next;
 	// Append the new command at the end of the list
 	temp->next = init_command;
@@ -33,9 +34,11 @@ void	add_command_to_data(t_command **head, t_command *init_command)
 /*
 	information concerning: parse_segment_and_add_command
 
-	purpose: parses a segment of tokens and stores it as a command in the data structure.
+	purpose: parses a segment of tokens and stores it as a command in
+	the data structure.
 
-	for: parsing a part of the input between pipes (or the entire input if no pipes).
+	for: parsing a part of the input between pipes (or the entire input
+	if no pipes).
 
 	it:
 	- initializes a new command structure
@@ -45,11 +48,14 @@ void	add_command_to_data(t_command **head, t_command *init_command)
 
 	this function handles the token logic for one command at a time.
 */
-void	parse_segment_and_add_command(t_data *data, t_token *start, t_token *end)
+void	parse_segment_and_add_command(t_data *data, t_token *start,
+		t_token *end)
 {
-	t_command *command = init_command();
+	t_command	*command;
+
+	command = init_command();
 	if (!command)
-		return ; // Optionally handle error
+		return ;
 	fill_command_segment(command, start, end);
 	add_command_to_data(&data->command_head, command);
 	data->command_count++;
@@ -73,12 +79,13 @@ void	parse_segment_and_add_command(t_data *data, t_token *start, t_token *end)
 */
 void	parse_commands(t_data *data, t_token *tokens)
 {
+	t_token	*current;
+	t_token	*segment_start;
+
+	current = tokens;
+	segment_start = current;
 	data->command_count = 0;
 	data->pipe_count = 0;
-
-	t_token *current = tokens;
-	t_token *segment_start = current;
-
 	while (current)
 	{
 		if (current->type == PIPE)
@@ -112,7 +119,8 @@ void	parse_commands(t_data *data, t_token *tokens)
 // 			if (!command)
 // 				return ; // handle error
 // 			// command->redir_head = data->redir_head;
-// 			fill_command_segment(command, segment_start, current); // You'll write this
+// 			fill_command_segment(command, segment_start, current);
+			// You'll write this
 // 			add_command_to_data(&data->command_head, command);
 // 			data->command_count++;
 // 			segment_start = current->next; // move to next segment

@@ -1,24 +1,12 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 char	*create_heredoc_filename(int pid, int index)
 {
-	char	*filename;
-	char	*pid_str;
-	char	*index_str;
-	const char *base;
-	size_t	total_len;
+	char		*filename;
+	char		*pid_str;
+	char		*index_str;
+	const char	*base;
+	size_t		total_len;
 
 	base = "/tmp/.heredoc_";
 	pid_str = ft_itoa(pid);
@@ -26,7 +14,7 @@ char	*create_heredoc_filename(int pid, int index)
 	if (!pid_str || !index_str)
 		return (free(pid_str), free(index_str), NULL);
 	total_len = ft_strlen(base) + ft_strlen(pid_str) + 1 + ft_strlen(index_str);
-	filename = malloc(total_len + 1); // +1 for null terminator
+	filename = malloc(total_len + 1);
 	if (!filename)
 		return (free(pid_str), free(index_str), NULL);
 	ft_strlcpy(filename, base, total_len + 1);
@@ -38,22 +26,23 @@ char	*create_heredoc_filename(int pid, int index)
 	return (filename);
 }
 
-int	open_heredoc_filename(t_heredoc *heredoc)
-{
-heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
-	if (!heredoc->filename)
-		return (-1);
-	heredoc->fd = open(heredoc->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	/*
+/*
 	Open the temporary file for writing using open():
 	O_CREAT: Create the file if it doesn’t exist yet.
 	O_WRONLY: Open it for writing only — since we’ll write heredoc input into it.
-	O_TRUNC: If the file exists, truncate it (empty it) before writing new content.
+	O_TRUNC: If the file exists, truncate it (empty it)
+		before writing new content.
 	0644: This sets file permissions — meaning:
 		Owner can read/write (6 = 4 + 2)
 		Group can read only (4)
 		Others can read only (4)
-	*/
+*/
+int	open_heredoc_filename(t_heredoc *heredoc)
+{
+	heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
+	if (!heredoc->filename)
+		return (-1);
+	heredoc->fd = open(heredoc->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (heredoc->fd == -1)
 	{
 		free(heredoc->filename);
@@ -119,31 +108,5 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		free(cmd->infile);
 	}
 	cmd->infile = strdup(heredoc->filename);
-	return (0);
-}
-
-int	process_heredocs(t_data *data)
-{
-	t_command	*cmd = data->command_head;
-	t_heredoc	*heredoc;
-	int			heredoc_index;
-
-	heredoc_index = 0; // used only for assigning to heredoc->index
-	while (cmd)
-	{
-		heredoc = cmd->heredoc_head;
-		while (heredoc && cmd->heredoc_count > 0)
-		{
-			heredoc->index = heredoc_index++;  // use struct's index field
-			if (process_single_heredoc(cmd, data, heredoc) == -1)
-			{
-				heredoc_cleanup(heredoc);
-				return (-1);
-			}
-			heredoc = heredoc->next;
-		}
-		cmd->heredoc_count--;
-		cmd = cmd->next;
-	}
 	return (0);
 }

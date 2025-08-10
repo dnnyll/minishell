@@ -19,7 +19,7 @@
 int	is_redirection(int type)
 {
 	return (type == REDIR_IN || type == REDIR_OUT 
-			|| type == APPEND || type == HEREDOC);
+		|| type == APPEND || type == HEREDOC);
 }
 
 /*
@@ -46,7 +46,8 @@ static void	set_redir_in(t_command *command, t_token *current)
 /*
 	information concerning: set_redir_out
 
-	purpose: sets the output file name for the command from REDIR_OUT or APPEND token.
+	purpose: sets the output file name for the command from REDIR_OUT or
+	APPEND token.
 
 	for: commands like echo hello > out.txt or echo hello >> out.txt
 
@@ -82,20 +83,20 @@ static void	set_redir_out(t_command *command, t_token *current, int append)
 */
 static void	set_heredoc(t_command *cmd, t_token *current)
 {
-	t_heredoc *new = init_heredoc(cmd->heredoc_count); // pass counter
+	t_heredoc	*new;
+	t_heredoc	*tmp;
+
+	new = init_heredoc(cmd->heredoc_count);
 	printf("heredoc_count = %d\n", cmd->heredoc_count);
 	if (!new)
-		return; // handle allocation failure
-
+		return ;
 	new->delimiter = ft_strdup(current->next->value);
 	new->quoted = (current->next->quote != NO_QUOTE);
-
-	// Append to linked list
 	if (!cmd->heredoc_head)
 		cmd->heredoc_head = new;
 	else
 	{
-		t_heredoc *tmp = cmd->heredoc_head;
+		*tmp = cmd->heredoc_head;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
@@ -106,11 +107,13 @@ static void	set_heredoc(t_command *cmd, t_token *current)
 /*
 	information concerning: handle_redirections
 
-	purpose: parses and stores redirection information inside the command structure.
+	purpose: parses and stores redirection information inside the
+	command structure.
 
 	for: echo hello > file.txt
 
-	it detects redirection tokens (e.g. >, >>, <, <<) and saves the corresponding 
+	it detects redirection tokens (e.g. >, >>, <, <<) and saves
+	the corresponding 
 	filenames or delimiters into the command structure.
 
 	- infile: for '<'
@@ -124,8 +127,9 @@ static void	set_heredoc(t_command *cmd, t_token *current)
 */
 void	handle_redirections(t_command *command, t_token *start, t_token *end)
 {
-	t_token	*current = start;
+	t_token	*current;
 
+	current = start;
 	command->heredoc_count = 0;
 	while (current && current != end)
 	{
@@ -148,36 +152,40 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 	}
 }
 
-
-// void	handle_redirections(t_command *command, t_token *start, t_token *end)
-// {
-// 	// printf("handle_redirections\n");
-// 	t_token *current = start;
-	
-// 	while (current && current != end)
-// 	{
-// 		if (current->type == REDIR_IN && current->next && current->next->type == WORD)
-// 		{
-// 			command->infile = ft_strdup(current->next->value);
-// 			current = current->next;
-// 		}
-// 		else if (current->type == REDIR_OUT && current->next && current->next->type == WORD)
-// 		{
-// 			command->outfile = ft_strdup(current->next->value);
-// 			command->append = 0;
-// 			current = current->next;
-// 		}
-// 		else if (current->type == APPEND && current->next && current->next->type == WORD)
-// 		{
-// 			command->outfile = ft_strdup(current->next->value);
-// 			command->append = 1;
-// 			current = current->next;
-// 		}
-// 		else if (current->type == HEREDOC && current->next && current->next->type == WORD)
-// 		{
-// 			command->heredoc_delim = ft_strdup(current->next->value);
-// 			current = current->next;
-// 		}
-// 		current = current->next;
-// 	}
-// }
+/*
+ void	handle_redirections(t_command *command, t_token *start, t_token *end)
+ {
+ 	// printf("handle_redirections\n");
+ 	t_token *current = start;
+ 	while (current && current != end)
+ 	{
+ 		if (current->type == REDIR_IN && current->next
+			&& current->next->type == WORD)
+ 		{
+ 			command->infile = ft_strdup(current->next->value);
+ 			current = current->next;
+ 		}
+ 		else if (current->type == REDIR_OUT && current->next
+			&& current->next->type == WORD)
+ 		{
+ 			command->outfile = ft_strdup(current->next->value);
+ 			command->append = 0;
+ 			current = current->next;
+ 		}
+ 		else if (current->type == APPEND && current->next
+			&& current->next->type == WORD)
+ 		{
+ 			command->outfile = ft_strdup(current->next->value);
+ 			command->append = 1;
+ 			current = current->next;
+ 		}
+ 		else if (current->type == HEREDOC && current->next
+			&& current->next->type == WORD)
+ 		{
+ 			command->heredoc_delim = ft_strdup(current->next->value);
+ 			current = current->next;
+ 		}
+ 		current = current->next;
+ 	}
+ }
+*/

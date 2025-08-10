@@ -1,22 +1,11 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 {
-	pid_t pid = fork();
-	int	status;
+	pid_t	pid;
+	int		status;
 
+	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), -1);
 	if (pid == 0)
@@ -30,18 +19,8 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 	else
 	{
 		waitpid(pid, &status, 0);
-		// if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		// {
-		// 	printf ("HERE IS THE SINGLA CTRL + C ??????????\n\n\n");
-		// 	// g_signal_status = 130;
-		// 	// unlink(heredoc->filename);
-		// 	// heredoc_cleanup(heredoc);
-		// 	printf("2\n");
-		// 	// free_commands(data);
-		// 	return (130); // heredoc canceled
-		// }
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			return (-1); // heredoc failed
+			return (-1);
 	}
 	return (0);
 }
@@ -50,8 +29,32 @@ void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	// raise(SIGINT); // Re-raise the signal to kill the process
-	// signal(SIGINT, SIG_DFL);
-	// kill(getpid(), SIGINT);
 	exit(1);
+}
+
+int	process_heredocs(t_data *data)
+{
+	t_command	*cmd;
+	t_heredoc	*heredoc;
+	int			heredoc_index;
+
+	cmd = data->command_head;
+	heredoc_index = 0;
+	while (cmd)
+	{
+		heredoc = cmd->heredoc_head;
+		while (heredoc && cmd->heredoc_count > 0)
+		{
+			heredoc->index = heredoc_index++;
+			if (process_single_heredoc(cmd, data, heredoc) == -1)
+			{
+				heredoc_cleanup(heredoc);
+				return (-1);
+			}
+			heredoc = heredoc->next;
+		}
+		cmd->heredoc_count--;
+		cmd = cmd->next;
+	}
+	return (0);
 }

@@ -1,61 +1,39 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 //	Purpose: Adds a new token to the end of the token list.
 void	add_token(t_token **list, t_token *new_token)
 {
+	t_token	*current;
+
 	if (!list || !new_token)
-		return ; // Do nothing if input is invali
+		return ;
 	if (*list == NULL)
 	{
-		*list = new_token; // List is empty → set head to new token
+		*list = new_token;
 		return ;
 	}
-	t_token *current = *list;
+	current = *list;
 	while (current->next)
-		current = current->next; // Traverse to the last token
-	current->next = new_token; // Append new token to the end
-}
-
-//	Purpose: Frees all memory allocated for the token list.
-void	free_token_list(t_token *token)
-{
-	t_token *next;
-
-	while (token)
-	{
-		next = token->next;				// Save pointer to the next token
-		free(token->value);				// Free the string inside the token
-		free(token);					// Free the token itself
-		token = next;					// Move to the next token
-	}
+		current = current->next;
+	current->next = new_token;
 }
 
 //	Purpose: Creates and initializes a new token with the given value and type.
 t_token	*create_token(const char *value, t_token_type type)
 {
-	t_token *token = malloc(sizeof(t_token));	// Allocate memory for token
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	token->value = ft_strdup(value);			// Duplicate the string
+	token->value = ft_strdup(value);
 	if (!token->value)
 	{
-		free(token);							// Clean up if strdup fails
+		free(token);
 		return (NULL);
 	}
-	token->type = type;							// Set token type (e.g., WORD)
-	token->quote = NO_QUOTE;					// Default quote type
-	token->next = NULL;							// No next token yet
+	token->type = type;
+	token->quote = NO_QUOTE;
+	token->next = NULL;
 	return (token);
 }

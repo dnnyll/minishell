@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:56:18 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/07 13:56:21 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/09 13:15:06 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H

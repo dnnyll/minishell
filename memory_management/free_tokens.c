@@ -8,21 +8,22 @@ void	free_token_node(t_token *token)
 
 void	*get_next_token(void *node)
 {
-	return ((t_token *)node)->next;
+	return (((t_token *)node)->next);
 }
 
 void	free_tokens(t_data *data)
 {
-	free_list(data->token_head, get_next_token, (void (*)(void *))free_token_node);
+	free_list(data->token_head, get_next_token,
+		(void (*)(void *))free_token_node);
 	data->command_head = NULL;
 }
 
 void	free_single_token(t_token *token)
 {
 	if (!token)
-	return ;
+		return ;
 	if (token->value)
-	free(token->value);
+		free(token->value);
 	free(token);
 }
 

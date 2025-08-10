@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -41,11 +29,10 @@
 t_data		*init_data(void);
 t_command	*init_command(void);
 t_heredoc	*init_heredoc(int counter);
-
+t_env       *init_env_node(void);
 
 //	printers.c
 void	print_commands(t_command *cmd_list);
-void	print_single_command(t_command *cmd);
 void	print_data(t_data *data);
 void	print_tokens(t_data *data);
 void	debug_parser_output(t_data *data);

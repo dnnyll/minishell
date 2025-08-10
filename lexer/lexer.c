@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
@@ -60,7 +59,8 @@ int	handle_operator(t_data *data, const char *input, int *i)
 	token = create_token(op, type);
 	if (!token)
 	{
-		free_token_list(data->token_head);
+		free_list(data->token_head, get_next_token,
+			(void (*)(void *))free_token_node);
 		return (0);
 	}
 	add_token(&data->token_head, token);
@@ -78,7 +78,8 @@ int	handle_token(t_data *data, const char *input, int *i)
 		printf("DEBBUG: index == -1 @ lexer\n");
 		if (result.token)
 			free_single_token(result.token);
-		free_token_list(data->token_head);
+		free_list(data->token_head, get_next_token,
+			(void (*)(void *))free_token_node);
 		return (0);
 	}
 	if (result.token)
@@ -89,16 +90,16 @@ int	handle_token(t_data *data, const char *input, int *i)
 
 void	*lexer(t_data *data, const char *input)
 {
+	int	i;
+
 	data->token_head = NULL;
-	int		i;
-	
 	i = 0;
 	while (input[i])
 	{
 		while (input[i] && ft_isspace(input[i]))
 			i++;
 		if (input[i] == '\0')
-			break;
+			break ;
 		if (is_operator_start(input[i]))
 		{
 			if (!handle_operator(data, input, &i))
@@ -133,7 +134,7 @@ t_lexer_result extract_token(const char *input, int i)
 			if (input[j] != quote)
 			{
 				t_lexer_result err = { NULL, -1 };
-				return err; // unmatched quote <----------------------------------- ?
+				return err; // unmatched quote <------------------ ?
 			}
 			j++; // skip closing quote
 		}
@@ -164,4 +165,3 @@ t_lexer_result extract_token(const char *input, int i)
 	return (result);
 }
 */
-

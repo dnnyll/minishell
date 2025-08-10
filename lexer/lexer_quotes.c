@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	init_quote(t_quote *q)
