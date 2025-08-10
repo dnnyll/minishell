@@ -191,12 +191,10 @@ int	validate_syntax(t_token *tokens, t_data *data)
 
 	if (!tokens)
 		return (data->last_exit_code_status = 2, printf("Error: no tokens @ validate_syntax\n"), 1);
-
 	last_token = get_last_token(tokens);
 	if (tokens->type == PIPE || last_token->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
 			data->last_exit_code_status = 2, 1);
-
 	if (verify_pipes(tokens, data))
 		return (1);
 	if (verify_redirections(tokens, data))

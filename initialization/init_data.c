@@ -3,21 +3,20 @@
 t_data	*init_data(void)
 {
 	t_data	*data;
-	data = malloc(sizeof(t_data));
+
+	data = malloc(sizeof (t_data));
 	if (!data)
 		return (NULL);
-	// ft_bzero(&data, sizeof(t_data));
 	data->token_head = NULL;
 	data->command_head = NULL;
-	data->variables_head = NULL;
 	data->heredoc_head = NULL;
-	// data->redir_head = init_redir();
 	data->env_head = NULL;
 	data->last_exit_code_status = 0;
 	data->pipe_count = 0;
 	data->command_count = 0;
 	return (data);
 }
+
 t_command	*init_command(void)
 {
 	t_command	*command;
@@ -32,15 +31,14 @@ t_command	*init_command(void)
 	command->path = NULL;
 	command->value = NULL;
 	command->append = 0;
-	// command->heredoc_delim = NULL;
-	// command->heredoc_quoted = 0;
 	command->heredoc_count = 0;
 	command->fd_in = STDIN_FILENO;
 	command->fd_out = STDOUT_FILENO;
 	command->next = NULL;
 	return (command);
 }
-t_heredoc	*init_heredoc(int	counter)
+
+t_heredoc	*init_heredoc(int counter)
 {
 	t_heredoc	*heredoc;
 
@@ -49,9 +47,38 @@ t_heredoc	*init_heredoc(int	counter)
 		return (NULL);
 	heredoc->filename = NULL;
 	heredoc->delimiter = NULL;
+	heredoc->index = 0;
 	heredoc->quoted = 0;
 	heredoc->counter = counter;
 	heredoc->pid = getpid();
 	heredoc->next = NULL;
 	return (heredoc);
+}
+
+t_env	*init_env_node(void)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->key = NULL;
+	node->value = NULL;
+	node->next = NULL;
+	return (node);
+}
+
+t_token	*init_token(void)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = NULL;
+	token->type = UNASSIGNED;
+	token->quote = NO_QUOTE;
+	token->expandable = 0;
+	token->next = NULL;
+	return (token);
 }

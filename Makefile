@@ -15,26 +15,27 @@ INCLUDES	= include
 		builtins/pwd_unset.c \
  		environment_management/environment_handling.c \
 		environment_management/environment_parsing.c \
- 		executor/check_commands.c \
-		executor/executor.c executor/heredoc.c \
+		executor/executor.c \
 		executor/path_utils.c \
-		executor/pipe.c executor/redirections.c \
+		executor/pipe.c \
+		executor/redirections.c \
 		executor/signals.c \
+		executor/executor_utils.c\
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
  		initialization/init_data.c \
- 		lexer/extract_operator.c \
-		lexer/extract_quoted.c \
-		lexer/extract_word.c \
+		lexer/lexer_quotes.c \
 		lexer/lexer_utils.c \
 		lexer/lexer.c \
 		memory_management/free_commands.c \
+		memory_management/free_data.c \
+		memory_management/free_env.c \
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
-		memory_management/free_lexer.c \
+		memory_management/free_heredocs.c \
 		memory_management/free_tokens.c \
- 		parser/parser_commands.c \
+		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \
 		parser/parser_redirect_handling.c \

@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 14:38:52 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/10 14:39:01 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
 
-	//printf("edit_pipe_fd: setting up fds for command: %s\n", cmd->argv[0]);
 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
 		exit(data->last_exit_code_status);
 	setup_child_signals();
@@ -26,43 +37,13 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 
 int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 {
-	//int	status;
-	(void) data; // To avoid unused variable warning
+	(void) pid;
+	(void) data;
 	if (prev_fd != -1)
 		close(prev_fd);
 	if (fd[1] != -1)
 		close(fd[1]);
-	if (pid > 0)
-	{
-		//waitpid(pid, &status, 0);
-		//child_exit_code(status, data);
-	}
 	return (fd[0]);
-}
-
-void	execute_single_builtin(t_command *cmd, t_data *data)
-{
-	int	std_in;
-	int	std_out;
-
-	std_in = dup(STDIN_FILENO);
-	std_out = dup(STDOUT_FILENO);
-
-	if (edit_pipe_fd(cmd, -1, (int[2]) {-1, -1}, data) != 0)
-	{
-		dup2(std_in, STDIN_FILENO);
-		dup2(std_out, STDOUT_FILENO);
-		close(std_in);
-		close(std_out);
-		return ;
-	}
-
-	execute_buitlins(cmd, data);
-
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
-	close(std_in);
-	close(std_out);
 }
 
 void	execute_buitlins(t_command *cmd, t_data *data)
@@ -94,14 +75,6 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 {
 	if (!cmd_list)
 		return ;
-	// if (check_heredoc(cmd_list, data))
-	// 	return ;
-	// if (!cmd_list->next && is_builtin(&cmd_list))
-	// 	execute_buitlins(cmd_list, data);
-	// else if ()
-	// 	execute_single_builtin(cmd_list, data);
-	// else
-	// 	execute_pipeline(cmd_list, data);
 	if (!cmd_list->next && is_builtin(&cmd_list))
 	{
 		if (cmd_list->infile || cmd_list->outfile || cmd_list->heredoc_head)
@@ -113,39 +86,12 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		execute_pipeline(cmd_list, data);
 }
 
-// void	execute_pipeline(t_command *cmd_list, t_data *data)
-// {
-// 	t_command	*cmd;
-// 	int			fd[2];
-// 	int			prev_fd;
-// 	pid_t		pid;
-// 	int			status;
-
-// 	cmd = cmd_list;
-// 	prev_fd = -1;
-// 	while (cmd)
-// 	{
-// 		if (ft_pipe(cmd, fd))
-// 			return ;
-// 		if (ft_fork(&pid, prev_fd, fd))
-// 			return ;
-// 		if (pid == 0)
-// 			child_process(cmd, prev_fd, fd, data);
-// 		prev_fd = parent_process(prev_fd, fd, pid, data);
-// 		cmd = cmd->next;
-// 	}
-// 	pid = wait(&status);
-// 	while (pid > 0)
-// 		pid = wait(&status);
-// }
-
 void	execute_pipeline(t_command *cmd_list, t_data *data)
 {
 	t_command	*cmd;
 	int			fd[2];
 	int			prev_fd;
 	pid_t		pid;
-	int			status;
 	pid_t		last_pid;
 
 	cmd = cmd_list;
@@ -162,18 +108,8 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 		prev_fd = parent_process(prev_fd, fd, pid, data);
 		cmd = cmd->next;
 	}
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (pid == last_pid)
-		{
-			if (WIFEXITED(status))
-				data->last_exit_code_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				data->last_exit_code_status = 128 + WTERMSIG(status);
-		}
-	}
+	wait_for_child(last_pid, data);
 }
-
 
 /*
 ** child_process : prepare the redirection in/out and replace the actual

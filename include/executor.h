@@ -1,5 +1,14 @@
-
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 15:06:17 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/10 15:06:25 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
@@ -22,25 +31,13 @@ void	execute_single_builtin(t_command *cmd, t_data *data);
 void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);
-
-//commands utils
-int		is_command(t_command *cmd);
-int		is_redir(t_command *cmd);
-int		is_pipe(t_command *cmd);
+void	wait_for_child(pid_t last_pid, t_data *data);
 
 // path utils
 char	*find_path_variable(char **envp);
 char	*try_paths(char **paths, char *cmd_name);
 char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
-
-//heredoc
-// char	*expand_line(char *line, t_command *cmd, t_data *data);
-// void	child_heredoc(t_command *cmd, int *pipe_fd, t_data *data);
-// void	parent_heredoc(t_command *cmd, int *pipe_fd, int pid);
-// void	handle_heredoc_sigint(int sig);
-// void	handle_heredoc(t_command *cmd, t_data *data);
-// int		check_heredoc(t_command *cmd_list, t_data *data);
 
 //signals
 extern volatile sig_atomic_t	g_signal_status;

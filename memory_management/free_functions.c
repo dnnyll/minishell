@@ -1,13 +1,11 @@
 #include "minishell.h"
 
-//	function to free char ** arrays
-
 void	free_char_array(char **array)
 {
 	int	i;
 
 	if (!array)
-		return;
+		return ;
 	i = 0;
 	while (array[i])
 	{
@@ -15,4 +13,17 @@ void	free_char_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	free_list(void *head, void *(*get_next)(void *),
+		void (*free_node)(void *))
+{
+	void	*next;
+
+	while (head)
+	{
+		next = get_next(head);
+		free_node(head);
+		head = next;
+	}
 }
