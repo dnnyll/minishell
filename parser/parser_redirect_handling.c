@@ -18,7 +18,7 @@
 */
 int	is_redirection(int type)
 {
-	return (type == REDIR_IN || type == REDIR_OUT 
+	return (type == REDIR_IN || type == REDIR_OUT
 		|| type == APPEND || type == HEREDOC);
 }
 

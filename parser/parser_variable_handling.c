@@ -365,4 +365,3 @@ char	*process_variables(const char *input, t_data *data, t_token *tokens)
 	expanded = expand_variables(input, data);
 	return (expanded);
 }
-

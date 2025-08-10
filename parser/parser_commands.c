@@ -16,18 +16,16 @@
 */
 void	add_command_to_data(t_command **head, t_command *init_command)
 {
-	// printf("add_command_to_data\n");
-	// If the command list is empty, set the new command as the head of the list
+	t_command	*temp;
+
 	if (!*head)
 	{
 		*head = init_command;
 		return ;
 	}
-	// Otherwise, find the last command in the list
-	t_command *temp = *head;
-	while (temp->next)	// Traverse until the last node (where next is NULL)
+	temp = *head;
+	while (temp->next)
 		temp = temp->next;
-	// Append the new command at the end of the list
 	temp->next = init_command;
 }
 
