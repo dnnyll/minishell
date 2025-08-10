@@ -3,7 +3,8 @@
 t_data	*init_data(void)
 {
 	t_data	*data;
-	data = malloc(sizeof(t_data));
+
+	data = malloc(sizeof (t_data));
 	if (!data)
 		return (NULL);
 	data->token_head = NULL;
@@ -15,6 +16,7 @@ t_data	*init_data(void)
 	data->command_count = 0;
 	return (data);
 }
+
 t_command	*init_command(void)
 {
 	t_command	*command;
@@ -35,7 +37,8 @@ t_command	*init_command(void)
 	command->next = NULL;
 	return (command);
 }
-t_heredoc	*init_heredoc(int	counter)
+
+t_heredoc	*init_heredoc(int counter)
 {
 	t_heredoc	*heredoc;
 
@@ -54,18 +57,22 @@ t_heredoc	*init_heredoc(int	counter)
 
 t_env	*init_env_node(void)
 {
-	t_env *node = malloc(sizeof(t_env));
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
 	if (!node)
-		return NULL;
+		return (NULL);
 	node->key = NULL;
 	node->value = NULL;
 	node->next = NULL;
-	return node;
+	return (node);
 }
 
 t_token	*init_token(void)
 {
-	t_token *token = malloc(sizeof(t_token));
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->value = NULL;

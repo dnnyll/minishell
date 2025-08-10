@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_isspace(int c)

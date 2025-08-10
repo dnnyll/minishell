@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/10 14:38:52 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/10 14:39:01 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
 
-	//printf("edit_pipe_fd: setting up fds for command: %s\n", cmd->argv[0]);
 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
 		exit(data->last_exit_code_status);
 	setup_child_signals();

@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/07 13:31:29 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/10 14:38:35 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,25 @@ volatile sig_atomic_t	g_signal_status = 0;
 
 void	handle_sigint(int sig)
 {
-	(void)sig;				// suppress unused parameter warning
-	g_signal_status = sig;	// Convention: 130 = SIGINT + 128
-	write(1, "\n", 1);		// print a newline to stdout (file descriptor 1)
-	rl_on_new_line();		// tell readline library that we are on a new line
-	rl_replace_line("", 0);	// clear the current input line
-	rl_redisplay();			// redraw the prompt and input line is no longer necessary
+	(void)sig;
+	g_signal_status = sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
-
 
 void	setup_parent_signals(void)
 {
-	signal(SIGINT, handle_sigint);  // Ctrl-C triggers handle_sigint
-	signal(SIGQUIT, SIG_IGN);       // Ctrl-\ (SIGQUIT) is ignored
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_child_signals(void)
 {
-	signal(SIGINT, SIG_DFL);  // Ctrl-C behaves default (usually terminate)
-	signal(SIGQUIT, SIG_DFL); // Ctrl-\ behaves default (usually terminate)
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
-
 
 /*
 **rl : readline
@@ -45,7 +43,7 @@ void	setup_child_signals(void)
 	it with an empty string " ".
 **rl_redisplay() : redesplay the shell command, use it after rl_replace_line.
 **SIGINT : signal of interrruption, send by ctrl+c
-**SIGQUIT : signal of quit send by ctrl+\
+**SIGQUIT : signal of quit send by (ctrl+\)
 **SIG_DFL : this is the default value of a signal
 **SIG_IGN : "signal ignore"
 **handle_sigint : this function execute in the parent shell when the user do
