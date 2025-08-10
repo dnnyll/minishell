@@ -1,11 +1,10 @@
-
 #ifndef MEMORY_MANAGEMENT_H
 # define MEMORY_MANAGEMENT_H
 
-typedef struct s_command t_command;
-typedef struct s_data t_data;
-typedef struct s_token t_token;
-typedef struct s_lexer_result t_lexer_result;
+typedef struct s_command		t_command;
+typedef struct s_data			t_data;
+typedef struct s_token			t_token;
+typedef struct s_lexer_result	t_lexer_result;
 
 //	free_commands.c
 void	free_command_node(t_command *cmd);
@@ -24,10 +23,11 @@ void	free_on_exit(t_data *data);
 
 //	free_functions.c
 void	free_char_array(char **array);
-void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *));
+void	free_list(void *head, void *(*get_next)(void *),
+			void (*free_node)(void *));
 
 //	free_heredocs.c
-void free_heredoc_list(t_heredoc *heredoc);
+void	free_heredoc_list(t_heredoc *heredoc);
 
 //	free_tokens.c
 void	free_token_node(t_token *token);

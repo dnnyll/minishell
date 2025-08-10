@@ -22,13 +22,13 @@ typedef enum e_token_type
 	ERROR,					// for syntax errors or invalid tokens
 }	t_token_type;
 
-typedef struct s_token 
+typedef struct s_token
 {
-	char			*value;			// Actual text (e.g., "echo", "|", "file")
-	t_token_type	type;			// What kind of token it is (WORD, PIPE, REDIR_OUT, etc.)
-	t_quote_type	quote;			// Quote context (NO_QUOTE, SINGLE_QUOTE, etc.)
-	int				expandable;		// Determines if it will be submited to environament expansion
-	struct s_token	*next;			// Pointer to the next token node
+	char			*value;
+	t_token_type	type;
+	t_quote_type	quote;
+	int				expandable;
+	struct s_token	*next;
 }	t_token;
 
 //	tokens
