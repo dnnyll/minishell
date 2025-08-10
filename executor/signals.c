@@ -6,15 +6,18 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 11:38:32 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/07 13:57:51 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:03:25 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t g_signal_status = 0;
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
+	g_signal_status = sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
