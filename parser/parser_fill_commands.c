@@ -35,7 +35,6 @@ char	**allocate_command_argv(int argc)
 
 void	fill_argv(t_command *command, t_token *start, t_token *end)
 {
-	// printf("fill_argv\n");
 	t_token *current = start;
 	int	i;
 
@@ -55,7 +54,6 @@ void	fill_argv(t_command *command, t_token *start, t_token *end)
 
 void	fill_command_segment(t_command *command, t_token *start, t_token *end)
 {
-	// printf("fill_command_segment\n");
 	int	argc;
 	
 	argc = count_arguments(start, end);

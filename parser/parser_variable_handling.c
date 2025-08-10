@@ -150,33 +150,6 @@ Back to main loop:
 
 Continue scanning input from updated i
 
----
-
-### Step-by-step trace example with "Hello $USER, status: $?"
-
-| i  | input[i] | Action                                    | Function                   | Result so far            |
-|-----|---------|------------------------------------------|----------------------------|-------------------------|
-| 0   | 'H'     | Append 'H'                               | main loop append literal   | "H"                     |
-| 1   | 'e'     | Append 'e'                               | main loop append literal   | "He"                    |
-| 2   | 'l'     | Append 'l'                               | main loop append literal   | "Hel"                   |
-| 3   | 'l'     | Append 'l'                               | main loop append literal   | "Hell"                  |
-| 4   | 'o'     | Append 'o'                               | main loop append literal   | "Hello"                 |
-| 5   | ' '     | Append ' '                               | main loop append literal   | "Hello "                |
-| 6   | '$'     | Found '$' → call handle_variable_expansion | main loop calls handle_variable_expansion |                         |
-| 7   | 'U'     | Extract var name "USER" (indices 7 to 10) | handle_variable_expansion  |                         |
-| 11  | ','     | Lookup env var USER → "alice", append   | handle_variable_expansion returns new result | "Hello alice"            |
-| 11  | ','     | Append ','                              | main loop append literal   | "Hello alice,"          |
-| 12  | ' '     | Append ' '                              | main loop append literal   | "Hello alice, "         |
-| 13-20| chars  | Append literal characters ("status: ")  | main loop append literal   | "Hello alice, status: " |
-| 21  | '$'     | Found '$' → call handle_variable_expansion | main loop calls handle_variable_expansion |                         |
-| 22  | '?'     | Special var '?' → get last exit code    | handle_variable_expansion  |                         |
-| 23  | -       | Append exit code string "0"              | handle_variable_expansion returns new result | "Hello alice, status: 0"|
-| 23+ | End     | End of input, null-terminate result      | main loop                  | Final result string      |
-
----
-
-### Function locations summary
-
 - **Main loop scanning input string:**  
   - Iterates over `input`, appends normal chars directly  
   - Calls `handle_variable_expansion` whenever it finds `$`
@@ -224,27 +197,30 @@ char	*handle_exit_code(t_data *data, char *input)
 	return (result);
 }
 
-char	*handle_environment_variables(const char *input, int *i, t_data *data, char * result)
+char	*handle_environment_variables(const char *input, int *i, t_data *data,
+			char *result)
 {
 	int		start;
 	char	*variable_name;
 	char	*value;
 	char	*new_result;
-	start = *i;
 
+	start = *i;
 	while (ft_isalnum(input[*i]) || input[*i] == '_')
-		(*i)++;	//note: dereference i → get the value it points to
-				//		increment that value
-				//		So *i gets the value, and then ++ increments it.
+		(*i)++;
 	variable_name = ft_substr(input, start, *i - start);
 	value = search_env_value(data, variable_name);
-	if(!value)
+	if (!value)
 		return (printf("Error: search_env_value not found for the input\n"), NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
 	free(value);
 	return (new_result);
 }
+
+//note: dereference i → get the value it points to
+				//		increment that value
+				//		So *i gets the value, and then ++ increments it
 
 char	*expand_variables(const char *input, t_data *data)
 {
@@ -297,7 +273,6 @@ char	*expand_variables(const char *input, t_data *data)
 
 int	isexpandable_variable(const char *str)
 {
-	//printf("isexpandable_variable @parser_variable_handling.c\n");
 	int	i;
 
 	i = 0;
@@ -306,10 +281,9 @@ int	isexpandable_variable(const char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			// if (str[i] == '\0')
-			// 	return (printf("Error: $ followed by nothing\n"), 1); // $ at end, no variable
-			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
-				return (1); // Valid variable name or special
+			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i])
+				|| str[i] == '_')
+				return (1);
 		}
 		else
 			i++;
@@ -340,11 +314,13 @@ int	isexpandable_variable(const char *str)
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variables(t_token *tokens)
 {
-	//printf("handle_variables\n");
-	t_token	*current = tokens;
+	t_token	*current;
+
+	current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && current->quote != SINGLE_QUOTE && isexpandable_variable(current->value))
+		if (current->type == WORD && current->quote != SINGLE_QUOTE
+			&& isexpandable_variable(current->value))
 			current->expandable = 1;
 		else
 			current->expandable = 0;
@@ -354,15 +330,11 @@ void	handle_variables(t_token *tokens)
 
 char	*process_variables(const char *input, t_data *data, t_token *tokens)
 {
-	t_token *current = tokens;
-	char *expanded;
+	t_token	*current;
+	char	*expanded;
 
-	//	Marks which tokens are expandable
-	//printf("handle_variables @ process_variables\n");
+	current = tokens;
 	handle_variables(current);
-	//	Expands variables in the input string using tokens and data
-	//printf("expand_variables @ process_variables\n");
 	expanded = expand_variables(input, data);
 	return (expanded);
 }
-

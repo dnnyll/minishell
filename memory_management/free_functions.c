@@ -16,7 +16,7 @@ void	free_char_array(char **array)
 }
 
 void	free_list(void *head, void *(*get_next)(void *),
-		void (*free_node)(void *))
+			void (*free_node)(void *))
 {
 	void	*next;
 
