@@ -34,8 +34,9 @@ void	add_env_node(t_env **head, t_env *new_node)
 t_env	*create_node(const char *env_var_line)
 {
 	int		equal_pos;
-	t_env	*env = init_env_node();
+	t_env	*env;
 
+	env = init_env_node();
 	if (!env)
 		return (NULL);
 	equal_pos = 0;
@@ -49,7 +50,8 @@ t_env	*create_node(const char *env_var_line)
 	else
 	{
 		env->key = ft_substr(env_var_line, 0, equal_pos);
-		env->value = ft_substr(env_var_line, equal_pos + 1, ft_strlen(env_var_line) - (equal_pos + 1));
+		env->value = ft_substr(env_var_line, equal_pos + 1,
+				ft_strlen(env_var_line) - (equal_pos + 1));
 	}
 	if (!env->key || !env->value)
 	{

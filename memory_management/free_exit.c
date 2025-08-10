@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	free_on_exit(t_data *data)

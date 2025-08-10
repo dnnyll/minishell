@@ -4,7 +4,7 @@ t_data	*init_data(void)
 {
 	t_data	*data;
 
-	data = malloc(sizeof(t_data));
+	data = malloc(sizeof (t_data));
 	if (!data)
 		return (NULL);
 	data->token_head = NULL;

@@ -6,12 +6,19 @@
 	purpose: expands variables (e.g. $HOME, $USER) inside tokens that are
 	marked as expandable.
 
+	purpose: expands variables (e.g. $HOME, $USER) inside tokens that
+	are marked as expandable.
+
+
 	for: echo "Hello $USER"
 
 	it processes:
 	- every token marked as `expandable`
+
 	- replaces its `value` with the result of `process_variables`, which
 		evaluates environment variables
+	- replaces its `value` with the result of `process_variables`,
+	which evaluates environment variables
 
 	this ensures that commands reflect the actual runtime values
 	from the environment 

@@ -137,6 +137,7 @@ t_lexer_result extract_token(const char *input, int i)
 			{
 				t_lexer_result err = { NULL, -1 };
 				return err; // unmatched quote <-------------------------- ?
+
 			}
 			j++; // skip closing quote
 		}
