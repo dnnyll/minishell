@@ -78,7 +78,6 @@ void	parse_commands(t_data *data, t_token *tokens)
 
 	t_token *current = tokens;
 	t_token *segment_start = current;
-
 	while (current)
 	{
 		if (current->type == PIPE)

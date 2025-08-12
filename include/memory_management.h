@@ -28,6 +28,8 @@ void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *))
 
 //	free_heredocs.c
 void free_heredoc_list(t_heredoc *heredoc);
+void free_heredocs_in_command(t_command *command);
+
 
 //	free_tokens.c
 void	free_token_node(t_token *token);

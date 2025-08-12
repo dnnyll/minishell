@@ -8,6 +8,7 @@ static void	add_segment(t_data *data, t_token *start, t_token *end)
 	cmd = init_command();
 	if (!cmd)
 		return (perror("Error: malloc sizeof t_command @ parser_pipes_handling.c\n"));
+	// data->command_head = cmd;           watafak
 	fill_command_segment(cmd, start, end);
 	add_command_to_data(&data->command_head, cmd);
 }

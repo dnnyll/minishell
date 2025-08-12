@@ -8,7 +8,6 @@ t_data	*init_data(void)
 		return (NULL);
 	data->token_head = NULL;
 	data->command_head = NULL;
-	data->heredoc_head = NULL;
 	data->env_head = NULL;
 	data->environment_var = NULL;
 	data->last_exit_code_status = 0;
@@ -23,7 +22,6 @@ t_command	*init_command(void)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	// ft_bzero(command, sizeof(t_command));
 	command->heredoc_head = NULL;
 	command->argv = NULL;
 	command->infile = NULL;
