@@ -77,11 +77,9 @@ int	verify_pipes(t_token *tokens, t_data *data)
 
 	if (!current)
 		return (data->last_exit_code_status = 2, 1);
-
 	if (current->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
 			data->last_exit_code_status = 2, 1);
-
 	while (current && current->next)
 	{
 		if (current->type == PIPE && current->next->type == PIPE)
@@ -94,11 +92,9 @@ int	verify_pipes(t_token *tokens, t_data *data)
 				data->last_exit_code_status = 2, 1);
 		current = current->next;
 	}
-
 	if (current->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
 			data->last_exit_code_status = 2, 1);
-
 	return (0);
 }
 
@@ -128,7 +124,6 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 	{
 		if (is_redirection(current->type))
 		{
-			// Case 1: redirection is the last token (no target)
 			if (!current->next)
 			{
 				data->last_exit_code_status = 2;
@@ -136,13 +131,9 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 					NULL, NULL);
 				return (1);
 			}
-			// Case 2: redirection is followed by something that's not a WORD
 			if (current->next->type != WORD)
-			{
-				return (print_error("syntax error near unexpected token `newline'\n", NULL, NULL), 1);	//?????????????
-				// printf("minishell: syntax error near unexpected token `%s'\n", unexpected);				//?????????????
-				return (1);
-			}
+				return (print_error("syntax error near unexpected token `newline'\n",
+					 NULL, NULL), 1);
 		}
 		current = current->next;
 	}
