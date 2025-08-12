@@ -140,21 +140,24 @@ void print_env_list(t_env *env)
 	if (i == 1)
 		printf("  (empty)\n");
 }
-void    print_heredoc(t_heredoc *heredoc)
+
+void    print_heredoc(t_command *command)
 {
-	if (!heredoc)
+	if (!command->heredoc_head)
 	{
 		printf("\n\033[1;31m[HEREDOC] (null pointer)\033[0m\n");
 		return;
 	}
 
 	printf("\n\033[1;35m---- Heredoc Debug ----\033[0m\n");
-	printf("filename: %s\n", heredoc->filename ? heredoc->filename : "(null)");
-	printf("fd:       %d\n", heredoc->fd);
-	printf("counter:  %d\n", heredoc->counter);
-	printf("pid:      %d\n", heredoc->pid);
+	printf("node addr: %p\n", (void *)command->heredoc_head);
+	printf("filename:  %s\n", command->heredoc_head->filename ? command->heredoc_head->filename : "(null)");
+	printf("fd:        %d\n", command->heredoc_head->fd);
+	printf("counter:   %d\n", command->heredoc_head->counter);
+	printf("pid:       %d\n", command->heredoc_head->pid);
 	printf("\033[1;35m-----------------------\033[0m\n");
 }
+
 
 void print_data_debug(t_data *data)
 {
@@ -191,28 +194,93 @@ void print_data_debug(t_data *data)
 
 //  this is the main debug function that calls all the other printers
 
+// void debug_parser_output(t_data *data)
+// {
+//     printf("===== DEBUG PARSER OUTPUT =====\n");
+
+//     // Print token list (optional, if you have a token printer)
+//     printf("\n____________ Tokens ____________\n");
+//     print_tokens(data);
+
+//     // Print commands
+//     printf("\n____________ Parsed Commands ____________\n");
+//     print_commands(data->command_head);
+
+//     // Print environment variables (linked list + array + counters)
+//     // print_data_debug(data);
+
+//     // Print heredoc list
+//     print_heredoc(data->command_head);
+
+//     // Print counters (already handled inside print_data_debug, optional if you want redundancy)
+//     printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);
+//     printf("\nheredoc_count = %d\n", data->command_head->heredoc_count);
+//     // Print heredoc structure
+//     // print_heredoc(data->heredoc_head);
+//     printf("===============================\n");
+// }
 void debug_parser_output(t_data *data)
 {
+    if (!data)
+    {
+        printf("[Debug] data pointer is NULL — nothing to print.\n");
+        return;
+    }
+    
     printf("===== DEBUG PARSER OUTPUT =====\n");
 
-    // Print token list (optional, if you have a token printer)
-    printf("\n____________ Tokens ____________\n");
-    print_tokens(data);
+    // Print token list if token_head exists
+    if (data->token_head)
+    {
+        printf("\n____________ Tokens ____________\n");
+        print_tokens(data);
+    }
+    else
+    {
+        printf("\n[Tokens] No tokens to display (token_head is NULL)\n");
+    }
 
-    // Print commands
-    printf("\n____________ Parsed Commands ____________\n");
-    print_commands(data->command_head);
+    // Print commands if command_head exists
+    if (data->command_head)
+    {
+        printf("\n____________ Parsed Commands ____________\n");
+        print_commands(data->command_head);
+    }
+    else
+    {
+        printf("\n[Commands] No commands to display (command_head is NULL)\n");
+    }
 
-    // Print environment variables (linked list + array + counters)
-    // print_data_debug(data);
+    // Print heredocs for each command, if commands exist
+    if (data->command_head)
+    {
+        t_command *cmd = data->command_head;
+        while (cmd)
+        {
+            if (cmd->heredoc_head)
+            {
+                printf("\n[Heredocs for command at %p]\n", (void *)cmd);
+                print_heredoc(cmd);
+            }
+            else
+            {
+                printf("\n[Heredocs] No heredocs for command at %p\n", (void *)cmd);
+            }
+            cmd = cmd->next;
+        }
+    }
+    else
+    {
+        printf("\n[Heredocs] No commands found, so no heredocs to display\n");
+    }
 
-    // Print heredoc list
-    // print_heredoc(data->heredoc_head);
-
-    // Print counters (already handled inside print_data_debug, optional if you want redundancy)
+    // Print counters
     printf("\npipe_count = %d | command_count = %d\n", data->pipe_count, data->command_count);
-    printf("\nheredoc_count = %d\n", data->command_head->heredoc_count);
-    // Print heredoc structure
-    // print_heredoc(data->heredoc_head);
+
+    if (data->command_head)
+        printf("heredoc_count = %d\n", data->command_head->heredoc_count);
+    else
+        printf("heredoc_count = (no commands, so no heredoc_count)\n");
+
     printf("===============================\n");
 }

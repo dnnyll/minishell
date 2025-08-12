@@ -53,7 +53,7 @@ void	print_commands(t_command *cmd);
 void	print_env_list(t_env *env);
 void	print_data_debug(t_data *data);
 void	debug_environment_variables_printer(t_data *data);
-void 	print_heredoc(t_heredoc *heredoc);
+void    print_heredoc(t_command *command);
 
 //	prompt default
 # define PROMPT "minishell$ "

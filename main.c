@@ -14,10 +14,14 @@ t_data	*initialize_minishell(char **envp)
 
 void	handle_exit(t_data *data)
 {
+	// (void)data;
 	printf("exit\n");
 	clear_history();
 	rl_clear_history();
-	free_data_list(data);
+	free_data_list(&data);
+	// print_heredoc(data->command_head);
+
+	// debug_parser_output(data);
 }
 
 bool	should_skip_line(char *line)
@@ -52,14 +56,21 @@ void	process_input(char *line, t_data *data)
 	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
+	// printf("print_heredoc_01\n");
+	// print_heredoc(data->command_head);
 	// debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
-		heredoc_cleanup(data->command_head->heredoc_head);
+		free_tokens(data);
 		free_commands(data);
-		return (free_tokens(data), free(line));
+		free (line);
+		return ;
 	}
 	// execute_commands(data->command_head, data);
+	// free_data_list(data);
+	// free_heredocs_in_command(data->command_head);
+	// printf("print_heredoc_02\n");
+	// print_heredoc(data->command_head);
 	free_tokens(data);
 	free_commands(data);
 }
@@ -84,6 +95,5 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_input(input_line, data);
 	}
-	free_data_list(data);
 	return (0);
 }

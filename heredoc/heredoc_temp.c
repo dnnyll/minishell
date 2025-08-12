@@ -142,6 +142,7 @@ int	process_heredocs(t_data *data)
 			}
 			heredoc = heredoc->next;
 		}
+		// print_heredoc(data->command_head);
 		cmd->heredoc_count--;
 		cmd = cmd->next;
 	}

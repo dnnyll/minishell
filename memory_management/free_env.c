@@ -10,6 +10,7 @@ void	free_env_node(t_env *node)
 }
 void	free_env_list(t_env *env)
 {
+	printf("free_env_node\n");
 	t_env	*next;
 	
 	while (env)

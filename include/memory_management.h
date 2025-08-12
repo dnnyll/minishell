@@ -13,7 +13,9 @@ void	*get_next_command(void *node);
 void	free_commands(t_data *data);
 
 //	free_data.c
-void	free_data_list(t_data *data);
+// void	free_data_list(t_data *data);
+void free_data_list(t_data **data_ptr);
+
 
 //	free_env.c
 void	free_env_node(t_env *env);
