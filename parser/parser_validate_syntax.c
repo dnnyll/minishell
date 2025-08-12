@@ -198,32 +198,14 @@ int	verify_redirections(t_token *tokens, t_data	*data)
 
 	it performs:
 	- checks for a pipe at the beginning or end of the token list
-	- calls verify_pipes() to ensure correct pipe usage (no double or misplaced pipes)
-	- calls verify_redirections() to ensure redirection operators are followed by valid targets
+	- calls verify_pipes() to ensure correct pipe usage (no double or
+		misplaced pipes)
+	- calls verify_redirections() to ensure redirection operators are
+		followed by valid targets
 
 	this acts as a central checkpoint to catch syntax errors before
 	attempting to execute or expand the command.
 */
-// int	validate_syntax(t_token *tokens)
-// {
-// 	//printf("entered validade_syntax\n");
-// 	t_token	*last_token;
-
-// 	if (!tokens)
-// 		return (printf("Error: no tokens @ validate_syntax\n"), 1);
-// 	last_token = get_last_token(tokens);
-
-// 	// Check if the first or last token is a pipe
-// 	if (tokens->type == PIPE || last_token->type == PIPE)
-// 		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL), 1);
-// 	// Run pipe checks
-// 	if (verify_pipes(tokens) == 1)
-// 		return (1);
-// 	// Run redirection checks
-// 	if (verify_redirections(tokens) == 1)
-// 		return (1);
-// 	return (0);
-// }
 
 int	validate_syntax(t_token *tokens, t_data *data)
 {

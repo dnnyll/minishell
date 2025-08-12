@@ -41,14 +41,15 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 	char	*variable_name;
 	char	*value;
 	char	*new_result;
-	start = *i;
 
+	start = *i;
 	while (ft_isalnum(input[*i]) || input[*i] == '_')
 		(*i)++;
 	variable_name = ft_substr(input, start, *i - start);
 	value = search_env_value(data, variable_name);
-	if(!value)
-		return (printf("Error: search_env_value not found for the input\n"), NULL);
+	if (!value)
+		return (printf("Error: search_env_value not found for the input\n"),
+			NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
 	free(value); // might not need to be freed, check leaks
@@ -84,7 +85,7 @@ static char	*dollar_case(const char *input, int *i, char *result, t_data *data)
 
 static char	*char_case(char *result, char c, int *i)
 {
-	char *temp;
+	char	*temp;
 
 	temp = ft_strjoin_char(result, c);
 	free(result);
@@ -122,7 +123,8 @@ int	isexpandable_variable(const char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
+			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i])
+				|| str[i] == '_')
 				return (1);
 		}
 		else
@@ -134,11 +136,13 @@ int	isexpandable_variable(const char *str)
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variables(t_token *tokens)
 {
-	t_token	*current = tokens;
+	t_token	*current;
 
+	current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && current->quote != SINGLE_QUOTE && isexpandable_variable(current->value))
+		if (current->type == WORD && current->quote != SINGLE_QUOTE
+			&& isexpandable_variable(current->value))
 			current->expandable = 1;
 		else
 			current->expandable = 0;
