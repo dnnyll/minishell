@@ -48,11 +48,11 @@ void	process_input(char *line, t_data *data)
 		return ;
 	}
 	expand_token_values(tokens, data);
-	print_tokens(data);
+	//print_tokens(data);
 	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
-	debug_parser_output(data);
+	//debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
 		heredoc_cleanup(data->heredoc_head);

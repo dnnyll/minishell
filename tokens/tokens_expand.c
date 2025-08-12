@@ -36,7 +36,7 @@ void	expand_token_values(t_token *tokens, t_data *data)
 	{
 		if (current->expandable)
 		{
-			printf("Expanding: value='%s'\n", current->value);
+			//printf("Expanding: value='%s'\n", current->value);
 			expanded = process_variables(current->value, data, current);
 			free (current->value);
 			current->value = expanded;

@@ -1,3 +1,4 @@
+/*
 #include "minishell.h"
 
 
@@ -216,3 +217,4 @@ void debug_parser_output(t_data *data)
     // print_heredoc(data->heredoc_head);
     printf("===============================\n");
 }
+*/
