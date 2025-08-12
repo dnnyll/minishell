@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 13:12:11 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/07 13:30:43 by mrosset          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	child_exit_code(int status, t_data *data)
@@ -66,8 +54,10 @@ void	wait_for_child(pid_t last_pid, t_data *data)
 	int		status;
 	pid_t	pid;
 
-	while ((pid = waitpid(-1, &status, 0)) > 0)
+	pid = 1;
+	while (pid > 0)
 	{
+		pid = waitpid(-1, &status, 0);
 		if (pid == last_pid)
 		{
 			if (WIFEXITED(status))

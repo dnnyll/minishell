@@ -1,3 +1,4 @@
+
 #include "minishell.h"
 
 int	setup_redirection(t_command *command, t_data *data)
@@ -17,9 +18,11 @@ int	setup_redirection(t_command *command, t_data *data)
 
 int	open_input_redir(t_command *command, t_data *data)
 {
-	int		fd = -1;
-	char	*filename = NULL;
+	int		fd;
+	char	*filename;
 
+	fd = -1;
+	filename = NULL;
 	if (command->infile)
 		filename = command->infile;
 	else if (command->heredoc_head && command->heredoc_head->filename)
@@ -30,8 +33,6 @@ int	open_input_redir(t_command *command, t_data *data)
 	if (fd == -1)
 	{
 		data->last_exit_code_status = 1;
-
-		// write(2, "AHHHHHHHH", 8);
 		write(2, "minishell: ", 11);
 		write(2, filename, ft_strlen(filename));
 		write(2, ": ", 2);
@@ -87,10 +88,6 @@ void	close_redirections(t_command *command)
 		command->fd_out = -1;
 	}
 }
-
-
-
-
 
 /*
              ┌────────────────────────────┐
