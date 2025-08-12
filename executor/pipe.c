@@ -85,6 +85,7 @@ int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
 		{
 			perror("dup2 output");
+			close(cmd->fd_out);
 			return (1);
 		}
 		close(cmd->fd_out);
@@ -94,6 +95,7 @@ int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 		{
 			perror("dup2 pipe write end");
+			close(fd[1]);
 			return (1);
 		}
 		close(fd[1]);

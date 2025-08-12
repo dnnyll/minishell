@@ -64,25 +64,24 @@ int	exit_builtin(char **args, t_data *data)
 	write(1, "exit\n", 5);
 	if (!args[1])
 	{
-		free_on_exit(data);
-		exit(data->last_exit_code_status);
+		exit_code = data->last_exit_code_status;
+		free_data_list(data);
+		exit(exit_code);
 	}
 	if (!is_numeric(args[1]))
 	{
 		print_error("minishell: exit: ", args[1],
 			": numeric argument required\n");
-		free_on_exit(data);
+		free_data_list(data);
 		exit(2);
 	}
 	if (args[2])
-	{
-		print_error("minishell: exit: too many arguments\n", NULL, NULL);
-		return (1);
-	}
+		return (print_error("minishell: exit: too many arguments\n",
+				NULL, NULL), 1);
 	exit_code = ft_atoi(args[1]) % 256;
 	if (exit_code < 0)
 		exit_code += 256;
-	free_on_exit(data);
+	free_data_list(data);
 	exit(exit_code);
 }
 
