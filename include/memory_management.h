@@ -12,7 +12,9 @@ void	*get_next_command(void *node);
 void	free_commands(t_data *data);
 
 //	free_data.c
-void	free_data_list(t_data *data);
+// void	free_data_list(t_data *data);
+void free_data_list(t_data **data_ptr);
+
 
 //	free_env.c
 void	free_env_node(t_env *env);
@@ -27,7 +29,9 @@ void	free_list(void *head, void *(*get_next)(void *),
 			void (*free_node)(void *));
 
 //	free_heredocs.c
-void	free_heredoc_list(t_heredoc *heredoc);
+void free_heredoc_list(t_heredoc *heredoc);
+void free_heredocs_in_command(t_command *command);
+
 
 //	free_tokens.c
 void	free_token_node(t_token *token);

@@ -12,7 +12,6 @@ typedef struct s_data
 {
 	t_token			*token_head;
 	t_command		*command_head;
-	t_heredoc		*heredoc_head;
 	t_env			*env_head;
 	char			**environment_var;
 	int				last_exit_code_status;

@@ -83,14 +83,10 @@ static void	set_redir_out(t_command *command, t_token *current, int append)
 */
 static void	set_heredoc(t_command *cmd, t_token *current)
 {
-	t_heredoc	*new;
-	t_heredoc	*tmp;
-
-	new = init_heredoc(cmd->heredoc_count);
-	printf("heredoc_count = %d\n", cmd->heredoc_count);
+	t_heredoc *new = init_heredoc(cmd->heredoc_count); // pass counter
+	// printf("heredoc_count = %d\n", cmd->heredoc_count);
 	if (!new)
 		return ;
-
 	new->delimiter = ft_strdup(current->next->value);
 	new->quoted = (current->next->quote != NO_QUOTE);
 	if (!cmd->heredoc_head)
@@ -150,6 +146,8 @@ void	handle_redirections(t_command *command, t_token *start, t_token *end)
 			current = current->next;
 		}
 		current = current->next;
+		// print_heredoc(command);
+
 	}
 }
 

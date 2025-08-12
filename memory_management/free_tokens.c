@@ -13,13 +13,14 @@ void	*get_next_token(void *node)
 
 void	free_tokens(t_data *data)
 {
-	free_list(data->token_head, get_next_token,
-		(void (*)(void *))free_token_node);
+	printf("free_tokens\n");
+	free_list(data->token_head, get_next_token, (void (*)(void *))free_token_node);
 	data->token_head = NULL;
 }
 
 void	free_single_token(t_token *token)
 {
+	printf("free_single_tokens\n");
 	if (!token)
 		return ;
 	if (token->value)
@@ -29,6 +30,7 @@ void	free_single_token(t_token *token)
 
 void	free_lexer_result(t_lexer_result *result)
 {
+	printf("free_lexer_result\n");
 	if (!result)
 		return ;
 	if (result->token)

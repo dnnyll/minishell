@@ -65,14 +65,14 @@ int	exit_builtin(char **args, t_data *data)
 	if (!args[1])
 	{
 		exit_code = data->last_exit_code_status;
-		free_data_list(data);
+		free_data_list(&data);
 		exit(exit_code);
 	}
 	if (!is_numeric(args[1]))
 	{
 		print_error("minishell: exit: ", args[1],
 			": numeric argument required\n");
-		free_data_list(data);
+		free_data_list(&data);
 		exit(2);
 	}
 	if (args[2])
@@ -81,7 +81,7 @@ int	exit_builtin(char **args, t_data *data)
 	exit_code = ft_atoi(args[1]) % 256;
 	if (exit_code < 0)
 		exit_code += 256;
-	free_data_list(data);
+	free_data_list(&data);
 	exit(exit_code);
 }
 

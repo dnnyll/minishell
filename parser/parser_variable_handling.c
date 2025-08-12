@@ -85,7 +85,7 @@ static char	*dollar_case(const char *input, int *i, char *result, t_data *data)
 
 static char	*char_case(char *result, char c, int *i)
 {
-	char	*temp;
+	char *temp;
 
 	temp = ft_strjoin_char(result, c);
 	free(result);
@@ -123,8 +123,7 @@ int	isexpandable_variable(const char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i])
-				|| str[i] == '_')
+			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
 				return (1);
 		}
 		else
@@ -136,9 +135,8 @@ int	isexpandable_variable(const char *str)
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variables(t_token *tokens)
 {
-	t_token	*current;
+	t_token	*current = tokens;
 
-	current = tokens;
 	while (current)
 	{
 		if (current->type == WORD && current->quote != SINGLE_QUOTE
@@ -160,6 +158,55 @@ char	*process_variables(const char *input, t_data *data, t_token *tokens)
 	return (expanded);
 }
 
+
+// char	*expand_variables(const char *input, t_data *data)
+// {
+// 	int		i;
+// 	char	*result;
+// 	char	*temp;
+
+// 	i = 0;
+// 	result = strdup("");
+// 	if (!result)
+// 	{
+// 		return (NULL);
+// 		free(result);
+// 	}
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '$')
+// 		{
+// 			i++;
+// 			if (input[i] == '?')
+// 			{
+// 				temp = handle_exit_code(data, result);
+// 				free(result);
+// 				result = temp;
+// 				i++;
+// 			}
+// 			else if (ft_isalpha(input[i]) || input[i] == '_')
+// 			{
+// 				temp = handle_environment_variables(input, &i, data, result);
+// 				free (result);
+// 				result = temp;
+// 			}
+// 			else
+// 			{
+// 				temp = ft_strjoin_char(result, '$');
+// 				free (result);
+// 				result = temp;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			temp = ft_strjoin_char(result, input[i]);
+// 			free (result);
+// 			result = temp;
+// 			i++;
+// 		}
+// 	}
+// 	return (result);
+// }
 
 // char	*expand_variables(const char *input, t_data *data)
 // {
