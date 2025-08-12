@@ -32,6 +32,9 @@ static int	write_and_free_line(char *line, int should_free, int fd)
 }
 int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 {
+	printf("fill_heredoc: heredoc ptr = %p\n", (void *)heredoc);
+	printf("fill_heredoc: cmd->heredoc_head ptr = %p\n", (void *)cmd->heredoc_head);
+
 	char	*line;
 	char	*expanded;
 	int		should_free;

@@ -14,12 +14,12 @@ t_data	*initialize_minishell(char **envp)
 
 void	handle_exit(t_data *data)
 {
+	printf("@handle_exit\n\n");
 	// (void)data;
 	printf("exit\n");
 	clear_history();
 	rl_clear_history();
 	free_data_list(&data);
-	// print_heredoc(data->command_head);
 
 	// debug_parser_output(data);
 }
@@ -43,6 +43,7 @@ bool	should_skip_line(char *line)
 
 void	process_input(char *line, t_data *data)
 {
+	printf("@process_input\n\n");
 	t_token	*tokens;
 
 	tokens = lexer(data, line);
@@ -61,12 +62,14 @@ void	process_input(char *line, t_data *data)
 	// debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
+		printf("@process_heredocs failure\n\n");
 		free_tokens(data);
 		free_commands(data);
 		free (line);
 		return ;
 	}
-	// execute_commands(data->command_head, data);
+	printf("after: process_heredocs(data) == -1\n\n");
+	execute_commands(data->command_head, data);
 	// free_data_list(data);
 	// free_heredocs_in_command(data->command_head);
 	// printf("print_heredoc_02\n");
