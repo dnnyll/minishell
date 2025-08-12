@@ -60,4 +60,5 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 		if (write_and_free_line(expanded, should_free, heredoc->fd) == -1)
 			return (-1);
 	}
+	return (0);
 }

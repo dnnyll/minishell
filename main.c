@@ -69,7 +69,7 @@ void	process_input(char *line, t_data *data)
 		return ;
 	}
 	printf("after: process_heredocs(data) == -1\n\n");
-	execute_commands(data->command_head, data);
+	// execute_commands(data->command_head, data);
 	// free_data_list(data);
 	// free_heredocs_in_command(data->command_head);
 	// printf("print_heredoc_02\n");

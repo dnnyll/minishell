@@ -1,23 +1,11 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 char	*create_heredoc_filename(int pid, int index)
 {
-	char		*filename;
-	char		*pid_str;
-	char		*index_str;
-	const char	*base;
+	char	*filename;
+	char	*pid_str;
+	char	*index_str;
+	const char *base;
 	size_t	total_len;
 
 	base = "/tmp/.heredoc_";
@@ -44,6 +32,16 @@ heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
 	if (!heredoc->filename)
 		return (-1);
 	heredoc->fd = open(heredoc->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	/*
+	Open the temporary file for writing using open():
+	O_CREAT: Create the file if it doesn’t exist yet.
+	O_WRONLY: Open it for writing only — since we’ll write heredoc input into it.
+	O_TRUNC: If the file exists, truncate it (empty it) before writing new content.
+	0644: This sets file permissions — meaning:
+		Owner can read/write (6 = 4 + 2)
+		Group can read only (4)
+		Others can read only (4)
+	*/
 	if (heredoc->fd == -1)
 	{
 		free(heredoc->filename);
@@ -101,10 +99,7 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		return (-1);
 	result = manage_heredoc(cmd, data, heredoc);
 	if (result == -1 || result == 1)
-	{
-		// free_data_list(&data);
 		return (-1);
-	}
 	close(heredoc->fd);
 	if (cmd->infile)
 	{
@@ -112,7 +107,6 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		free(cmd->infile);
 	}
 	cmd->infile = strdup(heredoc->filename);
-	// free_data_list(&data);
 	return (0);
 }
 
@@ -131,13 +125,11 @@ int	process_heredocs(t_data *data)
 			heredoc->index = heredoc_index++;  // use struct's index field
 			if (process_single_heredoc(cmd, data, heredoc) == -1)
 			{
-				// free_data_list(&data);
 				heredoc_cleanup(heredoc);
 				return (-1);
 			}
 			heredoc = heredoc->next;
 		}
-		// print_heredoc(data->command_head);
 		cmd->heredoc_count--;
 		cmd = cmd->next;
 	}
