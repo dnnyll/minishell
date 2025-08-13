@@ -13,33 +13,6 @@ static int	verify_pipe_sequence(t_token *tokens, t_data *data)
 {
 	t_token	*current;
 
-	if (!current)
-		return (data->last_exit_code_status = 1, 1);
-	if (current->type == PIPE)
-		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
-			data->last_exit_code_status = 1, 1);
-	while (current && current->next)
-	{
-		if (current->type == PIPE && current->next->type == PIPE)
-			return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
-				data->last_exit_code_status = 1, 1);
-		if (current->type == PIPE
-			&& (current->next->type == REDIR_IN || current->next->type == REDIR_OUT
-			|| current->next->type == HEREDOC || current->next->type == APPEND))
-			return (print_error("minishell: syntax error near unexpected token `newline'\n", NULL, NULL),
-				data->last_exit_code_status = 1, 1);
-		current = current->next;
-	}
-	if (current->type == PIPE)
-		return (print_error("minishell: syntax error near unexpected token `|'\n", NULL, NULL),
-			data->last_exit_code_status = 1, 1);
-	return (0);
-}*/
-
-static int	verify_pipe_sequence(t_token *tokens, t_data *data)
-{
-	t_token	*current;
-
 	current = tokens;
 	if (current->type == PIPE && current->next->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected"

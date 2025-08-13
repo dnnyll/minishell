@@ -93,7 +93,7 @@ static void	set_heredoc(t_command *cmd, t_token *current)
 		cmd->heredoc_head = new;
 	else
 	{
-		tmp = cmd->heredoc_head;
+		t_heredoc *tmp = cmd->heredoc_head;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
