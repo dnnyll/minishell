@@ -36,9 +36,10 @@ void	process_input(char *line, t_data *data)
 	t_token	*tokens;
 
 	tokens = lexer(data, line);
-	if(!tokens)
+	if (!tokens)
 	{
-		printf("Lexer returned NULL — likely due to unmatched quotes or syntax error.\n");
+		printf("Lexer returned NULL — likely due to unmatched quotes"
+			"or syntax error.\n");
 		return ;
 	}
 	expand_token_values(tokens, data);

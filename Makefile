@@ -6,7 +6,6 @@ CFLAGS		:= -Wall -Wextra -Werror -I. -g
 INCLUDES	= include
 
 # === Sources & Objects ===
-#SRCS		:= $(shell find . -name "*.c" ! -path "./lib/Libft/*")
  SRCS = main.c \
  		builtins/builtins_utils.c \
 		builtins/cd.c \
@@ -42,7 +41,6 @@ INCLUDES	= include
 		parser/parser_redirect_handling.c \
 		parser/parser_validate_syntax.c \
 		parser/parser_variable_handling.c \
- 		printers/printers.c \
  		tokens/tokens_expand.c \
 		tokens/tokens.c \
 
@@ -76,7 +74,6 @@ fclean:	clean
 re: fclean all
 
 leaks:	all
-#valgrind --leak-check=full --show-leak-kinds=definite --track-origins=yes --track-fds=yes ./minishell
 	valgrind -s --leak-check=full --log-file=valgrind.log --show-leak-kinds=all --track-fds=all --default-suppressions=yes --suppressions=.valgrind_readline ./$(NAME)
 
 .PHONY: all clean fclean re

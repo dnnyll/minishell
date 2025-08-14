@@ -32,17 +32,6 @@ t_heredoc	*init_heredoc(int counter);
 t_env		*init_env_node(void);
 t_token		*init_token(void);
 
-//	printers.c
-// void		print_commands(t_command *cmd_list);
-// void		print_data(t_data *data);
-// void		print_tokens(t_data *data);
-// void		debug_parser_output(t_data *data);
-// void		print_commands(t_command *cmd);
-// void		print_env_list(t_env *env);
-// void		print_data_debug(t_data *data);
-// void		debug_environment_variables_printer(t_data *data);
-// void		print_heredoc(t_heredoc *heredoc);
-
 //	prompt default
 # define PROMPT "minishell$ "
 
