@@ -67,3 +67,9 @@ void	wait_for_child(pid_t last_pid, t_data *data)
 		}
 	}
 }
+
+void	exit_child(t_data **data, int status)
+{
+	free_data_list(data);
+	exit(status);
+}
