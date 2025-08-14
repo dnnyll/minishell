@@ -8,7 +8,7 @@ void	free_token_node(t_token *token)
 
 void	*get_next_token(void *node)
 {
-	return (((t_token *)node)->next);
+	return ((t_token *)node)->next;
 }
 
 void	free_tokens(t_data *data)

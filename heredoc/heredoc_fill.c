@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-static int	is_delimiter_match(char *line, char *delim)
-{
-	return (ft_strncmp(line, delim, ft_strlen(delim)) == 0
-		&& line[ft_strlen(delim)] == '\0');
-}
-
-static void	print_heredoc_warning(char *delim)
-{
-	write(2, "minishell: warning: here-document delimited by end-of-file (wanted `", 66);
-	write(2, delim, ft_strlen(delim));
-	write(2, "`)\n", 3);
-}
-
 static char	*get_expanded_line(char *line, t_data *data, int *should_free)
 {
 	*should_free = 0;
@@ -25,16 +12,34 @@ static char	*get_expanded_line(char *line, t_data *data, int *should_free)
 static int	write_and_free_line(char *line, int should_free, int fd)
 {
 	if (write_line_to_heredoc(fd, line) == -1)
-		return (free(line), -1);
+	{
+		free(line);
+		return (-1);
+	}
 	if (should_free)
 		free(line);
 	return (0);
 }
+
+static int	heredoc_expansion(t_data *data, char *line, char **expanded, int *should_free)
+{
+	if (data->command_head->heredoc_head->quoted)
+	{
+		*expanded = line;
+		*should_free = 0;
+	}
+	else
+	{
+		*expanded = get_expanded_line(line, data, should_free);
+		free(line);
+		if (!*expanded)
+			return (-1);
+	}
+	return (0);
+}
+
 int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 {
-	printf("fill_heredoc: heredoc ptr = %p\n", (void *)heredoc);
-	printf("fill_heredoc: cmd->heredoc_head ptr = %p\n", (void *)cmd->heredoc_head);
-
 	char	*line;
 	char	*expanded;
 	int		should_free;
@@ -45,18 +50,14 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 	{
 		line = readline("> ");
 		if (!line)
-			return (print_heredoc_warning(heredoc->delimiter), 0);
+		{
+			print_heredoc_warning(heredoc->delimiter);
+			return (free_data_list(&data), -1);
+		}
 		if (is_delimiter_match(line, heredoc->delimiter))
 			return (free(line), 0);
-		if (heredoc->quoted)
-			expanded = line, should_free = 0;
-		else
-		{
-			expanded = get_expanded_line(line, data, &should_free);
-			free(line);
-			if (!expanded)
-				return (-1);
-		}
+		if (heredoc_expansion(data, line, &expanded, &should_free) == -1)
+			return (-1);
 		if (write_and_free_line(expanded, should_free, heredoc->fd) == -1)
 			return (-1);
 	}

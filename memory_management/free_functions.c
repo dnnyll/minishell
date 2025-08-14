@@ -1,3 +1,4 @@
+
 #include "minishell.h"
 
 void	free_char_array(char **array)
@@ -16,8 +17,7 @@ void	free_char_array(char **array)
 	free(array);
 }
 
-void	free_list(void *head, void *(*get_next)(void *),
-			void (*free_node)(void *))
+void	free_list(void *head, void *(*get_next)(void *), void (*free_node)(void *))
 {
 	printf("free_list\n");
 
@@ -30,3 +30,4 @@ void	free_list(void *head, void *(*get_next)(void *),
 		head = next;
 	}
 }
+

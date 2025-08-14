@@ -24,6 +24,7 @@ INCLUDES	= include
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
+		heredoc/heredoc_utils.c \
  		initialization/init_data.c \
 		lexer/lexer_quotes.c \
 		lexer/lexer_utils.c \
@@ -41,6 +42,7 @@ INCLUDES	= include
 		parser/parser_redirect_handling.c \
 		parser/parser_validate_syntax.c \
 		parser/parser_variable_handling.c \
+ 		printers/printers.c \
  		tokens/tokens_expand.c \
 		tokens/tokens.c \
 
