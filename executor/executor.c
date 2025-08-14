@@ -3,32 +3,25 @@
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
-	int		exit_status;
 
-	exit_status = data->last_exit_code_status;
 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
-	{
-		free_data_list(&data);
-		exit(exit_status);
-	}
+		exit_child(&data, data->last_exit_code_status);
 	setup_child_signals();
 	if (is_builtin(&cmd))
 	{
 		execute_buitlins(cmd, data);
-		free_data_list(&data);
-		exit(exit_status);
+		exit_child(&data, data->last_exit_code_status);
 	}
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
 		print_error(cmd->argv[0], ": command not found\n", NULL);
-		free_data_list(&data);
-		exit(127);
+		exit_child(&data, 127);
 	}
 	execve(path, cmd->argv, data->environment_var);
 	perror("execve failed");
 	free_data_list(&data);
-	exit(1);
+	exit_child(&data, 1);
 }
 
 int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)

@@ -21,6 +21,7 @@ void	execute_buitlins(t_command *cmd, t_data *data);
 void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);
 void	wait_for_child(pid_t last_pid, t_data *data);
+void	exit_child(t_data **data, int status);
 
 // path utils
 char	*find_path_variable(char **envp);
