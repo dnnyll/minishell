@@ -11,15 +11,15 @@ void	free_heredocs_in_command(t_command *command)
 		return ;
 
 	current = command->heredoc_head;
-	while (current)
+	while (current != NULL)
 	{
-		printf("Freeing heredoc node at %p\n", (void *)current);
+		printf("Freeing heredoc node at %p\n", current);
 		next = current->next;
 		free(current->filename);
 		free(current->delimiter);
 		free(current);
 		current = next;
 	}
-	command->heredoc_head = NULL; // Good practice to avoid dangling pointer
+	command->heredoc_head = NULL;
 }
 

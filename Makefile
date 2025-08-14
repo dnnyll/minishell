@@ -24,6 +24,7 @@ INCLUDES	= include
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
+		heredoc/heredoc_utils.c \
  		initialization/init_data.c \
 		lexer/lexer_quotes.c \
 		lexer/lexer_utils.c \
