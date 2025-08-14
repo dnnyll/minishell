@@ -7,7 +7,6 @@ void	free_data_list(t_data **data_ptr)
 	if (!data_ptr || !*data_ptr)
 		return ;
 	data = *data_ptr;
-	printf("print free_data_list\n");
 	free_tokens(data);
 	free_commands(data);
 	free_env_list(data->env_head);
