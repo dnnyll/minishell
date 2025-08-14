@@ -7,11 +7,9 @@ void	free_heredocs_in_command(t_command *command)
 
 	if (!command)
 		return ;
-
 	current = command->heredoc_head;
 	while (current != NULL)
 	{
-		printf("Freeing heredoc node at %p\n", current);
 		next = current->next;
 		free(current->filename);
 		free(current->delimiter);

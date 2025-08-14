@@ -35,9 +35,3 @@ t_token	*create_token(const char *value, t_token_type type)
 	token->type = type;
 	return (token);
 }
-
-/*
-	token->quote = NO_QUOTE;
-	token->expandable = 0;
-	token->next = NULL;
-*/

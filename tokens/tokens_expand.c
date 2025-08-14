@@ -1,5 +1,25 @@
 #include "minishell.h"
 
+void	expand_token_values(t_token *tokens, t_data *data)
+{
+	t_token	*current;
+	char	*expanded;
+
+	current = tokens;
+	if (!tokens)
+		return ;
+	while (current)
+	{
+		if (current->expandable)
+		{
+			expanded = process_variables(current->value, data, current);
+			free (current->value);
+			current->value = expanded;
+		}
+		current = current->next;
+	}
+}
+
 /*
 	information concerning: expand_token_values
 
@@ -24,23 +44,3 @@
 	from the environment 
 	before being executed (like turning `echo $HOME` into `echo /home/user`).
 */
-void	expand_token_values(t_token *tokens, t_data *data)
-{
-	t_token	*current;
-	char	*expanded;
-
-	current = tokens;
-	if (!tokens)
-		return ;
-	while (current)
-	{
-		if (current->expandable)
-		{
-			//printf("Expanding: value='%s'\n", current->value);
-			expanded = process_variables(current->value, data, current);
-			free (current->value);
-			current->value = expanded;
-		}
-		current = current->next;
-	}
-}
