@@ -22,10 +22,10 @@ void	unlink_filename(t_data *data)
 
 int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 {
-	pid_t pid = fork();
+	pid_t	pid;
+	int		status;
 
-	int	status;
-
+	pid = fork();
 	status = 0;
 	if (pid < 0)
 		return (perror("fork"), -1);
@@ -33,30 +33,18 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (fill_heredoc(heredoc, cmd, data) == -1)
-			exit(1);			//exit with error
+			exit(1);
 		close(heredoc->fd);
-		free_data_list(&data);	// <========== frees if exit is correct
-		exit(0);				//exit normal
+		free_data_list(&data);
+		exit(0);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			return (-1); // heredoc failed
+			return (-1);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			return (-1);
 	}
 	return (0);
 }
-
-// void	handle_heredoc_sigint(int sig)
-// {
-// t_data *data;
-// 	(void)sig;
-// 	write(1, "\n", 1);
-// data = ft_recup_data();
-// free(data);
-// 	exit(42);
-// }
-
-

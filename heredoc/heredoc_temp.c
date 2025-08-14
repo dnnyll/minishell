@@ -2,11 +2,11 @@
 
 char	*create_heredoc_filename(int pid, int index)
 {
-	char	*filename;
-	char	*pid_str;
-	char	*index_str;
-	const char *base;
-	size_t	total_len;
+	char		*filename;
+	char		*pid_str;
+	char		*index_str;
+	const char	*base;
+	size_t		total_len;
 
 	base = "/tmp/.heredoc_";
 	pid_str = ft_itoa(pid);
@@ -14,7 +14,7 @@ char	*create_heredoc_filename(int pid, int index)
 	if (!pid_str || !index_str)
 		return (free(pid_str), free(index_str), NULL);
 	total_len = ft_strlen(base) + ft_strlen(pid_str) + 1 + ft_strlen(index_str);
-	filename = malloc(total_len + 1); // +1 for null terminator
+	filename = malloc(total_len + 1);
 	if (!filename)
 		return (free(pid_str), free(index_str), NULL);
 	ft_strlcpy(filename, base, total_len + 1);
@@ -28,7 +28,7 @@ char	*create_heredoc_filename(int pid, int index)
 
 int	open_heredoc_filename(t_heredoc *heredoc)
 {
-heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
+	heredoc->filename = create_heredoc_filename(heredoc->pid, heredoc->index);
 	if (!heredoc->filename)
 		return (-1);
 	heredoc->fd = open(heredoc->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);

@@ -21,7 +21,8 @@ static int	write_and_free_line(char *line, int should_free, int fd)
 	return (0);
 }
 
-static int	heredoc_expansion(t_data *data, char *line, char **expanded, int *should_free)
+static int	heredoc_expansion(t_data *data, char *line, char **expanded,
+		int *should_free)
 {
 	if (data->command_head->heredoc_head->quoted)
 	{
