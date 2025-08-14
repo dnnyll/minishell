@@ -9,8 +9,8 @@ t_data	*init_data(void)
 		return (NULL);
 	data->token_head = NULL;
 	data->command_head = NULL;
-	data->heredoc_head = NULL;
 	data->env_head = NULL;
+	data->environment_var = NULL;
 	data->last_exit_code_status = 0;
 	data->pipe_count = 0;
 	data->command_count = 0;
@@ -24,7 +24,7 @@ t_command	*init_command(void)
 	command = malloc(sizeof(t_command));
 	if (!command)
 		return (NULL);
-	ft_bzero(command, sizeof(t_command));
+	command->heredoc_head = NULL;
 	command->argv = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;
@@ -57,21 +57,21 @@ t_heredoc	*init_heredoc(int counter)
 
 t_env	*init_env_node(void)
 {
-	t_env	*node;
-
-	node = malloc(sizeof(t_env));
-	if (!node)
-		return (NULL);
-	node->key = NULL;
-	node->value = NULL;
-	node->next = NULL;
-	return (node);
+	t_env	*env;
+	
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return NULL;
+	env->key = NULL;
+	env->value = NULL;
+	env->next = NULL;
+	return (env);
 }
 
 t_token	*init_token(void)
 {
-	t_token	*token;
-
+	t_token *token;
+	
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);

@@ -1,15 +1,3 @@
-/* **************************************************************************** */
-/*                                                                              */
-/*                                                                              */
-/*                                                                              */
-/*                           DEAD INSIDE                                        */
-/*                                                                              */
-/*                                                                              */
-/*                                       MROSSET & DANIEFE2                     */
-/*                                                                              */
-/*                                                                              */
-/* **************************************************************************** */
-
 #include "minishell.h"
 
 static int	is_delimiter_match(char *line, char *delim)
@@ -44,6 +32,9 @@ static int	write_and_free_line(char *line, int should_free, int fd)
 }
 int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 {
+	printf("fill_heredoc: heredoc ptr = %p\n", (void *)heredoc);
+	printf("fill_heredoc: cmd->heredoc_head ptr = %p\n", (void *)cmd->heredoc_head);
+
 	char	*line;
 	char	*expanded;
 	int		should_free;
@@ -69,4 +60,5 @@ int	fill_heredoc(t_heredoc *heredoc, t_command *cmd, t_data *data)
 		if (write_and_free_line(expanded, should_free, heredoc->fd) == -1)
 			return (-1);
 	}
+	return (0);
 }

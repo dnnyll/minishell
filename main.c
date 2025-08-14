@@ -14,10 +14,14 @@ t_data	*initialize_minishell(char **envp)
 
 void	handle_exit(t_data *data)
 {
+	printf("@handle_exit\n\n");
+	// (void)data;
 	printf("exit\n");
 	clear_history();
 	rl_clear_history();
-	free_data_list(data);
+	free_data_list(&data);
+
+	// debug_parser_output(data);
 }
 
 bool	should_skip_line(char *line)
@@ -39,6 +43,7 @@ bool	should_skip_line(char *line)
 
 void	process_input(char *line, t_data *data)
 {
+	printf("@process_input\n\n");
 	t_token	*tokens;
 
 	tokens = lexer(data, line);
@@ -48,25 +53,30 @@ void	process_input(char *line, t_data *data)
 		return ;
 	}
 	expand_token_values(tokens, data);
-	print_tokens(data);
+	// print_tokens(data);
+	//print_tokens(data);
 	if (validate_syntax(tokens, data))
 		return (free_tokens(data), free(line));
 	parse_commands(data, tokens);
-	debug_parser_output(data);
+	// printf("print_heredoc_01\n");
+	// print_heredoc(data->command_head);
+	// debug_parser_output(data);
 	if (process_heredocs(data) == -1)
 	{
-		heredoc_cleanup(data->heredoc_head);
+		printf("@process_heredocs failure\n\n");
+		free_tokens(data);
 		free_commands(data);
-		return (free_tokens(data), free(line));
+		free (line);
+		return ;
 	}
+	printf("after: process_heredocs(data) == -1\n\n");
 	execute_commands(data->command_head, data);
+	// free_data_list(data);
+	// free_heredocs_in_command(data->command_head);
+	// printf("print_heredoc_02\n");
+	// print_heredoc(data->command_head);
 	free_tokens(data);
 	free_commands(data);
-	//
-	// free(line);
-	//note: this will result in heredoc segfault
-	// free_heredoc_list(data->heredoc_head);
-	// free_env_list(data->env_head);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -89,6 +99,5 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		process_input(input_line, data);
 	}
-	free_data_list(data);
 	return (0);
 }
