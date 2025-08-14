@@ -2,10 +2,8 @@
 
 void	free_heredocs_in_command(t_command *command)
 {
-	printf("free_heredocs_in_command\n");
-
-	t_heredoc *current;
-	t_heredoc *next;
+	t_heredoc	*current;
+	t_heredoc	*next;
 
 	if (!command)
 		return ;
@@ -22,4 +20,3 @@ void	free_heredocs_in_command(t_command *command)
 	}
 	command->heredoc_head = NULL;
 }
-

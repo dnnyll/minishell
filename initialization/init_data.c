@@ -58,10 +58,10 @@ t_heredoc	*init_heredoc(int counter)
 t_env	*init_env_node(void)
 {
 	t_env	*env;
-	
+
 	env = malloc(sizeof(t_env));
 	if (!env)
-		return NULL;
+		return (NULL);
 	env->key = NULL;
 	env->value = NULL;
 	env->next = NULL;
@@ -70,8 +70,8 @@ t_env	*init_env_node(void)
 
 t_token	*init_token(void)
 {
-	t_token *token;
-	
+	t_token	*token;
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);

@@ -19,22 +19,7 @@ void	*get_next_command(void *node)
 void	free_commands(t_data *data)
 {
 	printf("free_command\n");
-	free_list(data->command_head, get_next_command, (void (*)(void *))free_command_node);
+	free_list(data->command_head, get_next_command,
+		(void (*)(void *))free_command_node);
 	data->command_head = NULL;
 }
-
-
-// void	free_commands(t_data *data)
-// {
-// 	t_command *current = data->command_head;
-// 	t_command *next;
-
-// 	while (current)
-// 	{
-// 		next = current->next;
-// 		free_command_fields(current);
-// 		free(current);
-// 		current = next;
-// 	}
-// 	data->command_head = NULL;
-// }

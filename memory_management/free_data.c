@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void free_data_list(t_data **data_ptr)
+void	free_data_list(t_data **data_ptr)
 {
-	t_data *data;
+	t_data	*data;
 
 	if (!data_ptr || !*data_ptr)
 		return ;
