@@ -42,6 +42,7 @@ INCLUDES	= include
 		parser/parser_redirect_handling.c \
 		parser/parser_validate_syntax.c \
 		parser/parser_variable_handling.c \
+		parser/parser_variable_utils.c \
  		printers/printers.c \
  		tokens/tokens_expand.c \
 		tokens/tokens.c \

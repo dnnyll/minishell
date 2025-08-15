@@ -63,8 +63,12 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 	if (open_heredoc_filename(heredoc) == -1)
 		return (-1);
 	result = manage_heredoc(cmd, data, heredoc);
+	printf("======================== im here_00\n\n");
 	if (result == -1 || result == 1)
+	{
+		printf("======================== im here_01\n\n");
 		return (-1);
+	}
 	close(heredoc->fd);
 	if (cmd->infile)
 		free(cmd->infile);
@@ -86,7 +90,12 @@ int	process_heredocs(t_data *data)
 		{
 			heredoc->index = heredoc_index++;
 			if (process_single_heredoc(cmd, data, heredoc) == -1)
+			{
+				printf("======================== im here_02\n\n");
+				close(heredoc->fd);
+				unlink_filename(data);
 				return (-1);
+			}
 			heredoc = heredoc->next;
 		}
 		cmd->heredoc_count--;

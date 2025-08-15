@@ -42,3 +42,24 @@ char	*search_env_value(t_data *data, const char *variable_name)
 	}
 	return ("");
 }
+
+char	*handle_environment_variables(const char *input, int *i, t_data *data, char * result)
+{
+	int		start;
+	char	*variable_name;
+	char	*value;
+	char	*new_result;
+
+	start = *i;
+	while (ft_isalnum(input[*i]) || input[*i] == '_')
+		(*i)++;
+	variable_name = ft_substr(input, start, *i - start);
+	value = search_env_value(data, variable_name);
+
+	if (!value)
+		return (printf("Error: search_env_value not found for the input\n"),
+			NULL);
+	free(variable_name);
+	new_result = ft_strjoin(result, value);
+	return (new_result);
+}

@@ -47,9 +47,11 @@ void	process_input(char *line, t_data *data)
 	parse_commands(data, tokens);
 	if (process_heredocs(data) == -1)
 	{
+		printf("======================== im here_04\n\n");
 		free_tokens(data);
 		free_commands(data);
 		free (line);
+		unlink_filename(data);
 		return ;
 	}
 	execute_commands(data->command_head, data);
