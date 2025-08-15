@@ -15,7 +15,7 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
-		print_error(cmd->argv[0], ": command not found\n", NULL);
+		print_error("minishell: ", cmd->argv[0], ": command not found\n");
 		exit_child(&data, 127);
 	}
 	execve(path, cmd->argv, data->environment_var);
