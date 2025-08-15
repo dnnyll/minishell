@@ -11,6 +11,8 @@ typedef struct s_env
 //	environment_handling
 char	**copy_environment(char **envp);
 char	*search_env_value(t_data *data, const char *variable_name);
+char	*handle_environment_variables(const char *input, int *i,
+			t_data *data, char *result);
 
 //	environment_parsing
 char	*search_list_env_value(t_env *env_head, const char *name);

@@ -32,6 +32,9 @@ t_heredoc	*init_heredoc(int counter);
 t_env		*init_env_node(void);
 t_token		*init_token(void);
 
+//	process_input.c
+void	process_input(char *line, t_data *data);
+
 //	prompt default
 # define PROMPT "minishell$ "
 

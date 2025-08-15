@@ -3,3 +3,4 @@ ls
 
 bash: ls: No such file or directory < ------------ error message needs to be changed
 
+delete global variable! not using

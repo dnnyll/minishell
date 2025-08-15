@@ -1,4 +1,3 @@
-
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
@@ -30,7 +29,7 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //signals
-extern volatile sig_atomic_t	g_signal_status;
+extern	volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);

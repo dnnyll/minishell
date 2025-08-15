@@ -31,34 +31,6 @@ bool	should_skip_line(char *line)
 	return (false);
 }
 
-void	process_input(char *line, t_data *data)
-{
-	t_token	*tokens;
-
-	tokens = lexer(data, line);
-	if (!tokens)
-	{
-		printf("Lexer returned NULL — likely due to unmatched quotes"
-			"or syntax error.\n");
-		return ;
-	}
-	expand_token_values(tokens, data);
-	if (validate_syntax(tokens, data))
-		return (free_tokens(data), free(line));
-	parse_commands(data, tokens);
-	if (process_heredocs(data) == -1)
-	{
-		free_tokens(data);
-		free_commands(data);
-		free (line);
-		return ;
-	}
-	execute_commands(data->command_head, data);
-	unlink_filename(data);
-	free_tokens(data);
-	free_commands(data);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;

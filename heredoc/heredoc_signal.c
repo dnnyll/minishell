@@ -26,7 +26,6 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 	int		status;
 
 	pid = fork();
-	status = 0;
 	if (pid < 0)
 		return (perror("fork"), -1);
 	if (pid == 0)

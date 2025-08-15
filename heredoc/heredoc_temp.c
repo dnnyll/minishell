@@ -64,7 +64,11 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		return (-1);
 	result = manage_heredoc(cmd, data, heredoc);
 	if (result == -1 || result == 1)
+	{
+		close(heredoc->fd);
+		unlink_filename(data);
 		return (-1);
+	}
 	close(heredoc->fd);
 	if (cmd->infile)
 		free(cmd->infile);
@@ -74,10 +78,11 @@ int	process_single_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 
 int	process_heredocs(t_data *data)
 {
-	t_command	*cmd = data->command_head;
+	t_command	*cmd;
 	t_heredoc	*heredoc;
 	int			heredoc_index;
 
+	cmd = data->command_head;
 	heredoc_index = 0;
 	while (cmd)
 	{
@@ -86,7 +91,11 @@ int	process_heredocs(t_data *data)
 		{
 			heredoc->index = heredoc_index++;
 			if (process_single_heredoc(cmd, data, heredoc) == -1)
+			{
+				close(heredoc->fd);
+				unlink_filename(data);
 				return (-1);
+			}
 			heredoc = heredoc->next;
 		}
 		cmd->heredoc_count--;

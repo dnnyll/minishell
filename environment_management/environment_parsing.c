@@ -54,10 +54,7 @@ t_env	*create_node(const char *env_var_line)
 				ft_strlen(env_var_line) - (equal_pos + 1));
 	}
 	if (!env->key || !env->value)
-	{
-		free_env_node(env);
-		return (NULL);
-	}
+		return (free_env_node(env), NULL);
 	env->next = NULL;
 	return (env);
 }
