@@ -6,20 +6,41 @@ void	init_quote(t_quote *q)
 	q->is_quoted = 0;
 }
 
-int	handle_quote(const char *input, int *j, char *buffer, int *len, t_quote *q)
+// int	handle_quote(const char *input, int *j, char *buffer, int *len, t_quote *q)
+// {
+// 	q->is_quoted = 1;
+// 	q->value = input[*j];
+// 	(*j)++;
+// 	while (input[*j] && input[*j] != q->value)
+// 	{
+// 		buffer[*len] = input[*j];
+// 		(*len)++;
+// 		(*j)++;
+// 	}
+// 	if (input[*j] != q->value)
+// 		return (0);
+// 	(*j)++;
+// 	return (1);
+// }
+
+int handle_quote(const char *input, int *j, char *buffer, t_quote *q)
 {
+	int	k;
+
+	k = 0;
 	q->is_quoted = 1;
 	q->value = input[*j];
 	(*j)++;
 	while (input[*j] && input[*j] != q->value)
 	{
-		buffer[*len] = input[*j];
-		(*len)++;
+		buffer[k] = input[*j];
+		k++;
 		(*j)++;
 	}
 	if (input[*j] != q->value)
 		return (0);
 	(*j)++;
+	buffer[k] = '\0';
 	return (1);
 }
 

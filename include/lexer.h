@@ -25,8 +25,7 @@ const char		*quote_type_str(t_quote_type quote);
 
 //	lexer_quotes.c
 void			init_quote(t_quote *q);
-int				handle_quote(const char *input, int *j, char *buffer, int *len,
-					t_quote *q);
+int	handle_quote(const char *input, int *j, char *buffer, t_quote *q);
 void			set_token_quote(t_token *token, t_quote *q);
 
 //	lexer.c

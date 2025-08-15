@@ -2,15 +2,15 @@
 
 int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 {
-	int	len;
+	int len = 0;
 
-	len = 0;
 	while (input[*j] && !ft_isspace(input[*j]) && !is_operator_start(input[*j]))
 	{
 		if (is_quote(input[*j]))
 		{
-			if (!handle_quote(input, j, buffer, &len, q))
+			if (!handle_quote(input, j, buffer + len, q))
 				return (0);
+			len += ft_strlen(buffer + len); // move len forward
 		}
 		else
 		{
@@ -77,11 +77,10 @@ int	handle_token(t_data *data, const char *input, int *i)
 	result = extract_token(input, *i);
 	if (result.index == -1)
 	{
-		printf("DEBBUG: index == -1 @ lexer\n");
 		if (result.token)
 			free_single_token(result.token);
-		free_list(data->token_head, get_next_token,
-			(void (*)(void *))free_token_node);
+		// free_list(data->token_head, get_next_token,
+		// 	(void (*)(void *))free_token_node);
 		return (0);
 	}
 	if (result.token)

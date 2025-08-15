@@ -42,7 +42,8 @@ int	is_expandable_variable(const char *str)
 		if (str[i] == '$')
 		{
 			i++;
-			if (str[i] == '$' || str[i] == '?' || ft_isalpha(str[i]) || str[i] == '_')
+			if (str[i] == '$' || str[i] == '?'
+				|| ft_isalpha(str[i]) || str[i] == '_')
 				return (1);
 		}
 		else

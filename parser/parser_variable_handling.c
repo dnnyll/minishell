@@ -60,8 +60,9 @@ char	*expand_variables(const char *input, t_data *data)
 //	extra note: this is a flaggin 0 or 1 either if they are or arent expandable
 void	handle_variables(t_token *tokens)
 {
-	t_token	*current = tokens;
+	t_token	*current;
 
+	current = tokens;
 	while (current)
 	{
 		if (current->type == WORD && current->quote != SINGLE_QUOTE
@@ -75,9 +76,10 @@ void	handle_variables(t_token *tokens)
 
 char	*process_variables(const char *input, t_data *data, t_token *tokens)
 {
-	t_token *current = tokens;
-	char *expanded;
+	t_token	*current;
+	char	*expanded;
 
+	current = tokens;
 	handle_variables(current);
 	expanded = expand_variables(input, data);
 	return (expanded);
