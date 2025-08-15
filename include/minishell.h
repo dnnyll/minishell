@@ -43,6 +43,9 @@ t_token		*init_token(void);
 // void		debug_environment_variables_printer(t_data *data);
 // void		print_heredoc(t_heredoc *heredoc);
 
+//	process_input
+void process_input(char *line, t_data *data);
+
 //	prompt default
 # define PROMPT "minishell$ "
 

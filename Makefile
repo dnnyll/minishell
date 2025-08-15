@@ -44,6 +44,7 @@ INCLUDES	= include
 		parser/parser_variable_handling.c \
 		parser/parser_variable_utils.c \
  		printers/printers.c \
+		process_input/process_input.c \
  		tokens/tokens_expand.c \
 		tokens/tokens.c \
 
