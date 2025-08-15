@@ -61,5 +61,8 @@ char	*handle_environment_variables(const char *input, int *i, t_data *data, char
 			NULL);
 	free(variable_name);
 	new_result = ft_strjoin(result, value);
+	if (value && value[0] != '\0')
+		free(value);
 	return (new_result);
 }
+
