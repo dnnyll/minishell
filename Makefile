@@ -14,6 +14,7 @@ INCLUDES	= include
 		builtins/pwd_unset.c \
  		environment_management/environment_handling.c \
 		environment_management/environment_parsing.c \
+		environment_management/environment_shlvl.c \
 		executor/executor.c \
 		executor/path_utils.c \
 		executor/pipe.c \

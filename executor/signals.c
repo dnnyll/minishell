@@ -1,12 +1,12 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal_status = 0;
+volatile sig_atomic_t g_signal_status = 0;
 
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_signal_status = sig;
+	g_signal_status = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

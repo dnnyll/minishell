@@ -9,6 +9,8 @@ t_data	*initialize_minishell(char **envp)
 		return (NULL);
 	data->environment_var = copy_environment(envp);
 	data->env_head = build_env_list(data->environment_var);
+	increment_shlvl(data->env_head);
+	update_env_array(data);
 	return (data);
 }
 
@@ -44,6 +46,12 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
+		if (g_signal_status)
+		{
+			g_signal_status = 0;
+			write(1, "\n", 1);
+			continue ;
+		}
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);

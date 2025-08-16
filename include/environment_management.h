@@ -20,4 +20,9 @@ void	add_env_node(t_env **head, t_env *new_node);
 t_env	*create_node(const char *env_var_line);
 t_env	*build_env_list(char **environment_var);
 
+void	update_env_array(t_data *data);
+void	increment_shlvl(t_env *env_head);
+
+
+
 #endif
