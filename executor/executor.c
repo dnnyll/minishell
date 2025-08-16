@@ -1,9 +1,59 @@
 #include "minishell.h"
 
+// void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
+// {
+// 	char	*path;
+// 	int		j;
+
+// 	j = 0;
+// 	while (cmd->argv[j] && cmd->argv[j][0] == '\0')
+// 		j++;
+// 	if (!cmd->argv[j])
+// 		exit_child(&data, 0);
+// 	cmd->argv = &cmd->argv[j];
+// 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
+// 		exit_child(&data, data->last_exit_code_status);
+// 	setup_child_signals();
+// 	if (is_builtin(&cmd))
+// 	{
+// 		execute_buitlins(cmd, data);
+// 		exit_child(&data, data->last_exit_code_status);
+// 	}
+// 	path = resolve_command_path(cmd, data);
+// 	check_command_validity(path, cmd, data);
+// 	execve(path, cmd->argv, data->environment_var);
+// 	perror("execve failed");
+// 	free(path);
+// 	free_data_list(&data);
+// 	exit_child(&data, 1);
+// }
+
 void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 {
 	char	*path;
+	int		i;
+	int		j;
+	char	*path_var;
+	DIR		*dir;
+	char	**new_argv;
 
+	j = 0;
+	while (cmd->argv[j] && cmd->argv[j][0] == '\0')
+    	j++;
+
+	if (!cmd->argv[j])
+    	exit_child(&data, 0);
+	int k = 0;
+	while (cmd->argv[j + k])
+		k++;
+	new_argv = malloc(sizeof(char *) * (k + 1));
+	if (!new_argv)
+		exit_child(&data, 1);
+	i = 0;
+	while (cmd->argv[j])
+		new_argv[i++] = cmd->argv[j++];
+	new_argv[i] = NULL;
+	cmd->argv = new_argv;
 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
 		exit_child(&data, data->last_exit_code_status);
 	setup_child_signals();
@@ -12,17 +62,56 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 		execute_buitlins(cmd, data);
 		exit_child(&data, data->last_exit_code_status);
 	}
-	path = get_path(cmd->argv[0], data->environment_var);
+	if (ft_strchr(cmd->argv[0], '/'))
+		path = ft_strdup(cmd->argv[0]);
+	else
+		path = get_path(cmd->argv[0], data->environment_var);
 	if (!path)
 	{
-		print_error("minishell: ", cmd->argv[0], ": command not found\n");
+		path_var = NULL;
+		i = 0;
+		while (data->environment_var && data->environment_var[i])
+		{
+			if (ft_strncmp(data->environment_var[i], "PATH=", 5) == 0)
+			{
+				path_var = data->environment_var[i] + 5;
+				break ;
+			}
+			i++;
+		}
+		if (!path_var || path_var[0] == '\0')
+			print_error("minishell: ", cmd->argv[0], ": No such file or directory\n");
+		else
+			print_error("minishell: ", cmd->argv[0], ": command not found\n");
 		exit_child(&data, 127);
+	}
+	dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
+		print_error("minishell: ", cmd->argv[0], ": Is a directory\n");
+		free(path);
+		exit_child(&data, 126);
+	}
+	if (access(path, F_OK) != 0)
+	{
+		print_error("minishell: ", cmd->argv[0], ": No such file or directory\n");
+		free(path);
+		exit_child(&data, 127);
+	}
+	if (access(path, X_OK) != 0)
+	{
+		print_error("minishell: ", cmd->argv[0], ": Permission denied\n");
+		free(path);
+		exit_child(&data, 126);
 	}
 	execve(path, cmd->argv, data->environment_var);
 	perror("execve failed");
+	free(path);
 	free_data_list(&data);
 	exit_child(&data, 1);
 }
+
 
 int	parent_process(int prev_fd, int *fd, pid_t pid, t_data *data)
 {

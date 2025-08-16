@@ -13,6 +13,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <dirent.h>
 
 //	personal library/header files
 # include "../include/data.h"
