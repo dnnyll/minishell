@@ -6,13 +6,13 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:56 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:58 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 10:49:11 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal_status = 0;
+volatile sig_atomic_t	g_signal_status = 0;
 
 void	handle_sigint(int sig)
 {

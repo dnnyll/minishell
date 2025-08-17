@@ -48,4 +48,3 @@ void	increment_shlvl(t_env *env_head)
 		current = current->next;
 	}
 }
-
