@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:56 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:49:11 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 13:53:40 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,4 @@ void	setup_child_signals(void)
 **SIG_IGN : "signal ignore"
 **handle_sigint : this function execute in the parent shell when the user do
 	ctrl+c, display a new empty line.
-	**g_signals_status pour main:
-		//if (g_signal_status == 130) //if Ctrl-C
-		// {
-		// 	g_signal_status = 0; //reset the variable
-		// 	free(input_line); // free the empty or partial line
-		// 	continue ;         // repeat the loop to display the prompt
-		//}
 */
