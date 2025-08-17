@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:32:49 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:32:51 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:41:47 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	tokenize_and_expand(char *line, t_data *data, t_token **tokens)
 	*tokens = lexer(data, line);
 	if (!*tokens)
 	{
-		write(2, "minishell: syntax error\n", 24);
 		free_tokens(data);
 		return (-1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:46:47 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 16:03:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	setup_child_signals(void);
 void	child_exit_code(int status, t_data *data);
 
 //builtins
+int		is_long_limit(const char *str);
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
 bool	is_n_flag(char *arg);

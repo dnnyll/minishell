@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_env_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/14 22:46:46 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:05:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	exit_builtin(char **args, t_data *data)
 		free_data_list(&data);
 		exit(exit_code);
 	}
-	if (!is_numeric(args[1]))
+	if (!is_numeric(args[1]) || !is_long_limit(args[1]))
 	{
 		print_error("minishell: exit: ", args[1],
 			": numeric argument required\n");
