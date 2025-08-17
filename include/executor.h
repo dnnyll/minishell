@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:46:47 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 18:17:03 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
+
+int		update_env_node(t_env *current, char *key, char *value);
+void	add_env_node_exp(t_data *data, char *key, char *value);
+void	add_or_update_env_head(t_data *data, char *key, char *value);
+void	print_env_head(t_env *head);
+void	process_export_arg(t_data *data, char *arg);
+int		export_builtin(char **args, t_data *data);
+
 
 //redirections and pipe
 int		setup_redirection(t_command *command, t_data *data);
@@ -55,6 +63,7 @@ void	setup_child_signals(void);
 void	child_exit_code(int status, t_data *data);
 
 //builtins
+int		is_long_limit(const char *str);
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);
 bool	is_n_flag(char *arg);
@@ -65,7 +74,7 @@ int		echo_builtin(char **args);
 int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);
 int		no_args_export(t_data *data);
-int		export_builtin(char **args, t_data *data);
+// int		export_builtin(char **args, t_data *data);
 int		pwd_builtin(char **args);
 int		unset_builtin(char **args, t_data *data);
 

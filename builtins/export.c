@@ -3,221 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 16:30:44 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 18:23:19 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	no_args_export(t_data *data)
+int	update_env_node(t_env *current, char *key, char *value)
 {
-	int		i;
-	int		name_len;
-	char	*equal_sign;
-
-	i = 0;
-	while (data->environment_var[i])
+	while (current)
 	{
-		equal_sign = ft_strchr(data->environment_var[i], '=');
-		if (equal_sign)
+		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0
+			&& current->key[ft_strlen(key)] == '\0')
 		{
-			name_len = equal_sign - data->environment_var[i];
-			printf("declare -x %.*s=\"%s\"\n", name_len,
-				data->environment_var[i], equal_sign + 1);
+			free(current->value);
+			if (value)
+				current->value = ft_strdup(value);
+			else
+				current->value = NULL;
+			return 1; // Node updated
 		}
-		else
-			printf("declare -x %s\n", data->environment_var[i]);
-		i++;
+		current = current->next;
 	}
-	return (0);
+	return 0; // Node not found
 }
 
-char	**append_env_entry(char **environment, char *new_var)
+void	add_env_node_exp(t_data *data, char *key, char *value)
 {
-	int		i;
-	char	**new_env;
+	t_env *new_node;
+	t_env *current;
 
-	i = 0;
-	while (environment[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 2));
-	if (!new_env)
-		return (environment);
-	i = 0;
-	while (environment[i])
-	{
-		new_env[i] = ft_strdup(environment[i]);
-		if (!new_env[i])
-			return (free_tab(new_env, i), environment);
-		i++;
-	}
-	new_env[i] = ft_strdup(new_var);
-	if (!new_env[i])
-		return (free_tab(new_env, i), environment);
-	new_env[i + 1] = NULL;
-	free_tab(environment, -1);
-	return (new_env);
-}
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return ;
+	new_node->key = ft_strdup(key);
+	if (value)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
 
-// void	add_or_update_env(t_data *data, char *arg)
-// {
-// 	int		i;
-// 	int		len;
-// 	char	*name;
-
-// 	len = 0;
-// 	while (arg[len] && arg[len] != '=')
-// 		len++;
-// 	name = ft_substr(arg, 0, len);
-// 	i = 0;
-// 	while (data->environment_var[i])
-// 	{
-// 		if (ft_strncmp(data->environment_var[i], name, len) == 0
-// 			&& (data->environment_var[i][len] == '='
-// 			|| data->environment_var[i][len] == '\0'))
-// 		{
-// 			free(data->environment_var[i]);
-// 			data->environment_var[i] = ft_strdup(arg);
-// 			free(name);
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// 	data->environment_var = append_env_entry(data->environment_var, arg);
-// 	free(name);
-// }
-void	add_or_update_env(t_data *data, char *arg)
-{
-	t_env	*tmp;
-	char	*equal;
-	char	*key;
-	char	*value;
-	size_t	key_len;
-
-	equal = ft_strchr(arg, '=');
-	if (equal)
-	{
-		key_len = equal - arg;
-		key = ft_substr(arg, 0, key_len);
-		value = ft_strdup(equal + 1);
-	}
+	if (!data->env_head)
+		data->env_head = new_node;
 	else
 	{
-		key_len = ft_strlen(arg);
-		key = ft_strdup(arg);
-		value = NULL;
+		current = data->env_head;
+		while (current->next)
+			current = current->next;
+		current->next = new_node;
 	}
-
-	tmp = data->env_head;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, key, key_len) == 0
-			&& tmp->key[key_len] == '\0')
-		{
-			if (value)
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(value);
-			}
-			free(key);
-			free(value);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-
-	// Ajouter en tête
-	t_env *new = malloc(sizeof(t_env));
-	if (!new)
-		return ;
-	new->key = key;
-	new->value = value;
-	new->next = data->env_head;
-	data->env_head = new;
 }
 
+void	add_or_update_env_head(t_data *data, char *key, char *value)
+{
+	if (update_env_node(data->env_head, key, value) == 0)
+		add_env_node_exp(data, key, value);
+}
 
-// void	add_or_update_env(t_data *data, char *arg)
-// {
-// 	int		i;
-// 	int		len;
-// 	char	*name;
-// 	char	*equal;
+// maybe this functions is going to be deleted
+void	print_env_head(t_env *head)
+{
+	t_env *current = head;
+	while (current)
+	{
+		if (current->value)
+			printf("declare -x %s=\"%s\"\n", current->key, current->value);
+		else
+			printf("declare -x %s\n", current->key);
+		current = current->next;
+	}
+}
 
-// 	equal = ft_strchr(arg, '=');
-// 	if (equal)
-// 		len = equal - arg;
-// 	else
-// 		len = ft_strlen(arg);
-// 	name = ft_substr(arg, 0, len);
-// 	i = 0;
-// 	while (data->environment_var[i])
-// 	{
-// 		if (ft_strncmp(data->environment_var[i], name, len) == 0
-// 			&& (data->environment_var[i][len] == '='
-// 			|| data->environment_var[i][len] == '\0'))
-// 		{
-// 			if (equal)
-// 			{
-// 				free(data->environment_var[i]);
-// 				data->environment_var[i] = ft_strdup(arg);
-// 			}
-// 			free(name);
-// 			return ;
-// 		}
-// 		i++;
-// 	}
-// 	if (equal)
-// 		data->environment_var = append_env_entry(data->environment_var, arg);
-// 	free(name);
-// }
+void	process_export_arg(t_data *data, char *arg)
+{
+	char *equal_sign = ft_strchr(arg, '=');
+	char *key;
+	char *value = NULL;
 
+	if (equal_sign)
+	{
+		key = ft_substr(arg, 0, equal_sign - arg);
+		value = ft_strdup(equal_sign + 1);
+	}
+	else
+		key = ft_strdup(arg);
+
+	add_or_update_env_head(data, key, value);
+
+	free(key);
+	if (value)
+		free(value);
+}
 
 int	export_builtin(char **args, t_data *data)
 {
-	int	i;
+	int i = 1;
 
-	if (!args[1])
-		return (no_args_export(data));
-	i = 1;
+	if (!args[i])
+	{
+		print_env_head(data->env_head);
+		return 0;
+	}
+
 	while (args[i])
 	{
-		if (!is_valid_identifier(args[i]))
-		{
-			data->last_exit_code_status = 1;
-			print_error("minishell: export: '", args[1],
-				"': not a valid identifier\n");
-			return (1);
-		}
-		else
-			add_or_update_env(data, args[i]);
+		process_export_arg(data, args[i]);
 		i++;
 	}
-	return (0);
+	return 0;
 }
-
-/*
-**no_args_export: This function displays all env variables in a redable
-	format by the export command like the bash do. If a variable as a value
-	it displays otherwise displays : declare -x VAR. With 'strchr' find the
-	'=' that separates name and value. 'name_len = equal_sign -
-	data->environment_var[i]' calculates the length of the name.
-	And with 'printf("declare -x %.*s=\"%s\"\n"...' displays the name and value
-	in quotes.
-**declare -x: do like bash, it's just text before declaration.
-**%.*s: print a string(%s) with a len given(.*) with name_len, this is only
-	for the name before the '='.
-**=\"%s\" : print a '=' and then the value between the ""
-**append_env_entry: Duplicates the current env array and appends a new variable.
-	Frees the old array and returns the updated one. If memory allocation fails,
-	returns the original env.
-**add_or_update_env: Checks if the variable already exists int ht env. If found,
-	replaces it with the new value. If not, appends the new variable using
-	append_env_entry.
-**export_builtin: Handles the export builtins with args. For each valid
-	identifier, adds or updates the variable in the env. Prints an error message
-	if the identifier is invalid.
-*/

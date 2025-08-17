@@ -9,6 +9,7 @@ INCLUDES	= include
  SRCS = main.c \
  		builtins/builtins_utils.c \
 		builtins/cd.c \
+		builtins/echo_env_exit_utils.c \
 		builtins/echo_env_exit.c \
 		builtins/export.c \
 		builtins/pwd_unset.c \
