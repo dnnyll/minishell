@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/17 10:46:47 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
@@ -21,8 +33,13 @@ void	execute_commands(t_command *cmd_list, t_data *data);
 void	execute_pipeline(t_command *cdm_list, t_data *data);
 void	wait_for_child(pid_t last_pid, t_data *data);
 void	exit_child(t_data **data, int status);
+void	skip_empty_args(t_command *cmd, t_data *data, int *j);
+void	copy_non_empty_args(t_command *cmd, t_data *data, int j);
 char	*resolve_command_path(t_command *cmd, t_data *data);
-void	check_command_validity(char *path, t_command *cmd, t_data *data);
+char	*find_path_var(t_data *data);
+void	handle_null_path(t_command *cmd, t_data *data, char *path_var);
+void	check_directory(char *path, t_command *cmd, t_data *data);
+void	check_file_access(char *path, t_command *cmd, t_data *data);
 
 // path utils
 char	*find_path_variable(char **envp);
@@ -31,7 +48,7 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //signals
-extern	volatile sig_atomic_t g_signal_status;
+extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);

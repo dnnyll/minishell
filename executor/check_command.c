@@ -1,34 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_command.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 10:47:38 by mrosset           #+#    #+#             */
+/*   Updated: 2025/08/17 10:47:39 by mrosset          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*resolve_command_path(t_command *cmd, t_data *data)
+// Helper to skip empty arguments
+void	skip_empty_args(t_command *cmd, t_data *data, int *j)
 {
-	char	*path;
-	char	*path_var;
-	int		i;
-
-	if (ft_strchr(cmd->argv[0], '/'))
-		return (ft_strdup(cmd->argv[0]));
-	path = get_path(cmd->argv[0], data->environment_var);
-	if (!path)
-	{
-		path_var = NULL;
-		i = 0;
-		while (data->environment_var && data->environment_var[i])
-		{
-			if (ft_strncmp(data->environment_var[i], "PATH=", 5) == 0)
-				path_var = data->environment_var[i] + 5;
-			i++;
-		}
-		if (!path_var || path_var[0] == '\0')
-			print_error("minishell: ", cmd->argv[0], ": No such file or directory\n");
-		else
-			print_error("minishell: ", cmd->argv[0], ": command not found\n");
-		exit_child(&data, 127);
-	}
-	return (path);
+	*j = 0;
+	while (cmd->argv[*j] && cmd->argv[*j][0] == '\0')
+		(*j)++;
+	if (!cmd->argv[*j])
+		exit_child(&data, 0);
 }
 
-void	check_command_validity(char *path, t_command *cmd, t_data *data)
+// Helper to allocate and copy non-empty arguments
+void	copy_non_empty_args(t_command *cmd, t_data *data, int j)
+{
+	int		k;
+	int		i;
+	char	**new_argv;
+
+	k = 0;
+	while (cmd->argv[j + k])
+		k++;
+	new_argv = malloc(sizeof(char *) * (k + 1));
+	if (!new_argv)
+		exit_child(&data, 1);
+	i = 0;
+	while (cmd->argv[j])
+		new_argv[i++] = cmd->argv[j++];
+	new_argv[i] = NULL;
+	cmd->argv = new_argv;
+}
+
+// Helper to check if path is a directory
+void	check_directory(char *path, t_command *cmd, t_data *data)
 {
 	DIR	*dir;
 
@@ -40,9 +55,15 @@ void	check_command_validity(char *path, t_command *cmd, t_data *data)
 		free(path);
 		exit_child(&data, 126);
 	}
+}
+
+// Helper to check file existence and permissions
+void	check_file_access(char *path, t_command *cmd, t_data *data)
+{
 	if (access(path, F_OK) != 0)
 	{
-		print_error("minishell: ", cmd->argv[0], ": No such file or directory\n");
+		print_error("minishell: ", cmd->argv[0], ": No such file or "
+			"directory\n");
 		free(path);
 		exit_child(&data, 127);
 	}

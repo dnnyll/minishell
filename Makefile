@@ -22,6 +22,7 @@ INCLUDES	= include
 		executor/signals.c \
 		executor/executor_utils.c \
 		executor/check_command.c \
+		executor/child_process_utils.c \
 		heredoc/heredoc_fill.c \
  		heredoc/heredoc_temp.c \
 		heredoc/heredoc_signal.c \
