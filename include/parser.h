@@ -44,6 +44,11 @@ void		handle_redirections(t_command *command, t_token *start,
 //	parser_pipes_handling.c
 void		handle_pipes(t_data *data, t_token *start, t_token *end);
 
+
+//	parser_validade_syntax_utils.c
+t_token		*get_last_token(t_token *head);
+char		*token_to_str(int type);
+
 //	parser_variable_handling.c
 char		*handle_exit_code(t_data *data, char *input);
 char		*dollar_case(const char *input, int *i, char *result, t_data *data);
@@ -53,7 +58,6 @@ char		*process_variables(const char *input, t_data *data,
 				t_token *tokens);
 
 //	parser_validae_syntax.c
-t_token		*get_last_token(t_token *head);
 int			verify_pipes(t_token *tokens, t_data *data);
 int			verify_redirections(t_token *tokens, t_data *data);
 int			validate_syntax(t_token *tokens, t_data *data);

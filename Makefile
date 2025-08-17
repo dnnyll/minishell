@@ -42,7 +42,7 @@ INCLUDES	= include
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \
 		parser/parser_redirect_handling.c \
-		parser/parser_validate_syntax_utils \
+		parser/parser_validate_syntax_utils.c \
 		parser/parser_validate_syntax.c \
 		parser/parser_variable_handling.c \
 		parser/parser_variable_utils.c \
