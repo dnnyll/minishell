@@ -12,6 +12,7 @@ INCLUDES	= include
 		builtins/echo_env_exit_utils.c \
 		builtins/echo_env_exit.c \
 		builtins/export.c \
+		builtins/export_utils.c \
 		builtins/pwd_unset.c \
  		environment_management/environment_handling.c \
 		environment_management/environment_parsing.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:47:03 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 19:01:25 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 23:29:36 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ int	unset_builtin(char **args, t_data *data)
 			unset_env_node(data, args[i]);
 		i++;
 	}
+	if (data->environment_var)
+		free_char_array(data->environment_var);
+	data->environment_var = env_list_to_array(data->env_head);
 	return (0);
 }
 

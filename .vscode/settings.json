@@ -21,6 +21,7 @@
 		"executor.h": "c",
 		"heredoc.h": "c",
 		"string_view": "c",
-		"ranges": "c"
+		"ranges": "c",
+		"export_utilsc": "c"
 	}
 }
