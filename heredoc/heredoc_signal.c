@@ -6,7 +6,7 @@
 /*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:26:59 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 18:50:03 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:12:08 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		return (perror("fork"), -1);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, SIG_IGN);
 		if (fill_heredoc(heredoc, cmd, data) == -1)
 			exit(1);
 		close(heredoc->fd);
