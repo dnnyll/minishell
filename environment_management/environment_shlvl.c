@@ -39,7 +39,7 @@ void	increment_shlvl(t_env *env_head)
 		if (ft_strncmp(current->key, "SHLVL", 5) == 0)
 		{
 			shlvl = ft_atoi(current->value);
-			if (shlvl > 0)       // only increment if already set (>0)
+			if (shlvl > 0)
 				shlvl++;
 			free(current->value);
 			current->value = ft_itoa(shlvl);
