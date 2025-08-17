@@ -23,6 +23,4 @@ t_env	*build_env_list(char **environment_var);
 void	update_env_array(t_data *data);
 void	increment_shlvl(t_env *env_head);
 
-
-
 #endif
