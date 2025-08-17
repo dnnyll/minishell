@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:00 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:30:03 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 13:37:26 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 {
-	int len = 0;
+	int	len;
 
+	len = 0;
 	while (input[*j] && !ft_isspace(input[*j]) && !is_operator_start(input[*j]))
 	{
 		if (is_quote(input[*j]))
 		{
 			if (!handle_quote(input, j, buffer + len, q))
 				return (0);
-			len += ft_strlen(buffer + len); // move len forward
+			len += ft_strlen(buffer + len);
 		}
 		else
 		{
@@ -91,8 +92,6 @@ int	handle_token(t_data *data, const char *input, int *i)
 	{
 		if (result.token)
 			free_single_token(result.token);
-		// free_list(data->token_head, get_next_token,
-		// 	(void (*)(void *))free_token_node);
 		return (0);
 	}
 	if (result.token)

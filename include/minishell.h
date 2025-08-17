@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:31 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:28:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 13:36:38 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env		*init_env_node(void);
 t_token		*init_token(void);
 
 //	process_input.c
-void	process_input(char *line, t_data *data);
+void		process_input(char *line, t_data *data);
 
 //	prompt default
 # define PROMPT "minishell$ "

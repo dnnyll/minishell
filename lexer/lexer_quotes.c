@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:29:42 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:29:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 13:38:00 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_quote(t_quote *q)
 	q->is_quoted = 0;
 }
 
-int handle_quote(const char *input, int *j, char *buffer, t_quote *q)
+int	handle_quote(const char *input, int *j, char *buffer, t_quote *q)
 {
 	int	k;
 
