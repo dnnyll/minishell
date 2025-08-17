@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_env_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/14 22:46:46 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:33:39 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,38 @@ int	echo_builtin(char **args)
 	return (0);
 }
 
-int	env_builtin(t_data *data)
-{
-	int	i;
+// int	env_builtin(t_data *data)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!data->environment_var)
-		return (1);
-	while (data->environment_var[i])
-	{
-		printf("%s\n", data->environment_var[i]);
-		i++;
-	}
-	return (0);
+// 	i = 0;
+// 	if (!data->environment_var)
+// 		return (1);
+// 	while (data->environment_var[i])
+// 	{
+// 		printf("%s\n", data->environment_var[i]);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+int env_builtin(t_data *data)
+{
+    t_env *current;
+
+    if (!data->env_head)
+        return (1);
+
+    current = data->env_head;
+    while (current)
+    {
+        if (current->value) // Only print variables with a value
+            printf("%s=%s\n", current->key, current->value);
+        current = current->next;
+    }
+    return (0);
 }
+
 
 static int	is_numeric(const char *str)
 {
@@ -62,7 +80,7 @@ static int	is_numeric(const char *str)
 		i++;
 	while (str[i])
 	{
-		if (!isdigit(str[i]))
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}

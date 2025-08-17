@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 19:22:17 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 16:30:44 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,119 @@ char	**append_env_entry(char **environment, char *new_var)
 	return (new_env);
 }
 
+// void	add_or_update_env(t_data *data, char *arg)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*name;
+
+// 	len = 0;
+// 	while (arg[len] && arg[len] != '=')
+// 		len++;
+// 	name = ft_substr(arg, 0, len);
+// 	i = 0;
+// 	while (data->environment_var[i])
+// 	{
+// 		if (ft_strncmp(data->environment_var[i], name, len) == 0
+// 			&& (data->environment_var[i][len] == '='
+// 			|| data->environment_var[i][len] == '\0'))
+// 		{
+// 			free(data->environment_var[i]);
+// 			data->environment_var[i] = ft_strdup(arg);
+// 			free(name);
+// 			return ;
+// 		}
+// 		i++;
+// 	}
+// 	data->environment_var = append_env_entry(data->environment_var, arg);
+// 	free(name);
+// }
 void	add_or_update_env(t_data *data, char *arg)
 {
-	int		i;
-	int		len;
-	char	*name;
+	t_env	*tmp;
+	char	*equal;
+	char	*key;
+	char	*value;
+	size_t	key_len;
 
-	len = 0;
-	while (arg[len] && arg[len] != '=')
-		len++;
-	name = ft_substr(arg, 0, len);
-	i = 0;
-	while (data->environment_var[i])
+	equal = ft_strchr(arg, '=');
+	if (equal)
 	{
-		if (ft_strncmp(data->environment_var[i], name, len) == 0
-			&& data->environment_var[i][len] == '=')
+		key_len = equal - arg;
+		key = ft_substr(arg, 0, key_len);
+		value = ft_strdup(equal + 1);
+	}
+	else
+	{
+		key_len = ft_strlen(arg);
+		key = ft_strdup(arg);
+		value = NULL;
+	}
+
+	tmp = data->env_head;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, key_len) == 0
+			&& tmp->key[key_len] == '\0')
 		{
-			free(data->environment_var[i]);
-			data->environment_var[i] = ft_strdup(arg);
-			free(name);
+			if (value)
+			{
+				free(tmp->value);
+				tmp->value = ft_strdup(value);
+			}
+			free(key);
+			free(value);
 			return ;
 		}
-		i++;
+		tmp = tmp->next;
 	}
-	data->environment_var = append_env_entry(data->environment_var, arg);
-	free(name);
+
+	// Ajouter en tête
+	t_env *new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->key = key;
+	new->value = value;
+	new->next = data->env_head;
+	data->env_head = new;
 }
+
+
+// void	add_or_update_env(t_data *data, char *arg)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*name;
+// 	char	*equal;
+
+// 	equal = ft_strchr(arg, '=');
+// 	if (equal)
+// 		len = equal - arg;
+// 	else
+// 		len = ft_strlen(arg);
+// 	name = ft_substr(arg, 0, len);
+// 	i = 0;
+// 	while (data->environment_var[i])
+// 	{
+// 		if (ft_strncmp(data->environment_var[i], name, len) == 0
+// 			&& (data->environment_var[i][len] == '='
+// 			|| data->environment_var[i][len] == '\0'))
+// 		{
+// 			if (equal)
+// 			{
+// 				free(data->environment_var[i]);
+// 				data->environment_var[i] = ft_strdup(arg);
+// 			}
+// 			free(name);
+// 			return ;
+// 		}
+// 		i++;
+// 	}
+// 	if (equal)
+// 		data->environment_var = append_env_entry(data->environment_var, arg);
+// 	free(name);
+// }
+
 
 int	export_builtin(char **args, t_data *data)
 {

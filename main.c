@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:33:36 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:33:37 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:34:13 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 		if (g_signal_status)
 		{
 			g_signal_status = 0;
-			write(1, "\n", 1);
 			continue ;
 		}
 		input_line = readline("minishell> ");
