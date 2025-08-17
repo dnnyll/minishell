@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:47:03 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 18:53:07 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:01:25 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,60 +27,6 @@ int	pwd_builtin(char **args)
 	free(cwd);
 	return (0);
 }
-
-/*
-static int	should_remove(char *entry, char *var_name)
-{
-	size_t	len;
-
-	len = ft_strlen(var_name);
-	return (ft_strncmp(entry, var_name, len) == 0 && entry[len] == '=');
-}
-
-char	**remove_env_entry(char **environment, char *var_name)
-{
-	int		i;
-	int		j;
-	char	**new_env;
-
-	i = 0;
-	while (environment[i])
-		i++;
-	new_env = malloc(sizeof(char *) * (i + 1));
-	if (!new_env)
-		return (environment);
-	i = -1;
-	j = 0;
-	while (environment[++i])
-	{
-		if (!should_remove(environment[i], var_name))
-		{
-			new_env[j] = ft_strdup(environment[i]);
-			if (!new_env[j])
-				return (free_tab(new_env, j), environment);
-			j++;
-		}
-	}
-	new_env[j] = NULL;
-	free_tab(environment, -1);
-	return (new_env);
-}
-
-int	unset_builtin(char **args, t_data *data)
-{
-	int	i;
-
-	i = 1;
-	while (args[i])
-	{
-		if (is_valid_identifier(args[i]))
-			data->environment_var = remove_env_entry(data->environment_var,
-					args[i]);
-		i++;
-	}
-	data->last_exit_code_status = 0;
-	return (0);
-}*/
 
 void	unset_env_node(t_data *data, char *key)
 {
