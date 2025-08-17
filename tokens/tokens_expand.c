@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_expand.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 13:33:01 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/08/17 13:33:11 by daniefe2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	expand_token_values(t_token *tokens, t_data *data)
@@ -19,28 +31,3 @@ void	expand_token_values(t_token *tokens, t_data *data)
 		current = current->next;
 	}
 }
-
-/*
-	information concerning: expand_token_values
-
-	purpose: expands variables (e.g. $HOME, $USER) inside tokens that are
-	marked as expandable.
-
-	purpose: expands variables (e.g. $HOME, $USER) inside tokens that
-	are marked as expandable.
-
-
-	for: echo "Hello $USER"
-
-	it processes:
-	- every token marked as `expandable`
-
-	- replaces its `value` with the result of `process_variables`, which
-		evaluates environment variables
-	- replaces its `value` with the result of `process_variables`,
-	which evaluates environment variables
-
-	this ensures that commands reflect the actual runtime values
-	from the environment 
-	before being executed (like turning `echo $HOME` into `echo /home/user`).
-*/

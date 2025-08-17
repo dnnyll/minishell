@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 13:28:47 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/08/17 13:29:03 by daniefe2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -44,7 +56,6 @@ void		handle_redirections(t_command *command, t_token *start,
 //	parser_pipes_handling.c
 void		handle_pipes(t_data *data, t_token *start, t_token *end);
 
-
 //	parser_validade_syntax_utils.c
 t_token		*get_last_token(t_token *head);
 char		*token_to_str(int type);
@@ -63,8 +74,8 @@ int			verify_redirections(t_token *tokens, t_data *data);
 int			validate_syntax(t_token *tokens, t_data *data);
 
 //	parser_variable_utils.c
-char	*ft_strjoin_char(char *input, char c);
-char	*append_char_to_result(char *result, char c, int *i);
-int		is_expandable_variable(const char *str);
+char		*ft_strjoin_char(char *input, char c);
+char		*append_char_to_result(char *result, char c, int *i);
+int			is_expandable_variable(const char *str);
 
 #endif

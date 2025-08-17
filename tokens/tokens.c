@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/17 13:33:19 by daniefe2          #+#    #+#             */
+/*   Updated: 2025/08/17 13:33:25 by daniefe2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//	Purpose: Adds a new token to the end of the token list.
 void	add_token(t_token **list, t_token *new_token)
 {
 	t_token	*current;
@@ -18,7 +29,6 @@ void	add_token(t_token **list, t_token *new_token)
 	current->next = new_token;
 }
 
-//	Purpose: Creates and initializes a new token with the given value and type.
 t_token	*create_token(const char *value, t_token_type type)
 {
 	t_token	*token;
