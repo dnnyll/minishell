@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:00 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:37:26 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 13:50:08 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,20 @@ t_lexer_result	extract_token(const char *input, int i)
 
 int	handle_operator(t_data *data, const char *input, int *i)
 {
-	char			op[3] = {0};
+	char			op[3];
 	t_token_type	type;
 	t_token			*token;
 	int				len;
 
+	op[0] = 0;
+	op[1] = 0;
+	op[2] = 0;
 	len = verify_operator_type(input, *i, &type);
 	if (!len)
-	{
-		printf("Unknown operator: %c\n", input[*i]);
-		return (0);
-	}
+		return (printf("Unknown operator: %c\n", input[*i]), 0);
 	op[0] = input[*i];
 	op[1] = input[*i + 1];
-	token = create_token(op, type);
+	token = create_token((const char *)op, type);
 	if (!token)
 	{
 		free_list(data->token_head, get_next_token,
