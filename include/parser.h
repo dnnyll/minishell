@@ -63,4 +63,6 @@ char	*ft_strjoin_char(char *input, char c);
 char	*append_char_to_result(char *result, char c, int *i);
 int		is_expandable_variable(const char *str);
 
+char	*token_to_str(int type);
+
 #endif

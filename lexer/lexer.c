@@ -10,7 +10,7 @@ int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 		{
 			if (!handle_quote(input, j, buffer + len, q))
 				return (0);
-			len += ft_strlen(buffer + len); // move len forward
+			len += ft_strlen(buffer + len);
 		}
 		else
 		{
@@ -79,8 +79,6 @@ int	handle_token(t_data *data, const char *input, int *i)
 	{
 		if (result.token)
 			free_single_token(result.token);
-		// free_list(data->token_head, get_next_token,
-		// 	(void (*)(void *))free_token_node);
 		return (0);
 	}
 	if (result.token)

@@ -5,7 +5,7 @@ static int	tokenize_and_expand(char *line, t_data *data, t_token **tokens)
 	*tokens = lexer(data, line);
 	if (!*tokens)
 	{
-		printf("Syntax error.\n");
+		write(2, "minishell: syntax error\n", 24);
 		free_tokens(data);
 		return (-1);
 	}

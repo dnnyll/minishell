@@ -1,13 +1,6 @@
 #include "minishell.h"
 
-t_token	*get_last_token(t_token *head)
-{
-	if (!head)
-		return (NULL);
-	while (head->next)
-		head = head->next;
-	return (head);
-}
+
 
 static int	verify_pipe_sequence(t_token *tokens, t_data *data)
 {
@@ -57,33 +50,42 @@ int	verify_pipes(t_token *tokens, t_data *data)
 				"`|'\n", NULL, NULL), data->last_exit_code_status = 2, 1);
 	return (0);
 }
-
-int	verify_redirections(t_token *tokens, t_data	*data)
+static int	verify_redirection_syntax(t_token *current, t_data *data)
 {
-	t_token		*current;
+	char	*error;
 
-	current = tokens;
-	if (!current)
-		return (1);
+	if (!current->next)
+	{
+		data->last_exit_code_status = 2;
+		return (print_error("minishell: syntax error near unexpected token `newline'\n",
+							NULL, NULL), 1);
+	}
+	if (current->next->type != WORD) // case: redir followed by wrong token
+	{
+		error = token_to_str(current->next->type);
+		data->last_exit_code_status = 2;
+		return (print_error("minishell: syntax error near unexpected token `",
+							error, "'\n"), 1);
+	}
+	return (0);
+}
+
+int	verify_redirections(t_token *tokens, t_data *data)
+{
+	t_token *current = tokens;
+
 	while (current)
 	{
 		if (is_redirection(current->type))
 		{
-			if (!current->next)
-			{
-				data->last_exit_code_status = 2;
-				print_error("minishell: syntax error near unexpected token"
-					"`newline'\n", NULL, NULL);
+			if (verify_redirection_syntax(current, data))
 				return (1);
-			}
-			if (current->next->type != WORD)
-				return (print_error("syntax error near unexpected token"
-						"`newline'\n", NULL, NULL), 1);
 		}
 		current = current->next;
 	}
 	return (0);
 }
+
 
 int	validate_syntax(t_token *tokens, t_data *data)
 {

@@ -8,21 +8,20 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-//	environment_handling
+//	environment_handling.c
 char	**copy_environment(char **envp);
 char	*search_env_value(t_data *data, const char *variable_name);
 char	*handle_environment_variables(const char *input, int *i,
 			t_data *data, char *result);
 
-//	environment_parsing
+//	environment_parsing.c
 char	*search_list_env_value(t_env *env_head, const char *name);
 void	add_env_node(t_env **head, t_env *new_node);
 t_env	*create_node(const char *env_var_line);
 t_env	*build_env_list(char **environment_var);
 
+//	environment_shlvl.c
 void	update_env_array(t_data *data);
 void	increment_shlvl(t_env *env_head);
-
-
 
 #endif
