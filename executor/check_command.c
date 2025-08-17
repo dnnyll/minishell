@@ -6,7 +6,7 @@
 /*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:38 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:39 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 11:43:19 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	copy_non_empty_args(t_command *cmd, t_data *data, int j)
 	while (cmd->argv[j])
 		new_argv[i++] = cmd->argv[j++];
 	new_argv[i] = NULL;
+	free(cmd->argv);
 	cmd->argv = new_argv;
 }
 
