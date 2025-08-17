@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 18:23:19 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:29:42 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ int	update_env_node(t_env *current, char *key, char *value)
 				current->value = ft_strdup(value);
 			else
 				current->value = NULL;
-			return 1; // Node updated
+			return (1);
 		}
 		current = current->next;
 	}
-	return 0; // Node not found
+	return (0);
 }
 
 void	add_env_node_exp(t_data *data, char *key, char *value)
 {
-	t_env *new_node;
-	t_env *current;
+	t_env	*new_node;
+	t_env	*current;
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
@@ -66,7 +66,9 @@ void	add_or_update_env_head(t_data *data, char *key, char *value)
 // maybe this functions is going to be deleted
 void	print_env_head(t_env *head)
 {
-	t_env *current = head;
+	t_env	*current;
+
+	current = head;
 	while (current)
 	{
 		if (current->value)
@@ -79,10 +81,12 @@ void	print_env_head(t_env *head)
 
 void	process_export_arg(t_data *data, char *arg)
 {
-	char *equal_sign = ft_strchr(arg, '=');
-	char *key;
-	char *value = NULL;
+	char	*equal_sign;
+	char	*key;
+	char	*value;
 
+	equal_sign = ft_strchr(arg, '=');
+	value = NULL;
 	if (equal_sign)
 	{
 		key = ft_substr(arg, 0, equal_sign - arg);
@@ -100,12 +104,13 @@ void	process_export_arg(t_data *data, char *arg)
 
 int	export_builtin(char **args, t_data *data)
 {
-	int i = 1;
+	int	i;
 
+	i = 1;
 	if (!args[i])
 	{
 		print_env_head(data->env_head);
-		return 0;
+		return (0);
 	}
 
 	while (args[i])
@@ -113,5 +118,5 @@ int	export_builtin(char **args, t_data *data)
 		process_export_arg(data, args[i]);
 		i++;
 	}
-	return 0;
+	return (0);
 }

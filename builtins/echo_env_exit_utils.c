@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_env_exit_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:01:55 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 16:07:23 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:30:51 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	count_digits(const char *str)
 static int	compare_limit(const char *str, const char *limit)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i] && limit[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_env_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 18:24:18 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:31:39 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,21 @@ int	echo_builtin(char **args)
 	return (0);
 }
 
-// int	env_builtin(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!data->environment_var)
-// 		return (1);
-// 	while (data->environment_var[i])
-// 	{
-// 		printf("%s\n", data->environment_var[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-int env_builtin(t_data *data)
+int	env_builtin(t_data *data)
 {
-	t_env *current;
+	t_env	*current;
 
 	if (!data->env_head)
 		return (1);
 	current = data->env_head;
 	while (current)
 	{
-		if (current->value)  // bash: env only shows vars that have a value
+		if (current->value)
 			printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 	return (0);
 }
-
 
 static int	is_numeric(const char *str)
 {
