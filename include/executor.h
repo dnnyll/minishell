@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 18:17:03 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:55:16 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	add_or_update_env_head(t_data *data, char *key, char *value);
 void	print_env_head(t_env *head);
 void	process_export_arg(t_data *data, char *arg);
 int		export_builtin(char **args, t_data *data);
-
 
 //redirections and pipe
 int		setup_redirection(t_command *command, t_data *data);
@@ -73,8 +72,6 @@ int		cd_builtin(char **args, t_data *data);
 int		echo_builtin(char **args);
 int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);
-int		no_args_export(t_data *data);
-// int		export_builtin(char **args, t_data *data);
 int		pwd_builtin(char **args);
 int		unset_builtin(char **args, t_data *data);
 

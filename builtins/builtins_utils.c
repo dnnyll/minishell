@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/03 15:07:29 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 18:56:22 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,24 @@ bool	is_n_flag(char *arg)
 		i++;
 	}
 	return (true);
+}
+
+int	export_builtin(char **args, t_data *data)
+{
+	int	i;
+
+	i = 1;
+	if (!args[i])
+	{
+		print_env_head(data->env_head);
+		return (0);
+	}
+	while (args[i])
+	{
+		process_export_arg(data, args[i]);
+		i++;
+	}
+	return (0);
 }
 
 bool	is_builtin(t_command **argv)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   environment_handling.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:25:41 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:25:43 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:57:32 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 char	**copy_environment(char **envp)
 {

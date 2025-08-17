@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 18:29:42 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/17 18:56:10 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	add_env_node_exp(t_data *data, char *key, char *value)
 	else
 		new_node->value = NULL;
 	new_node->next = NULL;
-
 	if (!data->env_head)
 		data->env_head = new_node;
 	else
@@ -63,7 +62,6 @@ void	add_or_update_env_head(t_data *data, char *key, char *value)
 		add_env_node_exp(data, key, value);
 }
 
-// maybe this functions is going to be deleted
 void	print_env_head(t_env *head)
 {
 	t_env	*current;
@@ -94,29 +92,8 @@ void	process_export_arg(t_data *data, char *arg)
 	}
 	else
 		key = ft_strdup(arg);
-
 	add_or_update_env_head(data, key, value);
-
 	free(key);
 	if (value)
 		free(value);
-}
-
-int	export_builtin(char **args, t_data *data)
-{
-	int	i;
-
-	i = 1;
-	if (!args[i])
-	{
-		print_env_head(data->env_head);
-		return (0);
-	}
-
-	while (args[i])
-	{
-		process_export_arg(data, args[i]);
-		i++;
-	}
-	return (0);
 }
