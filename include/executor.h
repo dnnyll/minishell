@@ -6,12 +6,20 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 16:03:41 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:17:03 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
+
+int		update_env_node(t_env *current, char *key, char *value);
+void	add_env_node_exp(t_data *data, char *key, char *value);
+void	add_or_update_env_head(t_data *data, char *key, char *value);
+void	print_env_head(t_env *head);
+void	process_export_arg(t_data *data, char *arg);
+int		export_builtin(char **args, t_data *data);
+
 
 //redirections and pipe
 int		setup_redirection(t_command *command, t_data *data);
@@ -66,7 +74,7 @@ int		echo_builtin(char **args);
 int		env_builtin(t_data *data);
 int		exit_builtin(char **args, t_data *data);
 int		no_args_export(t_data *data);
-int		export_builtin(char **args, t_data *data);
+// int		export_builtin(char **args, t_data *data);
 int		pwd_builtin(char **args);
 int		unset_builtin(char **args, t_data *data);
 

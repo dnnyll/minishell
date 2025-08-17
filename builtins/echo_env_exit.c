@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 16:05:41 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:47:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,32 @@ int	echo_builtin(char **args)
 	return (0);
 }
 
-int	env_builtin(t_data *data)
-{
-	int	i;
+// int	env_builtin(t_data *data)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!data->environment_var)
+// 	i = 0;
+// 	if (!data->environment_var)
+// 		return (1);
+// 	while (data->environment_var[i])
+// 	{
+// 		printf("%s\n", data->environment_var[i]);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+int env_builtin(t_data *data)
+{
+	t_env *current;
+
+	if (!data->env_head)
 		return (1);
-	while (data->environment_var[i])
+	current = data->env_head;
+	while (current)
 	{
-		printf("%s\n", data->environment_var[i]);
-		i++;
+		if (current->value)  // bash: env only shows vars that have a value
+			printf("%s=%s\n", current->key, current->value);
+		current = current->next;
 	}
 	return (0);
 }
