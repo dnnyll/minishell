@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:26:59 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 20:12:08 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/18 11:55:51 by mrosset          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		return (perror("fork"), -1);
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
 		if (fill_heredoc(heredoc, cmd, data) == -1)
 			exit(1);
 		close(heredoc->fd);
