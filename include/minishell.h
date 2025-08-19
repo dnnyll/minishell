@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:31 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:36:38 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/19 22:06:08 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <dirent.h>
+# include <errno.h>
 
 //	personal library/header files
 # include "../include/data.h"

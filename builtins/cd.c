@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/07/30 19:27:55 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/19 22:00:39 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*get_cd_target(char **args, t_data *data)
 	return (args[1]);
 }
 
-int	cd_builtin(char **args, t_data *data)
+/*int	cd_builtin(char **args, t_data *data)
 {
 	char	*dir;
 	int		args_count;
@@ -74,6 +74,33 @@ int	cd_builtin(char **args, t_data *data)
 		perror("cd");
 		return (1);
 	}
+	return (0);
+}*/
+int	cd_builtin(char **args, t_data *data)
+{
+	char	*dir;
+	int		args_count;
+
+	args_count = 0;
+	while (args[args_count])
+		args_count++;
+	if (args_count > 2)
+	{
+		data->last_exit_code_status = 1;
+		print_error("minishell: cd: ", NULL, "too many arguments\n");
+		return (1);
+	}
+	dir = get_cd_target(args, data);
+	if (!dir)
+		return (1);
+	if (chdir(dir) == -1)
+	{
+		print_error("minishell: cd: ", dir, ": ");
+		print_error("", strerror(errno), "\n");
+		data->last_exit_code_status = 1;
+		return (1);
+	}
+	data->last_exit_code_status = 0;
 	return (0);
 }
 
