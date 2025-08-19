@@ -6,7 +6,7 @@
 /*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 23:30:55 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 23:30:58 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:26:01 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,48 +58,45 @@ void	add_env_node_exp(t_data *data, char *key, char *value)
 
 void	add_or_update_env_head(t_data *data, char *key, char *value)
 {
-	if (update_env_node(data->env_head, key, value) == 0)
-		add_env_node_exp(data, key, value);
-}
-
-void	print_env_head(t_env *head)
-{
 	t_env	*current;
 
-	current = head;
+	current = data->env_head;
 	while (current)
 	{
-		if (current->value)
-			printf("declare -x %s=\"%s\"\n", current->key, current->value);
-		else
-			printf("declare -x %s\n", current->key);
+		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0
+			&& current->key[ft_strlen(key)] == '\0')
+		{
+			if (value)
+			{
+				free(current->value);
+				current->value = ft_strdup(value);
+			}
+			return ;
+		}
 		current = current->next;
 	}
+	add_env_node_exp(data, key, value);
 }
 
-void	process_export_arg(t_data *data, char *arg)
+int	env_list_size(t_env *head)
 {
-	char	*equal_sign;
-	char	*key;
-	char	*value;
+	int	count;
 
-	if (!is_valid_identifier(arg))
+	count = 0;
+	while (head)
 	{
-		print_error("minishell: export: `", arg, "': not a valid identifier\n");
-		data->last_exit_code_status = 1;
-		return ;
+		count++;
+		head = head->next;
 	}
-	equal_sign = ft_strchr(arg, '=');
-	value = NULL;
-	if (equal_sign)
-	{
-		key = ft_substr(arg, 0, equal_sign - arg);
-		value = ft_strdup(equal_sign + 1);
-	}
-	else
-		key = ft_strdup(arg);
-	add_or_update_env_head(data, key, value);
-	free(key);
-	if (value)
-		free(value);
+	return (count);
+}
+
+int	compare_env(const void *a, const void *b)
+{
+	t_env	*env_a;
+	t_env	*env_b;
+
+	env_a = *(t_env **)a;
+	env_b = *(t_env **)b;
+	return (ft_strncmp(env_a->key, env_b->key, INT_MAX));
 }

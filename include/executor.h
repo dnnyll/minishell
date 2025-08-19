@@ -6,7 +6,7 @@
 /*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 23:23:20 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:05:35 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	add_or_update_env_head(t_data *data, char *key, char *value);
 void	print_env_head(t_env *head);
 void	process_export_arg(t_data *data, char *arg);
 char	**env_list_to_array(t_env *env);
+int     env_list_size(t_env *head);
+int     compare_env(const void *a, const void *b);
 int		export_builtin(char **args, t_data *data);
 
 //redirections and pipe

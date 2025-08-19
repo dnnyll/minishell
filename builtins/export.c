@@ -6,7 +6,7 @@
 /*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 23:20:04 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 23:40:44 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:03:12 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,35 @@ char	**env_list_to_array(t_env *env)
 		return (NULL);
 	fill_env_array(env, array);
 	return (array);
+}
+
+void	print_env_head(t_env *head)
+{
+	int		count;
+	int		i;
+	t_env	**array;
+
+	count = env_list_size(head);
+	array = malloc(sizeof(t_env *) * count);
+	if (!array)
+		return ;
+	i = 0;
+	while (head)
+	{
+		array[i++] = head;
+		head = head->next;
+	}
+	qsort(array, count, sizeof(t_env *), compare_env);
+	i = 0;
+	while (i < count)
+	{
+		if (array[i]->value)
+			printf("declare -x %s=\"%s\"\n", array[i]->key, array[i]->value);
+		else
+			printf("declare -x %s\n", array[i]->key);
+		i++;
+	}
+	free(array);
 }
 
 int	export_builtin(char **args, t_data *data)

@@ -6,7 +6,7 @@
 /*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:23:46 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 23:20:38 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:04:09 by marjorie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,33 @@ bool	is_n_flag(char *arg)
 		i++;
 	}
 	return (true);
+}
+
+void	process_export_arg(t_data *data, char *arg)
+{
+	char	*equal_sign;
+	char	*key;
+	char	*value;
+
+	if (!is_valid_identifier(arg))
+	{
+		print_error("minishell: export: `", arg, "': not a valid identifier\n");
+		data->last_exit_code_status = 1;
+		return ;
+	}
+	equal_sign = ft_strchr(arg, '=');
+	value = NULL;
+	if (equal_sign)
+	{
+		key = ft_substr(arg, 0, equal_sign - arg);
+		value = ft_strdup(equal_sign + 1);
+	}
+	else
+		key = ft_strdup(arg);
+	add_or_update_env_head(data, key, value);
+	free(key);
+	if (value)
+		free(value);
 }
 
 bool	is_builtin(t_command **argv)
