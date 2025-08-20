@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:00 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:50:08 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:09:45 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 	return (1);
 }
 
-t_lexer_result	extract_token(const char *input, int i)
+t_lexer_result	extract_token(t_data *data, const char *input, int i)
 {
 	int		j;
 	char	buffer[4096];
@@ -46,7 +46,10 @@ t_lexer_result	extract_token(const char *input, int i)
 	j = i;
 	init_quote(&q);
 	if (!fill_token_buffer(input, &j, buffer, &q))
+	{
+		data->lexer_error = 1;
 		return ((t_lexer_result){NULL, -1});
+	}
 	token = create_token(buffer, WORD);
 	if (!token)
 		return ((t_lexer_result){NULL, -1});
@@ -87,7 +90,7 @@ int	handle_token(t_data *data, const char *input, int *i)
 {
 	t_lexer_result	result;
 
-	result = extract_token(input, *i);
+	result = extract_token(data, input, *i);
 	if (result.index == -1)
 	{
 		if (result.token)
@@ -105,6 +108,7 @@ void	*lexer(t_data *data, const char *input)
 	int		i;
 
 	data->token_head = NULL;
+	data->lexer_error = 0;
 	i = 0;
 	while (input[i])
 	{

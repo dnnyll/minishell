@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:33:36 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 18:47:29 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:56:43 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,6 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
-		if (g_signal_status)
-		{
-			g_signal_status = 0;
-			continue ;
-		}
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:31:41 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:42:10 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:17:18 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ int	validate_syntax(t_token *tokens, t_data *data)
 	t_token	*last_token;
 
 	if (!tokens)
-		return (data->last_exit_code_status = 2,
-			printf("Error: no tokens @ validate_syntax\n"), 1);
+		return (data->last_exit_code_status = 2, 1);
 	last_token = get_last_token(tokens);
 	if (tokens->type == PIPE || last_token->type == PIPE)
 		return (print_error("minishell: syntax error near unexpected token"
