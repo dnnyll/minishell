@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:21 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:22 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/20 15:29:40 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 
 	skip_empty_args(cmd, data, &j);
 	copy_non_empty_args(cmd, data, j);
-	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
+	if (apply_redirs(cmd, prev_fd, fd, data) != 0)
 		exit_child(&data, data->last_exit_code_status);
+	// if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)	replaced this
+	// 	exit_child(&data, data->last_exit_code_status);
 	setup_child_signals();
 	if (is_builtin(&cmd))
 	{
@@ -81,7 +83,7 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 		return ;
 	if (!cmd_list->next && is_builtin(&cmd_list))
 	{
-		if (cmd_list->infile || cmd_list->outfile || cmd_list->heredoc_head)
+		if (cmd_list->redir_in || cmd_list->redir_out || cmd_list->heredoc_head)
 			execute_single_builtin(cmd_list, data);
 		else
 			execute_buitlins(cmd_list, data);

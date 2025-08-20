@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_management.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:23 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:35:41 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/20 10:56:56 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	free_list(void *head, void *(*get_next)(void *),
 
 //	free_heredocs.c
 void	free_heredocs_in_command(t_command *command);
+
+//	free_redirs.c
+void	free_redir_list(t_redir *head);
 
 //	free_tokens.c
 void	free_token_node(t_token *token);

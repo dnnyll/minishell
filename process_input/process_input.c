@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:32:49 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/20 09:21:43 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:14:48 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	process_input(char *line, t_data *data)
 		return ;
 	if (validate_and_parse(tokens, data, line) == -1)
 		return ;
+	debug_parser_output(data);
 	if (handle_heredocs(data, line) == -1)
 		return ;
 	execute_and_cleanup(data, line);

@@ -39,11 +39,13 @@ INCLUDES	= include
  		memory_management/free_exit.c \
 		memory_management/free_functions.c \
 		memory_management/free_heredocs.c \
+		memory_management/free_redirections.c \
 		memory_management/free_tokens.c \
 		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \
 		parser/parser_redirect_handling.c \
+		parser/parser_redirect_utils.c \
 		parser/parser_validate_syntax_utils.c \
 		parser/parser_validate_syntax.c \
 		parser/parser_variable_handling.c \
@@ -51,6 +53,7 @@ INCLUDES	= include
 		process_input/process_input.c \
  		tokens/tokens_expand.c \
 		tokens/tokens.c \
+		printers/printers.c \
 
 OBJS		:= $(SRCS:.c=.o)
 

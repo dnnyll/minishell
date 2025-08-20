@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:31:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:31:20 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:01:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	fill_argv(t_command *command, t_token *start, t_token *end)
 			command->argv[i] = ft_strdup(current->value);
 			i++;
 		}
-		else if (is_redirection(current->type))
+		else if (is_redirection(current->type) && current->next)
 			current = current->next;
 		current = current->next;
 	}

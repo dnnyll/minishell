@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:31 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/19 22:06:08 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:49:21 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ t_token		*init_token(void);
 
 //	process_input.c
 void		process_input(char *line, t_data *data);
+
+//	printers.c
+void 		debug_parser_output(t_data *data);
+const	char *token_type_str(t_token_type type);
+const char *quote_type_str(t_quote_type quote);
+void print_heredocs(t_heredoc *hd);
+void print_redirs(t_redir *redir);
 
 //	prompt default
 # define PROMPT "minishell$ "

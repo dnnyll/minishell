@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/19 17:05:35 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:30:23 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
+
+int apply_redirs(t_command *cmd, int prev_fd, int *fd, t_data *data);
 
 int		update_env_node(t_env *current, char *key, char *value);
 void	add_env_node_exp(t_data *data, char *key, char *value);
@@ -26,8 +28,9 @@ int		export_builtin(char **args, t_data *data);
 //redirections and pipe
 int		setup_redirection(t_command *command, t_data *data);
 int		open_input_redir(t_command *command, t_data *data);
+int		open_input_heredoc(t_command *cmd, t_data *data);
 int		open_output_redir(t_command *command, t_data *data);
-void	close_redirections(t_command *command);
+void	close_redirections(t_command *cmd);
 int		ft_pipe(t_command *cmd, int *fd);
 int		ft_fork(pid_t *pid, int prev_fd, int *fd);
 int		edit_pipe_fd(t_command *cmd, int prev_fd, int *fd, t_data *data);

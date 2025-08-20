@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:47 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:50 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/20 15:10:58 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	edit_pipe_fd(t_command *cmd, int prev_fd, int *fd, t_data *data)
 
 int	handle_input_redirs(t_command *cmd, int prev_fd, t_data *data)
 {
-	if ((cmd->heredoc_head && cmd->heredoc_head->filename) || cmd->infile)
+	if ((cmd->heredoc_head && cmd->heredoc_head->filename) || cmd->redir_in)
 	{
 		if (open_input_redir(cmd, data) != 0)
 			return (1);
@@ -86,7 +86,7 @@ int	handle_input_redirs(t_command *cmd, int prev_fd, t_data *data)
 
 int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
 {
-	if (cmd->outfile)
+	if (cmd->redir_out)
 	{
 		if (open_output_redir(cmd, data) != 0)
 			return (1);

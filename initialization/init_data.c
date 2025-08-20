@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:29:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/18 16:03:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:46:15 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_command	*init_command(void)
 	if (!command)
 		return (NULL);
 	command->heredoc_head = NULL;
+	command->redir_in = NULL;
+	command->redir_out = NULL;
 	command->argv = NULL;
 	command->infile = NULL;
 	command->outfile = NULL;

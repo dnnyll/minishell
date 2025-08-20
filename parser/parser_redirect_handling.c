@@ -3,34 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:31:27 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:54:57 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/20 14:31:01 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_redirection(int type)
+void set_redir_in(t_command *command, t_token *current)
 {
-	return (type == REDIR_IN || type == REDIR_OUT
-		|| type == APPEND || type == HEREDOC);
+	t_redir	*redir;
+	
+	redir = new_redir(current->next->value, false);
+	if (!redir)
+		return ;
+	add_redir(&command->redir_in, redir);
 }
 
-static void	set_redir_in(t_command *command, t_token *current)
+void set_redir_out(t_command *command, t_token *current, int append)
 {
-	if (command->infile)
-		free(command->infile);
-	command->infile = ft_strdup(current->next->value);
-}
-
-static void	set_redir_out(t_command *command, t_token *current, int append)
-{
-	if (command->outfile)
-		free(command->outfile);
-	command->outfile = ft_strdup(current->next->value);
-	command->append = append;
+	t_redir	*redir;
+	
+	redir = new_redir(current->next->value, append);
+	if (!redir)
+		return ;
+	add_redir(&command->redir_out, redir);
 }
 
 static void	set_heredoc(t_command *cmd, t_token *current)

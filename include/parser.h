@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:47 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:29:03 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:48:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,18 @@ typedef struct s_redir		t_redir;
 typedef struct s_heredoc	t_heredoc;
 typedef enum e_token_type	t_token_type;
 
+typedef struct s_redir
+{
+	char	*filename;
+	bool	append;
+	struct	s_redir *next;
+}	t_redir;
+
 typedef struct s_command
 {
 	t_heredoc			*heredoc_head;
+	t_redir				*redir_in;
+	t_redir				*redir_out;
 	char				**argv;
 	char				*infile;
 	char				*outfile;
@@ -52,6 +61,10 @@ void		fill_command_segment(t_command *command, t_token *start,
 int			is_redirection(int type);
 void		handle_redirections(t_command *command, t_token *start,
 				t_token *end);
+
+//	parser_redirect_utils.c
+t_redir	*new_redir(const char *filename, bool append);
+void	add_redir(t_redir **head, t_redir *new);
 
 //	parser_pipes_handling.c
 void		handle_pipes(t_data *data, t_token *start, t_token *end);
