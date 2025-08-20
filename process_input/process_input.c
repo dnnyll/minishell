@@ -6,22 +6,38 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:32:49 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 15:41:47 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/20 09:21:43 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	tokenize_and_expand(char *line, t_data *data, t_token **tokens)
+static int tokenize_and_expand(char *line, t_data *data, t_token **tokens)
 {
+	int i;
+	
+	i = 0;
+	// Skip empty/whitespace-only lines
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	if (line[i] == '\0')
+	{
+		*tokens = NULL;
+		return 0; // skip empty input
+	}
 	*tokens = lexer(data, line);
 	if (!*tokens)
 	{
-		free_tokens(data);
+		if (data->lexer_error)
+		{
+			print_error("minishell: syntax error: unmatched quote\n", NULL, NULL);
+			data->last_exit_code_status = 2;
+		}
 		return (-1);
 	}
+	// Expand only if lexer succeeded
 	expand_token_values(*tokens, data);
-	return (0);
+	return 0;
 }
 
 static int	validate_and_parse(t_token *tokens, t_data *data, char *line)

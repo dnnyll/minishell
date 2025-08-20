@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:15 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:28:18 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:11:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			set_token_quote(t_token *token, t_quote *q);
 //	lexer.c
 int				fill_token_buffer(const char *input, int *j, char *buffer,
 					t_quote *q);
-t_lexer_result	extract_token(const char *input, int i);
+t_lexer_result	extract_token(t_data *data, const char *input, int i);
 int				handle_operator(t_data *data, const char *input, int *i);
 int				handle_token(t_data *data, const char *input, int *i);
 void			*lexer(t_data *data, const char *input);
