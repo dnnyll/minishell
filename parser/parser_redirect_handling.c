@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirect_handling.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:31:27 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:54:57 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:19:07 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ static void	set_redir_in(t_command *command, t_token *current)
 		free(command->infile);
 	command->infile = ft_strdup(current->next->value);
 }
-
-static void	set_redir_out(t_command *command, t_token *current, int append)
+static void	set_redir_out(t_command *cmd, t_token *current, int append)
 {
-	if (command->outfile)
-		free(command->outfile);
-	command->outfile = ft_strdup(current->next->value);
-	command->append = append;
+	if (!extend_outfiles(cmd))
+		return ;
+	cmd->outfile[cmd->outfile_count] = ft_strdup(current->next->value);
+	cmd->append_flags[cmd->outfile_count] = append;
+	cmd->outfile_count++;
+
+	/* maintain null terminator */
+	cmd->outfile[cmd->outfile_count] = NULL;
 }
 
 static void	set_heredoc(t_command *cmd, t_token *current)

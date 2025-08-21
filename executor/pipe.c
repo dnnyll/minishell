@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:47 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:50 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 09:37:50 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ int	handle_input_redirs(t_command *cmd, int prev_fd, t_data *data)
 	}
 	return (0);
 }
-
-int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
+int handle_output_redirs(t_command *cmd, int *fd, t_data *data)
 {
-	if (cmd->outfile)
+	if (cmd->outfile_count > 0)
 	{
 		if (open_output_redir(cmd, data) != 0)
 			return (1);
@@ -106,12 +105,42 @@ int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 		{
 			perror("dup2 pipe write end");
-			return ((close(fd[1])), 1);
+			close(fd[1]);
+			return (1);
 		}
 		close(fd[1]);
 	}
 	return (0);
 }
+
+// int	handle_output_redirs(t_command	*cmd, int *fd, t_data *data)
+// {
+// 	if (cmd->outfile)
+// 	{
+// 		if (open_output_redir(cmd, data) != 0)
+// 			return (1);
+// 	}
+// 	if (cmd->fd_out != STDOUT_FILENO)
+// 	{
+// 		if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
+// 		{
+// 			perror("dup2 output");
+// 			close(cmd->fd_out);
+// 			return (1);
+// 		}
+// 		close(cmd->fd_out);
+// 	}
+// 	else if (fd[1] != -1)
+// 	{
+// 		if (dup2(fd[1], STDOUT_FILENO) == -1)
+// 		{
+// 			perror("dup2 pipe write end");
+// 			return ((close(fd[1])), 1);
+// 		}
+// 		close(fd[1]);
+// 	}
+// 	return (0);
+// }
 
 /*
 ** ft_pipe : the function check if ther is a cmd and a next cmd. If the next

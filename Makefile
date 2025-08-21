@@ -20,6 +20,7 @@ INCLUDES	= include
 		executor/executor.c \
 		executor/path_utils.c \
 		executor/pipe.c \
+		executor/redirections_utils.c \
 		executor/redirections.c \
 		executor/signals.c \
 		executor/executor_utils.c \
@@ -43,6 +44,7 @@ INCLUDES	= include
 		parser/parser_commands.c \
 		parser/parser_fill_commands.c \
 		parser/parser_pipe_handling.c \
+		parser/parser_redirect_handling_utils.c \
 		parser/parser_redirect_handling.c \
 		parser/parser_validate_syntax_utils.c \
 		parser/parser_validate_syntax.c \

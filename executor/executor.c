@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:21 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:22 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:05:38 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	child_process(t_command *cmd, int prev_fd, int *fd, t_data *data)
 	if (edit_pipe_fd(cmd, prev_fd, fd, data) != 0)
 		exit_child(&data, data->last_exit_code_status);
 	setup_child_signals();
+	if (cmd->outfile && cmd->outfile[0])
+		setup_outfiles(cmd);
 	if (is_builtin(&cmd))
 	{
 		execute_buitlins(cmd, data);
@@ -56,6 +58,8 @@ void	execute_buitlins(t_command *cmd, t_data *data)
 
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return ;
+	if (cmd->outfile && cmd->outfile[0])
+		setup_outfiles(cmd);
 	if (ft_strncmp(cmd->argv[0], "echo", 5) == 0)
 		exit_status = echo_builtin(cmd->argv);
 	else if (ft_strncmp(cmd->argv[0], "cd", 3) == 0)

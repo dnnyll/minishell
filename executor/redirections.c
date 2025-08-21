@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:49:24 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 13:53:29 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:23:41 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	setup_redirection(t_command *command, t_data *data)
-{
-	if (command->infile || command->heredoc_head->filename)
-	{
-		if (open_input_redir(command, data) != 0)
-			return (1);
-	}
-	if (command->outfile)
-	{
-		if (open_output_redir(command, data) != 0)
-			return (1);
-	}
-	return (0);
-}
 
 int	open_input_redir(t_command *command, t_data *data)
 {
@@ -56,30 +41,77 @@ int	open_input_redir(t_command *command, t_data *data)
 	return (0);
 }
 
+static int	open_single_output(const char *filename, int append)
+{
+	int	flags;
+
+	flags = (append) ? (O_WRONLY | O_CREAT | O_APPEND)
+					  : (O_WRONLY | O_CREAT | O_TRUNC);
+	return (open(filename, flags, 0644));
+}
+
 int	open_output_redir(t_command *command, t_data *data)
 {
 	int	fd;
-	int	flags;
+	int	i;
 
-	if (!command->outfile)
-		return (0);
-	if (command->append)
-		flags = O_WRONLY | O_CREAT | O_APPEND;
-	else
-		flags = O_WRONLY | O_CREAT | O_TRUNC;
-	fd = open(command->outfile, flags, 0644);
-	if (fd == -1)
+	i = 0;
+	while (i < command->outfile_count)
 	{
-		print_error("minishell: ", command->outfile, ": ");
-		perror(NULL);
-		data->last_exit_code_status = 1;
-		return (1);
+		fd = open_single_output(command->outfile[i], command->append_flags[i]);
+		if (fd == -1)
+		{
+			print_error("minishell: ", command->outfile[i], ": ");
+			perror(NULL);
+			data->last_exit_code_status = 1;
+			return (1);
+		}
+		if (i == command->outfile_count - 1)
+		{
+			if (command->fd_out != STDOUT_FILENO)
+				close(command->fd_out);
+			command->fd_out = fd;
+		}
+		else
+			close(fd);
+		i++;
 	}
-	if (command->fd_out != STDOUT_FILENO)
-		close (command->fd_out);
-	command->fd_out = fd;
 	return (0);
 }
+
+// int open_output_redir(t_command *command, t_data *data)
+// {
+// 	int fd;
+// 	int flags;
+// 	int i;
+
+// 	i = 0;
+// 	while (i < command->outfile_count)
+// 	{
+// 		if (command->append_flags[i] == 1)
+// 			flags = O_WRONLY | O_CREAT | O_APPEND;
+// 		else
+// 			flags = O_WRONLY | O_CREAT | O_TRUNC;
+// 		fd = open(command->outfile[i], flags, 0644);
+// 		if (fd == -1)
+// 		{
+// 			print_error("minishell: ", command->outfile[i], ": ");
+// 			perror(NULL);
+// 			data->last_exit_code_status = 1;
+// 			return (1);
+// 		}
+// 		if (i == command->outfile_count - 1)
+// 		{
+// 			if (command->fd_out != STDOUT_FILENO)
+// 				close(command->fd_out);
+// 			command->fd_out = fd;
+// 		}
+// 		else
+// 			close(fd);
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 void	close_redirections(t_command *command)
 {
@@ -98,4 +130,19 @@ void	close_redirections(t_command *command)
 		close(command->fd_out);
 		command->fd_out = -1;
 	}
+}
+
+int setup_redirection(t_command *command, t_data *data)
+{
+	if (command->infile || command->heredoc_head->filename)
+	{
+		if (open_input_redir(command, data) != 0)
+			return (1);
+	}
+	if (command->outfile_count > 0)
+	{
+		if (open_output_redir(command, data) != 0)
+			return (1);
+	}
+	return (0);
 }

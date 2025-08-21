@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/19 17:05:35 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:24:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	copy_non_empty_args(t_command *cmd, t_data *data, int j);
 char	*resolve_command_path(t_command *cmd, t_data *data);
 char	*find_path_var(t_data *data);
 void	handle_null_path(t_command *cmd, t_data *data, char *path_var);
+void	setup_outfiles(t_command *cmd);
 void	check_directory(char *path, t_command *cmd, t_data *data);
 void	check_file_access(char *path, t_command *cmd, t_data *data);
 

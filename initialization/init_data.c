@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:29:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/18 16:03:44 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:07:34 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_command	*init_command(void)
 	command->outfile = NULL;
 	command->path = NULL;
 	command->value = NULL;
+	command->outfile_count = 0;
+	command->append_flags = 0;
 	command->append = 0;
 	command->heredoc_count = 0;
 	command->fd_in = STDIN_FILENO;

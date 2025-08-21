@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:34 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/17 10:47:35 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 10:45:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,3 +45,5 @@ void	handle_null_path(t_command *cmd, t_data *data, char *path_var)
 		print_error("minishell: ", cmd->argv[0], ": command not found\n");
 	exit_child(&data, 127);
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:29:13 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:29:15 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:25:39 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_token
 
 //	tokens
 void		free_tokens(t_data *data);
-const char	*token_type_str(t_token_type type);
 void		add_token(t_token **list, t_token *new_token);
 t_token		*create_token(const char *value, t_token_type type);
 void		free_token_list(t_token *token);
