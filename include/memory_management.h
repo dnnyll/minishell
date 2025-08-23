@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_management.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:23 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:35:41 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/21 11:04:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ typedef struct s_command		t_command;
 typedef struct s_data			t_data;
 typedef struct s_token			t_token;
 typedef struct s_lexer_result	t_lexer_result;
+
+void free_outfiles(char **outfiles);
 
 //	free_commands.c
 void	free_command_node(t_command *cmd);

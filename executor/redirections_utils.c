@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void free_outfiles(char **outfiles)
+void	free_outfiles(char **outfiles)
 {
-	int i;
+	int	i;
 	
 	i = 0;
 	if (!outfiles)
@@ -16,7 +16,7 @@ void free_outfiles(char **outfiles)
 	free(outfiles);
 }
 
-static int open_outfile(const char *filename, int append)
+static int	open_outfile(const char *filename, int append)
 {
 	int fd;
 

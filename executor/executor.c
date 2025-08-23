@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:47:21 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/21 10:05:38 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 09:48:32 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	execute_commands(t_command *cmd_list, t_data *data)
 			execute_single_builtin(cmd_list, data);
 		else
 			execute_buitlins(cmd_list, data);
+		// free_outfiles(cmd_list->outfile);
+		// cmd_list->outfile = NULL;
 	}
 	else
 		execute_pipeline(cmd_list, data);
@@ -114,6 +116,8 @@ void	execute_pipeline(t_command *cmd_list, t_data *data)
 			child_process(cmd, prev_fd, fd, data);
 		last_pid = pid;
 		prev_fd = parent_process(prev_fd, fd, pid, data);
+		// free_outfiles(cmd_list->outfile);
+		// cmd_list->outfile = NULL;
 		cmd = cmd->next;
 	}
 	wait_for_child(last_pid, data);

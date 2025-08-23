@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:20 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/21 10:16:29 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 10:17:43 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	free_command_node(t_command *cmd)
 {
 	free_heredocs_in_command(cmd);
 	free_char_array(cmd->argv);
-	// free_char_array(cmd->outfile);
+	free_char_array(cmd->outfile);
 	free(cmd->infile);
-	free(cmd->outfile);
+	free(cmd->append_flags);
 	free(cmd->path);
 	free(cmd->value);
 	free(cmd);
