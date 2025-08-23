@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_env_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/17 18:31:39 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/23 14:34:58 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	env_builtin(t_data *data)
 	return (0);
 }
 
-static int	is_numeric(const char *str)
+int	is_numeric(const char *str)
 {
 	int	i;
 

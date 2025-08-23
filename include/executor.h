@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/21 10:24:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:35:37 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	setup_child_signals(void);
 void	child_exit_code(int status, t_data *data);
 
 //builtins
+int		is_numeric(const char *str);
 int		is_long_limit(const char *str);
 void	free_tab(char **tab, int limit);
 int		is_valid_identifier(const char *str);

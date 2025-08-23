@@ -34,7 +34,7 @@ char **create_default_env(void)
 	env[0] = ft_strjoin("PATH=", "/usr/local/bin:/usr/bin:/bin");
 	env[1] = ft_strjoin("PWD=", cwd);
 	env[2] = ft_strdup("OLDPWD=");
-	env[3] = ft_strdup("SHLVL=1"); // start at level 1
+	env[3] = ft_strdup("SHLVL=1");
 	env[4] = NULL;
 	free(cwd);
 	return env;
