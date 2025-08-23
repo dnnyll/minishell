@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrosset <mrosset@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:26:59 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/18 11:55:51 by mrosset          ###   ########.fr       */
+/*   Updated: 2025/08/23 14:50:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			return (-1);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			return (g_signal_status = 1, -1);
+			return (-1);
 	}
 	return (0);
 }

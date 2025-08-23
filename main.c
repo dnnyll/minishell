@@ -6,20 +6,20 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:33:36 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/23 11:45:36 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:58:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data *initialize_minishell(char **envp)
+t_data	*initialize_minishell(char **envp)
 {
-	t_data *data;
-	char *cwd;
+	t_data	*data;
+	char	*cwd;
 
 	data = init_data();
 	if (!data)
-		return NULL;
+		return (NULL);
 	if (!envp || !envp[0])
 		data->environment_var = create_default_env();
 	else
@@ -29,12 +29,12 @@ t_data *initialize_minishell(char **envp)
 	if (!cwd)
 		cwd = ft_strdup("/");
 	data->oldpwd = ft_strdup(cwd);
-	find_or_create_node(data, "PWD", cwd);
-	find_or_create_node(data, "OLDPWD", "");
+	get_set_nodee(data, "PWD", cwd);
+	get_set_nodee(data, "OLDPWD", "");
 	increment_shlvl(data->env_head);
 	update_env_array(data);
 	free(cwd);
-	return data;
+	return (data);
 }
 
 void	handle_exit(t_data *data)
@@ -69,11 +69,6 @@ int	main(int argc, char **argv, char **envp)
 	setup_parent_signals();
 	while (1)
 	{
-		if (g_signal_status)
-		{
-			g_signal_status = 0;
-			continue ;
-		}
 		input_line = readline("minishell> ");
 		if (!input_line)
 			return (handle_exit(data), 0);

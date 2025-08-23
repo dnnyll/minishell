@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 23:20:04 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/19 17:03:12 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:53:55 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	export_builtin(char **args, t_data *data)
 		process_export_arg(data, args[i]);
 		i++;
 	}
-    if (data->environment_var)
+	if (data->environment_var)
 		free_char_array(data->environment_var);
 	data->environment_var = env_list_to_array(data->env_head);
 	return (data->last_exit_code_status);

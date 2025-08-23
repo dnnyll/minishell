@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:29 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:30:31 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:59:37 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_data_list(t_data **data_ptr)
 	free_commands(data);
 	free_env_list(data->env_head);
 	free_char_array(data->environment_var);
+	free(data->oldpwd);
 	free(data);
 	*data_ptr = NULL;
 }

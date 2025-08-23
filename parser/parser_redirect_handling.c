@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:31:27 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/21 10:19:07 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:03:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	set_redir_in(t_command *command, t_token *current)
 		free(command->infile);
 	command->infile = ft_strdup(current->next->value);
 }
+
 static void	set_redir_out(t_command *cmd, t_token *current, int append)
 {
 	if (!extend_outfiles(cmd))
@@ -31,8 +32,6 @@ static void	set_redir_out(t_command *cmd, t_token *current, int append)
 	cmd->outfile[cmd->outfile_count] = ft_strdup(current->next->value);
 	cmd->append_flags[cmd->outfile_count] = append;
 	cmd->outfile_count++;
-
-	/* maintain null terminator */
 	cmd->outfile[cmd->outfile_count] = NULL;
 }
 

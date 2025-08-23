@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:49:24 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/21 10:23:41 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:16:18 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ static int	open_single_output(const char *filename, int append)
 {
 	int	flags;
 
-	flags = (append) ? (O_WRONLY | O_CREAT | O_APPEND)
-					  : (O_WRONLY | O_CREAT | O_TRUNC);
+	if (append)
+		flags = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		flags = O_WRONLY | O_CREAT | O_TRUNC;
 	return (open(filename, flags, 0644));
 }
 
@@ -79,40 +81,6 @@ int	open_output_redir(t_command *command, t_data *data)
 	return (0);
 }
 
-// int open_output_redir(t_command *command, t_data *data)
-// {
-// 	int fd;
-// 	int flags;
-// 	int i;
-
-// 	i = 0;
-// 	while (i < command->outfile_count)
-// 	{
-// 		if (command->append_flags[i] == 1)
-// 			flags = O_WRONLY | O_CREAT | O_APPEND;
-// 		else
-// 			flags = O_WRONLY | O_CREAT | O_TRUNC;
-// 		fd = open(command->outfile[i], flags, 0644);
-// 		if (fd == -1)
-// 		{
-// 			print_error("minishell: ", command->outfile[i], ": ");
-// 			perror(NULL);
-// 			data->last_exit_code_status = 1;
-// 			return (1);
-// 		}
-// 		if (i == command->outfile_count - 1)
-// 		{
-// 			if (command->fd_out != STDOUT_FILENO)
-// 				close(command->fd_out);
-// 			command->fd_out = fd;
-// 		}
-// 		else
-// 			close(fd);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 void	close_redirections(t_command *command)
 {
 	if (command->heredoc_head && command->heredoc_head->fd != -1)
@@ -132,7 +100,7 @@ void	close_redirections(t_command *command)
 	}
 }
 
-int setup_redirection(t_command *command, t_data *data)
+int	setup_redirection(t_command *command, t_data *data)
 {
 	if (command->infile || command->heredoc_head->filename)
 	{

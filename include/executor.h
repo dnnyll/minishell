@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 10:46:05 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/23 14:35:37 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:51:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	add_or_update_env_head(t_data *data, char *key, char *value);
 void	print_env_head(t_env *head);
 void	process_export_arg(t_data *data, char *arg);
 char	**env_list_to_array(t_env *env);
-int     env_list_size(t_env *head);
-int     compare_env(const void *a, const void *b);
+int		env_list_size(t_env *head);
+int		compare_env(const void *a, const void *b);
 int		export_builtin(char **args, t_data *data);
 
 //redirections and pipe
@@ -59,7 +59,6 @@ char	*get_path(char *cmd_name, char **envp);
 void	free_split(char **tab);
 
 //signals
-extern volatile sig_atomic_t	g_signal_status;
 void	handle_sigint(int sig);
 void	setup_parent_signals(void);
 void	setup_child_signals(void);

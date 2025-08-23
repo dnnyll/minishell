@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:28:47 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/21 10:08:27 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:53:49 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char		**allocate_command_argv(int argc);
 void		fill_argv(t_command *command, t_token *start, t_token *end);
 void		fill_command_segment(t_command *command, t_token *start,
 				t_token *end);
-				
+
 //	parser_redirect_handling_utils.c
-int	extend_outfiles(t_command *cmd);
+int			extend_outfiles(t_command *cmd);
 
 //	parser_redirect_handling.c
 int			is_redirection(int type);
