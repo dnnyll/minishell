@@ -14,6 +14,7 @@ INCLUDES	= include
 		builtins/export.c \
 		builtins/export_utils.c \
 		builtins/pwd_unset.c \
+		environment_management/environment_default.c \
  		environment_management/environment_handling.c \
 		environment_management/environment_parsing.c \
 		environment_management/environment_shlvl.c \

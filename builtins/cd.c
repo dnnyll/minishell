@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:50:08 by mrosset           #+#    #+#             */
-/*   Updated: 2025/08/19 22:00:39 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/23 11:42:27 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static char	*get_cd_target(char **args, t_data *data)
 	}
 	return (0);
 }*/
+
 int	cd_builtin(char **args, t_data *data)
 {
 	char	*dir;
@@ -100,9 +101,38 @@ int	cd_builtin(char **args, t_data *data)
 		data->last_exit_code_status = 1;
 		return (1);
 	}
+	update_pwd_vars(data);
 	data->last_exit_code_status = 0;
 	return (0);
 }
+
+// int	cd_builtin(char **args, t_data *data)
+// {
+// 	char	*dir;
+// 	int		args_count;
+
+// 	args_count = 0;
+// 	while (args[args_count])
+// 		args_count++;
+// 	if (args_count > 2)
+// 	{
+// 		data->last_exit_code_status = 1;
+// 		print_error("minishell: cd: ", NULL, "too many arguments\n");
+// 		return (1);
+// 	}
+// 	dir = get_cd_target(args, data);
+// 	if (!dir)
+// 		return (1);
+// 	if (chdir(dir) == -1)
+// 	{
+// 		print_error("minishell: cd: ", dir, ": ");
+// 		print_error("", strerror(errno), "\n");
+// 		data->last_exit_code_status = 1;
+// 		return (1);
+// 	}
+// 	data->last_exit_code_status = 0;
+// 	return (0);
+// }
 
 /*
 **get_env_var: Search for an env variable int the envp array. Use strncmp

@@ -3,27 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marjorie <marjorie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:33:36 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 18:47:29 by marjorie         ###   ########.fr       */
+/*   Updated: 2025/08/23 11:45:36 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*initialize_minishell(char **envp)
+t_data *initialize_minishell(char **envp)
 {
-	t_data	*data;
+	t_data *data;
+	char *cwd;
 
 	data = init_data();
 	if (!data)
-		return (NULL);
-	data->environment_var = copy_environment(envp);
+		return NULL;
+	if (!envp || !envp[0])
+		data->environment_var = create_default_env();
+	else
+		data->environment_var = copy_environment(envp);
 	data->env_head = build_env_list(data->environment_var);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		cwd = ft_strdup("/");
+	data->oldpwd = ft_strdup(cwd);
+	find_or_create_node(data, "PWD", cwd);
+	find_or_create_node(data, "OLDPWD", "");
 	increment_shlvl(data->env_head);
 	update_env_array(data);
-	return (data);
+	free(cwd);
+	return data;
 }
 
 void	handle_exit(t_data *data)

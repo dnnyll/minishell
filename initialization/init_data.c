@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:29:25 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/21 10:07:34 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 10:57:55 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_data	*init_data(void)
 	data->command_head = NULL;
 	data->env_head = NULL;
 	data->environment_var = NULL;
+	data->oldpwd = NULL;
 	data->last_exit_code_status = 0;
 	data->pipe_count = 0;
 	data->command_count = 0;

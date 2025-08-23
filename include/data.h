@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:27:46 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/20 09:24:38 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 10:57:31 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_data
 	t_command		*command_head;
 	t_env			*env_head;
 	char			**environment_var;
+	char			*oldpwd;
 	int				last_exit_code_status;
 	int				pipe_count;
 	int				command_count;
