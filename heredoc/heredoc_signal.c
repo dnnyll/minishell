@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:26:59 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/23 14:50:13 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/24 10:20:53 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	manage_heredoc(t_command *cmd, t_data *data, t_heredoc *heredoc)
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			return (-1);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			return (-1);
+			return (data->last_exit_code_status = 128 + SIGINT, -1);
 	}
 	return (0);
 }
