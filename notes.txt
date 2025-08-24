@@ -1,2 +1,0 @@
-cat << EOF + CTRL C = 130 at 127 , we got 0..
-*** stack smashing detected ***: terminated when echoing with large string

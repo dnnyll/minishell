@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:33:19 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/24 10:28:57 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/24 11:45:54 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	add_token(t_token **list, t_token *new_token)
 
 t_token	*create_token(const char *value, t_token_type type)
 {
-	printf("Creating token: length=%zu, type=%d\n", strlen(value), type);
 	t_token	*token;
 
 	token = init_token();

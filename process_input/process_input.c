@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:32:49 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/23 15:55:12 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/24 11:17:13 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	tokenize_and_expand(char *line, t_data *data, t_token **tokens)
 	{
 		if (data->lexer_error)
 		{
-			print_error("minishell: syntax error: unmatched quote\n",
+			print_error("minishell: syntax error\n",
 				NULL, NULL);
 			data->last_exit_code_status = 2;
 		}

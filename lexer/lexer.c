@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:30:00 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/18 16:09:45 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/24 11:47:31 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,22 @@ int	fill_token_buffer(const char *input, int *j, char *buffer, t_quote *q)
 t_lexer_result	extract_token(t_data *data, const char *input, int i)
 {
 	int		j;
-	char	buffer[4096];
+	char	*buffer;
 	t_token	*token;
 	t_quote	q;
 
 	j = i;
+	buffer = malloc(sizeof(char) * ((ft_strlen(input) + 1)));
+	if (!buffer)
+		return (free(buffer), (t_lexer_result){NULL, -1});
 	init_quote(&q);
 	if (!fill_token_buffer(input, &j, buffer, &q))
 	{
 		data->lexer_error = 1;
-		return ((t_lexer_result){NULL, -1});
+		return (free(buffer), (t_lexer_result){NULL, -1});
 	}
 	token = create_token(buffer, WORD);
+	free(buffer);
 	if (!token)
 		return ((t_lexer_result){NULL, -1});
 	set_token_quote(token, &q);
@@ -58,6 +62,28 @@ t_lexer_result	extract_token(t_data *data, const char *input, int i)
 		&& token->quote != SINGLE_QUOTE;
 	return ((t_lexer_result){token, j});
 }
+// t_lexer_result	extract_token(t_data *data, const char *input, int i)
+// {
+// 	int		j;
+// 	char	buffer[4096];
+// 	t_token	*token;
+// 	t_quote	q;
+
+// 	j = i;
+// 	init_quote(&q);
+// 	if (!fill_token_buffer(input, &j, buffer, &q))
+// 	{
+// 		data->lexer_error = 1;
+// 		return ((t_lexer_result){NULL, -1});
+// 	}
+// 	token = create_token(buffer, WORD);
+// 	if (!token)
+// 		return ((t_lexer_result){NULL, -1});
+// 	set_token_quote(token, &q);
+// 	token->expandable = ft_strchr(token->value, '$') != NULL
+// 		&& token->quote != SINGLE_QUOTE;
+// 	return ((t_lexer_result){token, j});
+// }
 
 int	handle_operator(t_data *data, const char *input, int *i)
 {
