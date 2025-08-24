@@ -1,0 +1,28 @@
+c3r4s3% ./minishell
+minishell> ls | cat << eof
+> 
+minishell> cat | cat | ls
+1  3  builtins		      executor	include		lexer  main.c  Makefile		  minishell	    out     process_input  tokens
+2  4  environment_management  heredoc	initialization	lib    main.o  memory_management  minishell_tester  parser  pwd.txt	   valgrind.log
+
+
+minishell> cat | cat << eof
+> 
+
+minishell> pwd | cat << eof
+> 
+minishell> 
+minishell> ls << eof
+> 
+> 
+> 
+> 
+> 
+> dsa
+> asd
+> asd
+> eof
+1  3  builtins		      executor	include		lexer  main.c  Makefile		  minishell	    out     process_input  tokens
+2  4  environment_management  heredoc	initialization	lib    main.o  memory_management  minishell_tester  parser  pwd.txt	   valgrind.log
+minishell> 
+
