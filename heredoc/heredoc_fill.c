@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 13:26:50 by daniefe2          #+#    #+#             */
-/*   Updated: 2025/08/17 13:26:53 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:23:56 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ static int	write_and_free_line(char *line, int should_free, int fd)
 static int	heredoc_expansion(t_data *data, char *line,
 	char **expanded, int *should_free)
 {
+	if (!data || !data->command_head || !data->command_head->heredoc_head)
+	{
+		*expanded = line;
+		*should_free = 0;
+		return (0);
+	}
 	if (data->command_head->heredoc_head->quoted)
 	{
 		*expanded = line;

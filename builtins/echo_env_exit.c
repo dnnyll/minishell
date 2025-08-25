@@ -6,7 +6,7 @@
 /*   By: daniefe2 <daniefe2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 22:46:44 by marjorie          #+#    #+#             */
-/*   Updated: 2025/08/23 14:34:58 by daniefe2         ###   ########.fr       */
+/*   Updated: 2025/08/23 16:51:23 by daniefe2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	echo_builtin(char **args)
 {
+	write(1, "hello\n", 6);
 	int		i;
 	bool	newline;
 
